@@ -18,9 +18,12 @@ struct RecordCard: View {
                 // Sliding view
                 ZStack {
                     RoundedRectangle(cornerRadius: 25)
+                        .fill(.gray)
+                        .opacity(0.8)
+                    RoundedRectangle(cornerRadius: 25)
                                 .fill(Material.regular)
                     
-                    VStack(spacing: 10) {
+                    VStack() {
                         Text("\(record.scientificName)".capitalized)
                             .font(.callout)
                             .bold()
@@ -43,13 +46,13 @@ struct RecordCard: View {
                         .bold()
                         .foregroundStyle(.primary)
                     }
+                    .offset(x: 0)
                 }
-                .backgroundStyle(.regularMaterial)
+                .backgroundStyle(.ultraThickMaterial)
                 //.foregroundStyle(.white)
                 //.backgroundStyle(.secondary)
                 .frame(width: 400, height: 280) // Adjust width based on slideWidth
                 .offset(x: slideWidth)
-                .cornerRadius(25.0)
                     //.position(x: 150 + slideWidth/2, y: 150) // Adjust position so it expands from center
                 
                 // The main view (background view)
@@ -60,7 +63,7 @@ struct RecordCard: View {
                 // Toggling the sliding effect when the ZStack is tapped
                 if slideWidth == 0 {
                     withAnimation {
-                        slideWidth = 400
+                        slideWidth = 350
                     }
                 } else {
                     withAnimation {

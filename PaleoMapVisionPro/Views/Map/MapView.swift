@@ -158,9 +158,10 @@ struct MapView: View {
                 if let record = selectModel.records.first(where: { $0.id == recordId }) {
                     RecordCard(record: record)
                     //.frame(width: 400, height: 280,  alignment: .leading)
+                        .frame(width: 1200)
                         .opacity(isRecordCardShown ? 1 : 0)
                         .offset(z: 360.0)
-                        .offset(x: 60, y: -20)
+                        .offset(x: -300, y: -20)
                 }
             }
         }
@@ -177,38 +178,38 @@ struct MapView: View {
                     yaw: $yaw,
                     pitch: $pitch)
         }
-        .onChange(of: yaw, initial: false) {
-            guard let lat = viewModel.cameraPosition.region?.center.latitude,
-                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
-            
-            let newLat = pitch * 180.0 / .pi
-            let newLon = yaw * 180.0 / .pi
-            
-            let latDiff = abs(newLat - lat)
-            let lonDiff = abs(newLon - lon)
-            
-            let threshold = 2.0
-            
-            if (latDiff > threshold) && (lonDiff > threshold) {
-                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
-            }
-        }
-        .onChange(of: pitch, initial: false) {
-            guard let lat = viewModel.cameraPosition.region?.center.latitude,
-                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
-                  
-            let newLat = pitch * 180.0 / .pi
-            let newLon = yaw * 180.0 / .pi
-            
-            let latDiff = abs(newLat - lat)
-            let lonDiff = abs(newLon - lon)
-            
-            let threshold = 2.0
-            
-            if (latDiff > threshold) && (lonDiff > threshold) {
-                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
-            }
-        }
+//        .onChange(of: yaw, initial: false) {
+//            guard let lat = viewModel.cameraPosition.region?.center.latitude,
+//                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
+//            
+//            let newLat = pitch * 180.0 / .pi
+//            let newLon = yaw * 180.0 / .pi
+//            
+//            let latDiff = abs(newLat - lat)
+//            let lonDiff = abs(newLon - lon)
+//            
+//            let threshold = 2.0
+//            
+//            if (latDiff > threshold) && (lonDiff > threshold) {
+//                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
+//            }
+//        }
+//        .onChange(of: pitch, initial: false) {
+//            guard let lat = viewModel.cameraPosition.region?.center.latitude,
+//                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
+//                  
+//            let newLat = pitch * 180.0 / .pi
+//            let newLon = yaw * 180.0 / .pi
+//            
+//            let latDiff = abs(newLat - lat)
+//            let lonDiff = abs(newLon - lon)
+//            
+//            let threshold = 2.0
+//            
+//            if (latDiff > threshold) && (lonDiff > threshold) {
+//                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
+//            }
+//        }
     }
 }
 
