@@ -14,6 +14,22 @@
 		7C0961D92AE9250C00471918 /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = 7C0961D82AE9250C00471918 /* ImageBasedLighting.skybox */; };
 		7C0961DB2AE9250D00471918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0961DA2AE9250D00471918 /* Assets.xcassets */; };
 		7C0961DE2AE9250D00471918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0961DD2AE9250D00471918 /* Preview Assets.xcassets */; };
+		7C0961E72AE9282C00471918 /* DragRotationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961E62AE9282C00471918 /* DragRotationModifier.swift */; };
+		7C0961EA2AE92ADA00471918 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961E92AE92ADA00471918 /* MapViewModel.swift */; };
+		7C0961EC2AE92AE100471918 /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961EB2AE92AE100471918 /* GeoPoint.swift */; };
+		7C0961EE2AE92AE500471918 /* Phylum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961ED2AE92AE500471918 /* Phylum.swift */; };
+		7C0961F02AE92AE900471918 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961EF2AE92AE900471918 /* Record.swift */; };
+		7C0961F22AE92AF000471918 /* RecordSelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961F12AE92AF000471918 /* RecordSelectModel.swift */; };
+		7C0961F62AE92B1C00471918 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0961F52AE92B1C00471918 /* SQLite */; };
+		7C0961FA2AE92B5400471918 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961F92AE92B5400471918 /* MapView.swift */; };
+		7C0961FC2AE92B5700471918 /* RecordCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961FB2AE92B5700471918 /* RecordCard.swift */; };
+		7C0961FE2AE92B5B00471918 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961FD2AE92B5B00471918 /* ImageCell.swift */; };
+		7C0962032AE92B6B00471918 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962002AE92B6B00471918 /* FilterView.swift */; };
+		7C0962042AE92B6B00471918 /* PhylumToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962012AE92B6B00471918 /* PhylumToggle.swift */; };
+		7C0962052AE92B6B00471918 /* GridStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962022AE92B6B00471918 /* GridStack.swift */; };
+		7C0962072AE92BFC00471918 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962062AE92BFC00471918 /* ModelData.swift */; };
+		7C09620B2AE92D0100471918 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7C0962092AE92D0100471918 /* db.sqlite */; };
+		7C09620C2AE92D0100471918 /* dbsqlitePlaceholder.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +42,21 @@
 		7C0961DA2AE9250D00471918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C0961DD2AE9250D00471918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C0961DF2AE9250D00471918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C0961E62AE9282C00471918 /* DragRotationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragRotationModifier.swift; sourceTree = "<group>"; };
+		7C0961E92AE92ADA00471918 /* MapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		7C0961EB2AE92AE100471918 /* GeoPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
+		7C0961ED2AE92AE500471918 /* Phylum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Phylum.swift; sourceTree = "<group>"; };
+		7C0961EF2AE92AE900471918 /* Record.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		7C0961F12AE92AF000471918 /* RecordSelectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordSelectModel.swift; sourceTree = "<group>"; };
+		7C0961F92AE92B5400471918 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		7C0961FB2AE92B5700471918 /* RecordCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCard.swift; sourceTree = "<group>"; };
+		7C0961FD2AE92B5B00471918 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		7C0962002AE92B6B00471918 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		7C0962012AE92B6B00471918 /* PhylumToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhylumToggle.swift; sourceTree = "<group>"; };
+		7C0962022AE92B6B00471918 /* GridStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridStack.swift; sourceTree = "<group>"; };
+		7C0962062AE92BFC00471918 /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		7C0962092AE92D0100471918 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
+		7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dbsqlitePlaceholder.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C0961F62AE92B1C00471918 /* SQLite in Frameworks */,
 				7C0961D12AE9250C00471918 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,7 +94,11 @@
 			children = (
 				7C0961D22AE9250C00471918 /* PaleoMapVisionProApp.swift */,
 				7C0961D42AE9250C00471918 /* ContentView.swift */,
-				7C0961D62AE9250C00471918 /* ImmersiveView.swift */,
+				7C0961F72AE92B3600471918 /* Views */,
+				7C0961E52AE9280300471918 /* Modifiers */,
+				7C0961E82AE92A9F00471918 /* Models */,
+				7C0962082AE92CEE00471918 /* Resources */,
+				7C0961F32AE92AFA00471918 /* Archive */,
 				7C0961D82AE9250C00471918 /* ImageBasedLighting.skybox */,
 				7C0961DA2AE9250D00471918 /* Assets.xcassets */,
 				7C0961DF2AE9250D00471918 /* Info.plist */,
@@ -87,6 +123,73 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		7C0961E52AE9280300471918 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				7C0961E62AE9282C00471918 /* DragRotationModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		7C0961E82AE92A9F00471918 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7C0962062AE92BFC00471918 /* ModelData.swift */,
+				7C0961E92AE92ADA00471918 /* MapViewModel.swift */,
+				7C0961EB2AE92AE100471918 /* GeoPoint.swift */,
+				7C0961ED2AE92AE500471918 /* Phylum.swift */,
+				7C0961EF2AE92AE900471918 /* Record.swift */,
+				7C0961F12AE92AF000471918 /* RecordSelectModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		7C0961F32AE92AFA00471918 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				7C0961D62AE9250C00471918 /* ImmersiveView.swift */,
+			);
+			path = Archive;
+			sourceTree = "<group>";
+		};
+		7C0961F72AE92B3600471918 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7C0961FF2AE92B6B00471918 /* Filter */,
+				7C0961F82AE92B3E00471918 /* Map */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7C0961F82AE92B3E00471918 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				7C0961F92AE92B5400471918 /* MapView.swift */,
+				7C0961FB2AE92B5700471918 /* RecordCard.swift */,
+				7C0961FD2AE92B5B00471918 /* ImageCell.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		7C0961FF2AE92B6B00471918 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				7C0962002AE92B6B00471918 /* FilterView.swift */,
+				7C0962012AE92B6B00471918 /* PhylumToggle.swift */,
+				7C0962022AE92B6B00471918 /* GridStack.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
+		7C0962082AE92CEE00471918 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7C0962092AE92D0100471918 /* db.sqlite */,
+				7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -105,6 +208,7 @@
 			name = PaleoMapVisionPro;
 			packageProductDependencies = (
 				7C0961D02AE9250C00471918 /* RealityKitContent */,
+				7C0961F52AE92B1C00471918 /* SQLite */,
 			);
 			productName = PaleoMapVisionPro;
 			productReference = 7C0961CB2AE9250C00471918 /* PaleoMapVisionPro.app */;
@@ -134,6 +238,9 @@
 				Base,
 			);
 			mainGroup = 7C0961C22AE9250C00471918;
+			packageReferences = (
+				7C0961F42AE92B1C00471918 /* XCRemoteSwiftPackageReference "SQLite" */,
+			);
 			productRefGroup = 7C0961CC2AE9250C00471918 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -149,8 +256,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C0961DB2AE9250D00471918 /* Assets.xcassets in Resources */,
+				7C09620C2AE92D0100471918 /* dbsqlitePlaceholder.txt in Resources */,
 				7C0961DE2AE9250D00471918 /* Preview Assets.xcassets in Resources */,
 				7C0961D92AE9250C00471918 /* ImageBasedLighting.skybox in Resources */,
+				7C09620B2AE92D0100471918 /* db.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,9 +270,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C0962032AE92B6B00471918 /* FilterView.swift in Sources */,
+				7C0961F22AE92AF000471918 /* RecordSelectModel.swift in Sources */,
+				7C0961EC2AE92AE100471918 /* GeoPoint.swift in Sources */,
 				7C0961D52AE9250C00471918 /* ContentView.swift in Sources */,
+				7C0961EA2AE92ADA00471918 /* MapViewModel.swift in Sources */,
+				7C0962072AE92BFC00471918 /* ModelData.swift in Sources */,
+				7C0962052AE92B6B00471918 /* GridStack.swift in Sources */,
 				7C0961D32AE9250C00471918 /* PaleoMapVisionProApp.swift in Sources */,
+				7C0962042AE92B6B00471918 /* PhylumToggle.swift in Sources */,
+				7C0961FE2AE92B5B00471918 /* ImageCell.swift in Sources */,
+				7C0961E72AE9282C00471918 /* DragRotationModifier.swift in Sources */,
 				7C0961D72AE9250C00471918 /* ImmersiveView.swift in Sources */,
+				7C0961FA2AE92B5400471918 /* MapView.swift in Sources */,
+				7C0961FC2AE92B5700471918 /* RecordCard.swift in Sources */,
+				7C0961F02AE92AE900471918 /* Record.swift in Sources */,
+				7C0961EE2AE92AE500471918 /* Phylum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,10 +486,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		7C0961F42AE92B1C00471918 /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		7C0961D02AE9250C00471918 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
+		};
+		7C0961F52AE92B1C00471918 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C0961F42AE92B1C00471918 /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
