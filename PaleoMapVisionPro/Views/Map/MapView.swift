@@ -28,8 +28,11 @@ struct MapView: View {
     
     //@Namespace var mapScope
     
-    @State private var yaw: Double = 0
-    @State private var pitch: Double = 0
+    let sydneyLongitude = 151.2093
+    let sydneyLatitude = -33.8688
+
+    @State private var yaw: Double = 151.2093 * .pi / 180.0
+    @State private var pitch: Double = -33.8688 * .pi / 180.0
     
     struct MapAnnotationView: View {
         let color: Color
@@ -95,6 +98,29 @@ struct MapView: View {
                 }
                 .onMapCameraChange(frequency: .onEnd) { context in
                     selectModel.updateRecordsSelection(coord: context.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict)
+                    
+                    // Convert map's center latitude and longitude to pitch and yaw.
+                    let newYaw = context.region.center.longitude * -.pi / 180.0
+                    let newPitch = (context.region.center.latitude) * -.pi / 180.0
+                    
+                    // Check the difference between the new yaw and pitch and the current ones.
+                    let yawDiff = abs(newYaw - yaw)
+                    let pitchDiff = abs(newPitch - pitch)
+                    
+                    let threshold = 0.005 // This can be adjusted based on your needs.
+                    
+                    // If the yaw difference exceeds the threshold, update the model's yaw.
+                    if yawDiff > threshold {
+                        yaw = newYaw
+                    }
+                    
+                    // If the pitch difference exceeds the threshold, update the model's pitch.
+                    if pitchDiff > threshold {
+                        pitch = newPitch
+                    }
+                    
+                    print("yaw\(yaw)")
+                    print("pitch\(pitch)")
                 }
                 .onChange(of: selectedItem, initial: true) {
                     guard selectedItem != nil else {
@@ -148,9 +174,40 @@ struct MapView: View {
 //                .opacity(isGlobeShown ? 1 : 0)
             Model3D(named: "Scene", bundle: realityKitContentBundle)
                 .dragRotation(
-                    yaw: .constant(Double(viewModel.cameraPosition.region?.center.longitude ?? 0.0) * .pi / 180.0),
-                    pitch: .constant(Double(viewModel.cameraPosition.region?.center.latitude ?? 0.0) * .pi / 180.0)
-                )
+                    yaw: $yaw,
+                    pitch: $pitch)
+        }
+        .onChange(of: yaw, initial: false) {
+            guard let lat = viewModel.cameraPosition.region?.center.latitude,
+                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
+            
+            let newLat = pitch * 180.0 / .pi
+            let newLon = yaw * 180.0 / .pi
+            
+            let latDiff = abs(newLat - lat)
+            let lonDiff = abs(newLon - lon)
+            
+            let threshold = 2.0
+            
+            if (latDiff > threshold) && (lonDiff > threshold) {
+                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
+            }
+        }
+        .onChange(of: pitch, initial: false) {
+            guard let lat = viewModel.cameraPosition.region?.center.latitude,
+                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
+                  
+            let newLat = pitch * 180.0 / .pi
+            let newLon = yaw * 180.0 / .pi
+            
+            let latDiff = abs(newLat - lat)
+            let lonDiff = abs(newLon - lon)
+            
+            let threshold = 2.0
+            
+            if (latDiff > threshold) && (lonDiff > threshold) {
+                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
+            }
         }
     }
 }

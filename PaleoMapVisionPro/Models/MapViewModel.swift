@@ -130,7 +130,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         DispatchQueue.main.async {
             self.region = MKCoordinateRegion(
                 center: coord,
-                span: MapDetails.defaultSpan)
+                span: self.cameraPosition.region!.span)
             self.cameraPosition = MapCameraPosition.region(self.region)
         }
     }

@@ -16,25 +16,39 @@ struct RecordCard: View {
         var body: some View {
             ZStack(alignment: .leading) {
                 // Sliding view
-                VStack {
-                    Text("\(record.scientificName)".capitalized)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 25)
+                                .fill(Material.regular)
+                    
+                    VStack(spacing: 10) {
+                        Text("\(record.scientificName)".capitalized)
+                            .font(.callout)
+                            .bold()
+                            .foregroundStyle(.primary)
+                        VStack {
+                            Text("\(record.phylum)".capitalized)
+                            Text("\(record.classT)".capitalized)
+                            Text("\(record.order)".capitalized)
+                            Text("\(record.family)".capitalized)
+                        }
+                        .font(.callout)
+                        .bold()
+                        .foregroundStyle(.secondary)
+                        
+                        VStack {
+                            Text("\(record.eventDate)")
+                            Text("\(record.locality)".capitalized)
+                        }
                         .font(.callout)
                         .bold()
                         .foregroundStyle(.primary)
-                    VStack {
-                        Text("\(record.phylum)".capitalized)
-                        Text("\(record.classT)".capitalized)
-                        Text("\(record.order)".capitalized)
-                        Text("\(record.family)".capitalized)
                     }
-                    .font(.callout)
-                    .bold()
-                    .foregroundStyle(.secondary)
                 }
                 .backgroundStyle(.regularMaterial)
                 //.foregroundStyle(.white)
                 //.backgroundStyle(.secondary)
-                .frame(width: 400 + slideWidth, height: 280) // Adjust width based on slideWidth
+                .frame(width: 400, height: 280) // Adjust width based on slideWidth
+                .offset(x: slideWidth)
                 .cornerRadius(25.0)
                     //.position(x: 150 + slideWidth/2, y: 150) // Adjust position so it expands from center
                 
@@ -46,7 +60,7 @@ struct RecordCard: View {
                 // Toggling the sliding effect when the ZStack is tapped
                 if slideWidth == 0 {
                     withAnimation {
-                        slideWidth = 600
+                        slideWidth = 400
                     }
                 } else {
                     withAnimation {
