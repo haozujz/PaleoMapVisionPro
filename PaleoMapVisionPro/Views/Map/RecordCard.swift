@@ -15,55 +15,57 @@ struct RecordCard: View {
         
         var body: some View {
             ZStack(alignment: .leading) {
-                // Sliding view
-                ZStack {
-                    RoundedRectangle(cornerRadius: 25)
-                        .fill(.gray)
-                        .opacity(0.8)
-                    RoundedRectangle(cornerRadius: 25)
-                                .fill(Material.regular)
+                VStack(spacing: 10.0) {
+                    Text("\(record.scientificName)".capitalized)
+                        .font(.callout)
+                        .bold()
+                        .foregroundStyle(.primary)
+                        .frame(width: 300)
                     
-                    VStack() {
-                        Text("\(record.scientificName)".capitalized)
-                            .font(.callout)
-                            .bold()
-                            .foregroundStyle(.primary)
+                    HStack {
+                        VStack {
+                            Text("Phylum")
+                            Text("Class")
+                            Text("Order")
+                            Text("Family")
+                        }
+                        
+                        Spacer()
+                        
                         VStack {
                             Text("\(record.phylum)".capitalized)
                             Text("\(record.classT)".capitalized)
                             Text("\(record.order)".capitalized)
                             Text("\(record.family)".capitalized)
                         }
-                        .font(.callout)
-                        .bold()
-                        .foregroundStyle(.secondary)
-                        
-                        VStack {
-                            Text("\(record.eventDate)")
-                            Text("\(record.locality)".capitalized)
-                        }
-                        .font(.callout)
-                        .bold()
-                        .foregroundStyle(.primary)
                     }
-                    .offset(x: 0)
+                    .font(.callout)
+                    .bold()
+                    .foregroundStyle(.secondary)
+                    .frame(width: 200)
+                    
+                    
+                    VStack {
+                        Text("\(record.eventDate)")
+                        Text("\(record.locality)".capitalized)
+                    }
+                    .font(.callout)
+                    .bold()
+                    .foregroundStyle(.secondary)
                 }
-                .backgroundStyle(.ultraThickMaterial)
-                //.foregroundStyle(.white)
+                .offset(x: 20)
                 //.backgroundStyle(.secondary)
-                .frame(width: 400, height: 280) // Adjust width based on slideWidth
+                .frame(width: 300, height: 200) // Adjust width based on slideWidth
+                .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25.0, style: .continuous))
                 .offset(x: slideWidth)
-                    //.position(x: 150 + slideWidth/2, y: 150) // Adjust position so it expands from center
                 
-                // The main view (background view)
                 ImageCell(url: record.media.first!)
-                    .frame(width: 400, height: 280)
+                    .frame(width: 300, height: 200)
             }
             .onTapGesture {
-                // Toggling the sliding effect when the ZStack is tapped
                 if slideWidth == 0 {
                     withAnimation {
-                        slideWidth = 350
+                        slideWidth = 256
                     }
                 } else {
                     withAnimation {
@@ -72,22 +74,6 @@ struct RecordCard: View {
                 }
             }
         }
-    
-//    var body: some View {
-//        ZStack {
-//            ImageCell(url: record.media.first!)
-//            
-//            VStack {
-//                Text("\(record.scientificName)".capitalized)
-//                Text("\(record.phylum)".capitalized)
-//                Text("\(record.classT)".capitalized)
-//                Text("\(record.order)".capitalized)
-//                Text("\(record.family)".capitalized)
-//            }
-//            .offset(x: 100)
-//        }
-//        
-//    }
 }
 
 #Preview(windowStyle: .automatic) {

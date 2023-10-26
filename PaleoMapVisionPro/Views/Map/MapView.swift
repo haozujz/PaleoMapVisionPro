@@ -24,7 +24,7 @@ struct MapView: View {
     @State private var selectedItem: String?
     @State private var isRecordCardShown: Bool = false
     
-    @State private var isGlobeShown: Bool = false
+    @State private var isGlobeShown: Bool = true
     
     //@Namespace var mapScope
     
@@ -160,8 +160,9 @@ struct MapView: View {
                     //.frame(width: 400, height: 280,  alignment: .leading)
                         .frame(width: 1200)
                         .opacity(isRecordCardShown ? 1 : 0)
-                        .offset(z: 360.0)
-                        .offset(x: -300, y: -20)
+                        .offset(z: 200.0)
+                        .offset(x: -450, y: 36)
+                        .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
                 }
             }
         }
@@ -174,9 +175,14 @@ struct MapView: View {
 //            ItemView(item: .)
 //                .opacity(isGlobeShown ? 1 : 0)
             Model3D(named: "Scene", bundle: realityKitContentBundle)
+                //.opacity(isGlobeShown ? 1 : 0)
                 .dragRotation(
                     yaw: $yaw,
                     pitch: $pitch)
+                .offset(z: 240.0)
+                .offset(x: -140, y: 0)
+                .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
+                .opacity(isGlobeShown ? 1 : 0)
         }
 //        .onChange(of: yaw, initial: false) {
 //            guard let lat = viewModel.cameraPosition.region?.center.latitude,
