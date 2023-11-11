@@ -46,25 +46,31 @@ struct ImageCell: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 25, style: .continuous)
                             .fill(.black)
-                        
-//                        VStack(spacing: 20) {
-//                            Link(selectModel.isDetailedMode ? "| Tap here to view in browser |" : "", destination: URL(string: url)!)
+
+                        Text("|  Image not available   |")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.gray)
+                    }
+//                    ZStack {
+//                        RoundedRectangle(cornerRadius: 25, style: .continuous)
+//                            .fill(.black)
+//
+//                        Link("| Tap here to view in browser |", destination: URL(string: url)!)
+//                                                        .font(.system(size: 16, weight: .bold))
+//                                                        .foregroundColor(.white)
+//                    }
+                    
+//                            Text(selectModel.isDetailedMode ? "|  Tap here to refresh  |" : "")
 //                                .font(.system(size: 16, weight: .bold))
 //                                .foregroundColor(.gray)
+//                                .onTapGesture {
+//                                    let x = url
 //
-////                            Text(selectModel.isDetailedMode ? "|  Tap here to refresh  |" : "")
-////                                .font(.system(size: 16, weight: .bold))
-////                                .foregroundColor(.gray)
-////                                .onTapGesture {
-////                                    let x = url
-////
-////                                    DispatchQueue.main .asyncAfter(deadline: .now() + 0.1){
-////                                        urlToLoad = x
-////                                    }
-////                                    urlToLoad = ""
-////                                }
-//                        }
-                    }
+//                                    DispatchQueue.main .asyncAfter(deadline: .now() + 0.1){
+//                                        urlToLoad = x
+//                                    }
+//                                    urlToLoad = ""
+//                                }
                 default:
                     ZStack {
                         RoundedRectangle(cornerRadius: 25, style: .continuous)
@@ -77,16 +83,14 @@ struct ImageCell: View {
                 }
                 
             }
-        .task {
-            print(url)
+//        .task {
+//            print(">>>\(url)")
+//        }
         }
-        }
-    
-    //}
 }
 
 //bug: TabView w/ PageTabViewStyle gives memory leaks if selection: $currentIndex is passed
-
+//
 //struct ExtractedView: View {
 //    var body: some View {
 //        ForEach(media.indices, id: \.self){ i in

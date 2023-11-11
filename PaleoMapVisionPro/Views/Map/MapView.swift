@@ -111,18 +111,22 @@ struct MapView: View {
                     
                     // If the yaw difference exceeds the threshold, update the model's yaw.
                     if yawDiff > threshold {
-                        yaw = newYaw
+                        Task { @MainActor in
+                            yaw = newYaw
+                        }
                     }
                     
                     // If the pitch difference exceeds the threshold, update the model's pitch.
                     if pitchDiff > threshold {
-                        pitch = newPitch
+                        Task { @MainActor in
+                            pitch = newPitch
+                        }
                     }
                     
                     print("yaw\(yaw)")
                     print("pitch\(pitch)")
                 }
-                .onChange(of: selectedItem, initial: true) {
+                .onChange(of: selectedItem, initial: false) {
                     guard selectedItem != nil else {
                         withAnimation(.easeInOut) {
                             isRecordCardShown = false
@@ -139,15 +143,11 @@ struct MapView: View {
                 } message: {
                     Text(viewModel.alertMessage)
                 }
-
-//                RecordCarousel()
-//                    .offset(y: -35)
-//                    .frame(maxHeight: .infinity, alignment: .bottom)
-//                    .frame(width: 600, alignment: .center)
-//                    .clipped()
-        
-            //}//
-            
+//                .mapControls {
+//                    //MapCompass()
+//                    //MapUserLocationButton()
+//                    MapPitchToggle()
+//                }
         }
 //        .ornament(attachmentAnchor: .scene(.bottomLeading)) {
 
@@ -157,7 +157,6 @@ struct MapView: View {
             if let recordId = selectedItem {
                 if let record = selectModel.records.first(where: { $0.id == recordId }) {
                     RecordCard(record: record)
-                    //.frame(width: 400, height: 280,  alignment: .leading)
                         .frame(width: 1200)
                         .opacity(isRecordCardShown ? 1 : 0)
                         .offset(z: 200.0)
@@ -176,12 +175,14 @@ struct MapView: View {
 //                .opacity(isGlobeShown ? 1 : 0)
             Model3D(named: "Scene", bundle: realityKitContentBundle)
                 //.opacity(isGlobeShown ? 1 : 0)
-                .dragRotation(
-                    yaw: $yaw,
-                    pitch: $pitch)
-                .offset(z: 240.0)
-                .offset(x: -140, y: 0)
-                .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
+//                .dragRotation(
+//                    yaw: $yaw,
+//                    pitch: $pitch)
+                //.offset(z: 240.0)
+                //.offset(x: -140, y: 0)
+                //.rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
+                .rotation3DEffect(.degrees((yaw * 180.0 / .pi) + 67.5), axis: (x: 0.0, y: 1.0, z: 0.0)) // Apply yaw
+                .rotation3DEffect(.degrees(pitch * 180.0 / .pi), axis: (x: 1.0, y: 0.0, z: 0.0)) // Apply pitch
                 .opacity(isGlobeShown ? 1 : 0)
         }
 //        .onChange(of: yaw, initial: false) {

@@ -72,12 +72,14 @@ struct FilterView: View {
 
             modelData.filterDict = filterDict
 
+            guard let r = viewModel.cameraPosition.region else {return}
+            
             if recordsNearby.count == 0 {
-                selectModel.updateRecordsSelection(coord: viewModel.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+                selectModel.updateRecordsSelection(coord: r.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
             } else if let _ = recordsNearby.first(where: {!(modelData.filterDict[$0.phylum] ?? true)}) {
-                selectModel.updateRecordsSelection(coord: viewModel.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+                selectModel.updateRecordsSelection(coord: r.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
             } else {
-                selectModel.freezeRecordsNearbyThenUpdate(coord: viewModel.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+                selectModel.freezeRecordsNearbyThenUpdate(coord: r.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
             }
             
         }

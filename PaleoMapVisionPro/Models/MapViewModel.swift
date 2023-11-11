@@ -31,22 +31,20 @@ enum MapDetails {
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
 }
 
-
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
-    @Published var region: MKCoordinateRegion
+    //@Published var region: MKCoordinateRegion
     @Published var cameraPosition: MapCameraPosition
-    
     @Published var isShowAlert: Bool = false
-    var alertMessage: String = ""
     var locationManager: CLLocationManager?
-   
+    var alertMessage: String = ""
+
     override init() {
         let initialRegion = MKCoordinateRegion(
             center: MapDetails.defaultLocation,
             span: MapDetails.defaultSpan
         )
         
-        self.region = initialRegion
+        //self.region = initialRegion
         self.cameraPosition = MapCameraPosition.region(initialRegion)
         
         super.init()
@@ -114,11 +112,20 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         UserDefaults.standard.set(latestLocation.coordinate.latitude, forKey: "lat")
         UserDefaults.standard.set(latestLocation.coordinate.longitude, forKey: "lon")
         
-        DispatchQueue.main.async {
-            self.region = MKCoordinateRegion(
-                center: latestLocation.coordinate,
-                span: MapDetails.defaultSpan)
-            self.cameraPosition = MapCameraPosition.region(self.region)
+//        DispatchQueue.main.async {
+//            self.region = MKCoordinateRegion(
+//                center: latestLocation.coordinate,
+//                span: MapDetails.defaultSpan)
+//            self.cameraPosition = MapCameraPosition.region(self.region)
+//        }
+        
+        let x = MKCoordinateRegion(
+            center: latestLocation.coordinate,
+            span: MapDetails.defaultSpan
+        )
+        
+        Task { @MainActor in
+            self.cameraPosition = MapCameraPosition.region(x)
         }
     }
     
@@ -127,11 +134,20 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     func changeLocation(coord: CLLocationCoordinate2D) {
-        DispatchQueue.main.async {
-            self.region = MKCoordinateRegion(
-                center: coord,
-                span: self.cameraPosition.region!.span)
-            self.cameraPosition = MapCameraPosition.region(self.region)
+//        DispatchQueue.main.async {
+//            self.region = MKCoordinateRegion(
+//                center: coord,
+//                span: self.cameraPosition.region!.span)
+//            self.cameraPosition = MapCameraPosition.region(self.region)
+//        }
+        
+        let x = MKCoordinateRegion(
+            center: coord,
+            span: self.cameraPosition.region!.span
+        )
+        
+        Task { @MainActor in
+            self.cameraPosition = MapCameraPosition.region(x)
         }
     }
 }
