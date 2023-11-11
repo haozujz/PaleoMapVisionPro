@@ -50,6 +50,7 @@ private struct DragRotationModifier: ViewModifier {
         content
             .rotation3DEffect(.radians(yaw == 0 ? 0.01 : yaw), axis: .y)
             .rotation3DEffect(.radians(pitch == 0 ? 0.01 : pitch), axis: .x)
+        //missing axis z
             .gesture(DragGesture(minimumDistance: 0.0)
                 .targetedToAnyEntity()
                 .onChanged { value in

@@ -77,6 +77,9 @@ struct ImageCell: View {
                 }
                 
             }
+        .task {
+            print(url)
+        }
         }
     
     //}
