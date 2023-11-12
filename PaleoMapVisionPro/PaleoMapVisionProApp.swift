@@ -12,7 +12,9 @@ struct PaleoMapVisionProApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(width: 1280, height: 720)
         }
+        .windowResizability(.contentSize)
 
 //        ImmersiveSpace(id: "ImmersiveSpace") {
 //            ImmersiveView()

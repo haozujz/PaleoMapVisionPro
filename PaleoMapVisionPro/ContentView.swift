@@ -48,7 +48,7 @@ struct ContentView: View {
                     .environmentObject(modelData)
                     .environmentObject(viewModel)
                     .environmentObject(selectModel)
-                    //.environmentObject(imageModel)
+                
                     //.environmentObject(searchModel)
 
                 FilterView()

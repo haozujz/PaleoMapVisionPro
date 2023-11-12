@@ -23,7 +23,6 @@ struct MapView: View {
     
     @State private var selectedItem: String?
     @State private var isRecordCardShown: Bool = false
-    
     @State private var isGlobeShown: Bool = true
     
     //@Namespace var mapScope
@@ -68,14 +67,7 @@ struct MapView: View {
                     //UserAnnotation()
                     
                     ForEach(selectModel.records) { record in
-//                        Annotation(record.family.capitalized, coordinate: record.locationCoordinate) {
-//                            MapAnnotationView(color: record.color, icon: record.icon)
-//                                .onTapGesture {
-//                                    print("tapped")
-//                                    selectModel.updateSingleRecord(recordId: record.id, coord: record.locationCoordinate, db: modelData.db, recordsTable: modelData.recordsTable, isLikelyAnnotatedAlready: true)
-//                                }
-//                        }
-//                        .annotationTitles(.hidden)
+
                         Marker(record.family.capitalized, systemImage: record.icon, coordinate: record.locationCoordinate)
                             .tint(record.color)
                             .tag(record.id)
@@ -107,7 +99,7 @@ struct MapView: View {
                     let yawDiff = abs(newYaw - yaw)
                     let pitchDiff = abs(newPitch - pitch)
                     
-                    let threshold = 0.005 // This can be adjusted based on your needs.
+                    let threshold = 0.01
                     
                     // If the yaw difference exceeds the threshold, update the model's yaw.
                     if yawDiff > threshold {
@@ -123,14 +115,12 @@ struct MapView: View {
                         }
                     }
                     
-                    print("yaw\(yaw)")
-                    print("pitch\(pitch)")
+                    //print("yaw\(yaw)")
+                    //print("pitch\(pitch)")
                 }
                 .onChange(of: selectedItem, initial: false) {
                     guard selectedItem != nil else {
-                        withAnimation(.easeInOut) {
-                            isRecordCardShown = false
-                        }
+
                         return
                     }
                     
@@ -138,6 +128,38 @@ struct MapView: View {
                         isRecordCardShown = true
                     }
                 }
+//                .onChange(of: yaw, initial: false) {
+//                    guard let lat = viewModel.cameraPosition.region?.center.latitude,
+//                          let lon = viewModel.cameraPosition.region?.center.longitude else { return }
+//        
+//                    let newLat = pitch * 180.0 / .pi
+//                    let newLon = yaw * 180.0 / .pi
+//        
+//                    let latDiff = abs(newLat - lat)
+//                    let lonDiff = abs(newLon - lon)
+//        
+//                    let threshold = 50.0
+//        
+//                    if (latDiff > threshold) && (lonDiff > threshold) {
+//                        viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
+//                    }
+//                }
+//                .onChange(of: pitch, initial: false) {
+//                    guard let lat = viewModel.cameraPosition.region?.center.latitude,
+//                          let lon = viewModel.cameraPosition.region?.center.longitude else { return }
+//        
+//                    let newLat = pitch * 180.0 / .pi
+//                    let newLon = yaw * 180.0 / .pi
+//        
+//                    let latDiff = abs(newLat - lat)
+//                    let lonDiff = abs(newLon - lon)
+//        
+//                    let threshold = 50.0
+//        
+//                    if (latDiff > threshold) && (lonDiff > threshold) {
+//                        viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
+//                    }
+//                }
                 .alert("Alert", isPresented: $viewModel.isShowAlert) {
                     Button("OK", role: .cancel) {}
                 } message: {
@@ -160,7 +182,8 @@ struct MapView: View {
                         .frame(width: 1200)
                         .opacity(isRecordCardShown ? 1 : 0)
                         .offset(z: 200.0)
-                        .offset(x: -450, y: 36)
+                        //.offset(x: -490, y: 36)   // For RecordCard2
+                        .offset(x: -360, y: 36)
                         .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
                 }
             }
@@ -171,54 +194,56 @@ struct MapView: View {
                 .padding(10)
         }
         .overlay(alignment: .bottomTrailing) {
+            //print(viewModel.cameraPosition.region?.center.longitude)
+            
+            GlobeView(yaw: $yaw, pitch: $pitch)
+                .opacity(isGlobeShown ? 1 : 0)
+                .transition(.scale)
+                .animation(.easeInOut(duration: 0.2), value: isGlobeShown)
+                .offset(z: 150.0)
+                .offset(x: 20.0)
+            
+//                GlobeView(
+//                    longitude: Binding(
+//                        get: { viewModel.cameraPosition.region?.center.longitude ?? 0.0 },
+//                        set: { newLon in
+//                            print(newLon)
+//                            //self.viewModel.updateLongitude(newLongitude: newLongitude)
+//                            viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: viewModel.cameraPosition.region?.center.latitude ?? 0.0, longitude: newLon))
+//                        }
+//                    ),
+//                    latitude: Binding(
+//                        get: { viewModel.cameraPosition.region?.center.latitude ?? 0.0 },
+//                        set: { newLat in
+//                            //self.viewModel.updateLatitude(newLatitude: newLatitude)
+//                            viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: viewModel.cameraPosition.region?.center.longitude ?? 0.0))
+//                        }
+//                    )
+//                )
+            
+
+        }
+        
+    }
+}
+
 //            ItemView(item: .)
 //                .opacity(isGlobeShown ? 1 : 0)
-            Model3D(named: "Scene", bundle: realityKitContentBundle)
-                //.opacity(isGlobeShown ? 1 : 0)
+            
+//            Model3D(named: "Scene", bundle: realityKitContentBundle)
 //                .dragRotation(
 //                    yaw: $yaw,
 //                    pitch: $pitch)
-                //.offset(z: 240.0)
-                //.offset(x: -140, y: 0)
-                //.rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
-                .rotation3DEffect(.degrees((yaw * 180.0 / .pi) + 67.5), axis: (x: 0.0, y: 1.0, z: 0.0)) // Apply yaw
-                .rotation3DEffect(.degrees(pitch * 180.0 / .pi), axis: (x: 1.0, y: 0.0, z: 0.0)) // Apply pitch
-                .opacity(isGlobeShown ? 1 : 0)
-        }
-//        .onChange(of: yaw, initial: false) {
-//            guard let lat = viewModel.cameraPosition.region?.center.latitude,
-//                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
-//            
-//            let newLat = pitch * 180.0 / .pi
-//            let newLon = yaw * 180.0 / .pi
-//            
-//            let latDiff = abs(newLat - lat)
-//            let lonDiff = abs(newLon - lon)
-//            
-//            let threshold = 2.0
-//            
-//            if (latDiff > threshold) && (lonDiff > threshold) {
-//                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
-//            }
-//        }
-//        .onChange(of: pitch, initial: false) {
-//            guard let lat = viewModel.cameraPosition.region?.center.latitude,
-//                  let lon = viewModel.cameraPosition.region?.center.longitude else { return }
-//                  
-//            let newLat = pitch * 180.0 / .pi
-//            let newLon = yaw * 180.0 / .pi
-//            
-//            let latDiff = abs(newLat - lat)
-//            let lonDiff = abs(newLon - lon)
-//            
-//            let threshold = 2.0
-//            
-//            if (latDiff > threshold) && (lonDiff > threshold) {
-//                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon))
-//            }
-//        }
-    }
-}
+//                //.offset(z: 240.0)
+//                //.offset(x: -140, y: 0)
+//                //.rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
+////                .rotation3DEffect(.degrees((yaw * 180.0 / .pi) + 67.5), axis: (x: 0.0, y: 1.0, z: 0.0)) // Apply yaw
+////                .rotation3DEffect(.degrees(pitch * 180.0 / .pi), axis: (x: 1.0, y: 0.0, z: 0.0)) // Apply pitch
+//                .opacity(isGlobeShown ? 1 : 0)
+//                .offset(z: 120.0)
+//                .offset(x: -20.0)
+
+
 
 private struct ItemView: View {
     var item: Item

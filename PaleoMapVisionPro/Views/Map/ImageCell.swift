@@ -43,22 +43,22 @@ struct ImageCell: View {
 //                        imageModel.isShowImage = true
 //                    }
                 case .failure:
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 25, style: .continuous)
-                            .fill(.black)
-
-                        Text("|  Image not available   |")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.gray)
-                    }
 //                    ZStack {
 //                        RoundedRectangle(cornerRadius: 25, style: .continuous)
 //                            .fill(.black)
 //
-//                        Link("| Tap here to view in browser |", destination: URL(string: url)!)
-//                                                        .font(.system(size: 16, weight: .bold))
-//                                                        .foregroundColor(.white)
+//                        Text("|  Image not available   |")
+//                            .font(.system(size: 16, weight: .bold))
+//                            .foregroundColor(.gray)
 //                    }
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 25, style: .continuous)
+                            .fill(.black)
+
+                        Link("| Tap here to view in browser |", destination: URL(string: url)!)
+                                                        .font(.system(size: 16, weight: .bold))
+                                                        .foregroundColor(.white)
+                    }
                     
 //                            Text(selectModel.isDetailedMode ? "|  Tap here to refresh  |" : "")
 //                                .font(.system(size: 16, weight: .bold))
@@ -83,40 +83,5 @@ struct ImageCell: View {
                 }
                 
             }
-//        .task {
-//            print(">>>\(url)")
-//        }
         }
 }
-
-//bug: TabView w/ PageTabViewStyle gives memory leaks if selection: $currentIndex is passed
-//
-//struct ExtractedView: View {
-//    var body: some View {
-//        ForEach(media.indices, id: \.self){ i in
-//            ZStack {
-//                RoundedRectangle(cornerRadius: 25, style: .continuous)
-//                    .fill(.black)
-//
-//                AsyncImage(url: URL(string: media[0])) { phase in
-//                    switch phase {
-//                    case .empty:
-//                        ProgressView()
-//                    case .success(let image):
-//                        ZStack {
-//                            RoundedRectangle(cornerRadius: 25, style: .continuous)
-//                                .fill(.black)
-//
-//                            image.resizable().scaledToFit()
-//                        }
-//                    case .failure:
-//                        Text("")
-//                    default:
-//                        Text("")
-//                    }
-//                }
-//            }
-//            .tag(i as Int)
-//        }
-//    }
-//}

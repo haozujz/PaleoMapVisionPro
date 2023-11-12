@@ -62,7 +62,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .notDetermined:
-            manager.requestWhenInUseAuthorization()
+            print("Location Authorization Not Determined")
+            //manager.requestWhenInUseAuthorization()
         case .restricted:
             alertMessage = "Your location is restricted, possibly due to parental controls"
             isShowAlert = true

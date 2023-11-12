@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C0697D82B00A730006FF1B2 /* RecordCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0697D72B00A730006FF1B2 /* RecordCard2.swift */; };
+		7C0697DA2B00BF77006FF1B2 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0697D92B00BF77006FF1B2 /* Scrap.swift */; };
+		7C0697DC2B00ED2B006FF1B2 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0697DB2B00ED2B006FF1B2 /* GlobeView.swift */; };
 		7C0961D12AE9250C00471918 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0961D02AE9250C00471918 /* RealityKitContent */; };
 		7C0961D32AE9250C00471918 /* PaleoMapVisionProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961D22AE9250C00471918 /* PaleoMapVisionProApp.swift */; };
 		7C0961D52AE9250C00471918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961D42AE9250C00471918 /* ContentView.swift */; };
@@ -33,6 +36,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C0697D72B00A730006FF1B2 /* RecordCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCard2.swift; sourceTree = "<group>"; };
+		7C0697D92B00BF77006FF1B2 /* Scrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrap.swift; sourceTree = "<group>"; };
+		7C0697DB2B00ED2B006FF1B2 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		7C0961CB2AE9250C00471918 /* PaleoMapVisionPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaleoMapVisionPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C0961CF2AE9250C00471918 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		7C0961D22AE9250C00471918 /* PaleoMapVisionProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaleoMapVisionProApp.swift; sourceTree = "<group>"; };
@@ -147,7 +153,9 @@
 		7C0961F32AE92AFA00471918 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				7C0697D72B00A730006FF1B2 /* RecordCard2.swift */,
 				7C0961D62AE9250C00471918 /* ImmersiveView.swift */,
+				7C0697D92B00BF77006FF1B2 /* Scrap.swift */,
 			);
 			path = Archive;
 			sourceTree = "<group>";
@@ -167,6 +175,7 @@
 				7C0961F92AE92B5400471918 /* MapView.swift */,
 				7C0961FB2AE92B5700471918 /* RecordCard.swift */,
 				7C0961FD2AE92B5B00471918 /* ImageCell.swift */,
+				7C0697DB2B00ED2B006FF1B2 /* GlobeView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -271,17 +280,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C0962032AE92B6B00471918 /* FilterView.swift in Sources */,
+				7C0697D82B00A730006FF1B2 /* RecordCard2.swift in Sources */,
 				7C0961F22AE92AF000471918 /* RecordSelectModel.swift in Sources */,
 				7C0961EC2AE92AE100471918 /* GeoPoint.swift in Sources */,
 				7C0961D52AE9250C00471918 /* ContentView.swift in Sources */,
 				7C0961EA2AE92ADA00471918 /* MapViewModel.swift in Sources */,
 				7C0962072AE92BFC00471918 /* ModelData.swift in Sources */,
 				7C0962052AE92B6B00471918 /* GridStack.swift in Sources */,
+				7C0697DC2B00ED2B006FF1B2 /* GlobeView.swift in Sources */,
 				7C0961D32AE9250C00471918 /* PaleoMapVisionProApp.swift in Sources */,
 				7C0962042AE92B6B00471918 /* PhylumToggle.swift in Sources */,
 				7C0961FE2AE92B5B00471918 /* ImageCell.swift in Sources */,
 				7C0961E72AE9282C00471918 /* DragRotationModifier.swift in Sources */,
 				7C0961D72AE9250C00471918 /* ImmersiveView.swift in Sources */,
+				7C0697DA2B00BF77006FF1B2 /* Scrap.swift in Sources */,
 				7C0961FA2AE92B5400471918 /* MapView.swift in Sources */,
 				7C0961FC2AE92B5700471918 /* RecordCard.swift in Sources */,
 				7C0961F02AE92AE900471918 /* Record.swift in Sources */,
