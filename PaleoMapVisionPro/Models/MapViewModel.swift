@@ -29,6 +29,7 @@ public func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool
 enum MapDetails {
     static let defaultLocation = CLLocationCoordinate2D(latitude:  -33.8688, longitude: 151.2093)
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
+    static let largeSpan = MKCoordinateSpan(latitudeDelta: 60, longitudeDelta: 60)
 }
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
@@ -44,8 +45,8 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             span: MapDetails.defaultSpan
         )
         
-        //self.region = initialRegion
-        self.cameraPosition = MapCameraPosition.region(initialRegion)
+        let fallback = MapCameraPosition.region(initialRegion)
+        self.cameraPosition = .userLocation(fallback: fallback)
         
         super.init()
     }
@@ -63,7 +64,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         switch manager.authorizationStatus {
         case .notDetermined:
             print("Location Authorization Not Determined")
-            //manager.requestWhenInUseAuthorization()
+            manager.requestWhenInUseAuthorization()
         case .restricted:
             alertMessage = "Your location is restricted, possibly due to parental controls"
             isShowAlert = true
@@ -92,6 +93,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
 //                    span: MapDetails.defaultSpan)
 //                self.cameraPosition = MapCameraPosition.region(self.region)
 //            }
+            Task { @MainActor in
+                
+            }
         @unknown default:
             break
         }
@@ -134,7 +138,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         print(error.localizedDescription)
     }
     
-    func changeLocation(coord: CLLocationCoordinate2D) {
+    func changeLocation(coord: CLLocationCoordinate2D, isSpanLarge: Bool = false) {
 //        DispatchQueue.main.async {
 //            self.region = MKCoordinateRegion(
 //                center: coord,
@@ -144,11 +148,13 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         
         let x = MKCoordinateRegion(
             center: coord,
-            span: self.cameraPosition.region!.span
+            span: isSpanLarge ? MapDetails.largeSpan : MapDetails.defaultSpan
         )
         
         Task { @MainActor in
-            self.cameraPosition = MapCameraPosition.region(x)
+            //withAnimation {
+                self.cameraPosition = MapCameraPosition.region(x)
+            //}
         }
     }
 }

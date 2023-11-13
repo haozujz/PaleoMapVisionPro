@@ -45,7 +45,7 @@ struct RecordCard: View {
                 Text("\(record.scientificName)".capitalized)
                     .lineLimit(1)
                     .foregroundStyle(.primary)
-                    .frame(width: 246)
+                    .frame(width: 240)
                 
                 HStack {
                     VStack {
@@ -75,7 +75,7 @@ struct RecordCard: View {
                         .minimumScaleFactor(0.6)
                 }
                 .foregroundStyle(.secondary)
-                .frame(width: 246)
+                .frame(width: 240)
                 .frame(minHeight: 0, maxHeight: 50)
             }
             .frame(width: 246)
