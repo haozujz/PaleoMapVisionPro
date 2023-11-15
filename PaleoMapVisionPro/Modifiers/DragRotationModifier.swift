@@ -140,3 +140,32 @@ private struct DragRotationModifier: ViewModifier {
         return base + delta * sensitivity
     }
 }
+
+
+
+//private struct ItemView: View {
+//    var item: Item
+//    var orientation: SIMD3<Double> = .zero
+//
+//    private let modelDepth: Double = 200
+//
+//    var body: some View {
+//        Model3D(named: item.name, bundle: realityKitContentBundle) { model in
+//            model.resizable()
+//                .scaledToFit()
+//                .rotation3DEffect(
+//                    Rotation3D(
+//                        eulerAngles: .init(angles: orientation, order: .xyz)
+//                    )
+//                )
+//                .frame(depth: modelDepth)
+//                .offset(z: -modelDepth / 2)
+//                .accessibilitySortPriority(1)
+//        } placeholder: {
+//            ProgressView()
+//                .offset(z: -modelDepth * 0.75)
+//        }
+//        //.dragRotation(yaw: $yaw, pitch: $pitch)
+//        .offset(z: modelDepth)
+//    }
+//}

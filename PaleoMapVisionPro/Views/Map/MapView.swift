@@ -13,18 +13,22 @@ import Combine
 import RealityKit
 import RealityKitContent
 
+
 struct MapView: View {
     @EnvironmentObject private var modelData: ModelData
-    @EnvironmentObject private var viewModel: MapViewModel
+    //@EnvironmentObject private var viewModel: MapViewModel
     @EnvironmentObject private var selectModel: RecordSelectModel
+    
+    @Environment(MapViewModel.self) private var viewModel
     
     @State private var isLocationServicesChecked: Bool = false
     
     @State private var selectedItem: String?
+    @State private var salientRecord: Record? = nil
     @State private var isRecordCardShown: Bool = false
     @State private var isGlobeShown: Bool = true
     
-    //@Namespace var mapScope
+    @Namespace var mapScope
     
 //    let sydneyLongitude = 151.2093
 //    let sydneyLatitude = -33.8688
@@ -32,33 +36,91 @@ struct MapView: View {
     @State private var yaw: Double = 151.2093 * .pi / 180.0
     @State private var pitch: Double = -33.8688 * .pi / 180.0
     
-//    @State private var yaw: Double = 151.2093 * .pi / 180.0
-//    @State private var pitch: Double = -33.8688 * .pi / 180.0
-    
     var body: some View {
-        ZStack(alignment: .bottom) {
+        @Bindable var viewModel = viewModel
+        
+        GeometryReader { geometry in
                 Map(
                     position: $viewModel.cameraPosition,
-                    selection: $selectedItem
-                    //scope: mapScope
+                    //interactionModes: [.pan, .zoom, .pitch, .rotate],
+                    selection: $selectedItem,
+                    scope: mapScope
                 ) {
                     UserAnnotation()
                     
                     ForEach(selectModel.records) { record in
-                        Marker(record.family.capitalized, systemImage: record.icon, coordinate: record.locationCoordinate)
+                        Marker(record.commonName == "" ? record.family.capitalized : record.commonName.capitalized, systemImage: record.icon, coordinate: record.locationCoordinate)
                             .tint(record.color)
+                            .annotationTitles(.hidden)
                             .tag(record.id)
                     }
                 }
-                .mapStyle(.standard(elevation: .realistic))
-                //.mapScope(mapScope)
-//                .onAppear {
-//                    if !isLocationServicesChecked {
-//                        viewModel.checkIfLocationServicesIsEnabled()
-//                        isLocationServicesChecked = true
+                .mapStyle(.hybrid(
+                    elevation: .realistic,
+                    pointsOfInterest:
+                            .including([.amusementPark,
+                                        .aquarium,
+                                        .campground,
+                                        .museum,
+                                        .nationalPark,
+                                        .park,
+                                        .zoo]), 
+                    showsTraffic: false)
+                )
+                .mapControlVisibility(.hidden)
+                .overlay(alignment: .topTrailing) {
+                    VStack(spacing: 8) {
+                        MapUserLocationButton(scope: mapScope)
+                        MapPitchToggle(scope: mapScope)
+                        MapCompass(scope: mapScope)
+                    }
+                    .buttonBorderShape(.circle)
+                    .padding(8)
+                    .padding(.top, 8)
+                    .padding(.trailing, 8)
+                    //.offset(z: 1.0)
+                }
+                .mapScope(mapScope)
+//                .mapControls {
+//                    VStack {
+//                        MapUserLocationButton()
+//                            .padding(.bottom, geometry.safeAreaInsets.trailing + 50)
+//                        MapPitchToggle()
+//                        MapCompass()
 //                    }
+//                    .buttonBorderShape(.circle)
+//                    .padding(30)
+//                    .padding(.bottom, geometry.safeAreaInsets.trailing + 50)
 //                }
+                .overlay(alignment: .bottomTrailing) {
+                    Toggle("Show Globe", isOn: $isGlobeShown)
+                        .toggleStyle(.button)
+                        .padding(18)
+                        //.offset(z: 1.0)
+                }
+//                .ornament(visibility: .automatic, attachmentAnchor: .scene(.bottomLeading)) {
+//                }
+                .overlay(alignment: .bottom) {
+                    GlobeView(yaw: $yaw, pitch: $pitch)
+                        .opacity(isGlobeShown ? 1 : 0)
+                        //.transition(.scale)
+                        //.animation(.easeInOut(duration: 0.2), value: isGlobeShown)
+                        .offset(z: 148.0)
+                        .environment(viewModel)
+                        .offset(x: 536)
+                }
+                .overlay(alignment: .bottom) {
+                    if let salientRecord = salientRecord {
+                        RecordCard(record: salientRecord)
+                            .opacity(isRecordCardShown ? 1 : 0)
+                            .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
+                            .offset(x: -374.0)
+                            .offset(z: 270.0)
+                            
+                    }
+                }
                 .task {
+                    // Consider removing this later
                     if !isLocationServicesChecked {
                         viewModel.checkIfLocationServicesIsEnabled()
                         isLocationServicesChecked = true
@@ -75,7 +137,7 @@ struct MapView: View {
                     let yawDiff = abs(newYaw - yaw)
                     let pitchDiff = abs(newPitch - pitch)
                     
-                    let threshold = 0.0002
+                    let threshold = 0.0001
                     
                     // If the yaw difference exceeds the threshold, update the model's yaw.
                     if yawDiff > threshold {
@@ -92,60 +154,28 @@ struct MapView: View {
                     }
                 }
                 .onChange(of: selectedItem, initial: false) {
-                    guard selectedItem != nil else {
-                        return
+                    withAnimation(.easeInOut) {
+                        if selectedItem == nil {
+                            Task { @MainActor in
+                                isRecordCardShown = false
+                            }
+                        } else {
+                            if let record = selectModel.records.first(where: { $0.id == selectedItem }) {
+                                Task { @MainActor in
+                                    salientRecord = record
+                                    isRecordCardShown = true
+                                }
+                            }
+                        }
                     }
                     
-                    withAnimation(.easeInOut) {
-                        isRecordCardShown = true
-                    }
                 }
                 .alert("Alert", isPresented: $viewModel.isShowAlert) {
                     Button("OK", role: .cancel) {}
                 } message: {
                     Text(viewModel.alertMessage)
                 }
-                .mapControls {
-                    ZStack {
-                        MapUserLocationButton()
-                        MapPitchToggle()
-                        MapCompass()
-                    }
-                    .buttonBorderShape(.circle)
-                    .padding()
-                }
         }
-//        .ornament(attachmentAnchor: .scene(.bottomLeading)) {
-
-//        }
-        .overlay(alignment: .bottomLeading) {
-            if let recordId = selectedItem {
-                if let record = selectModel.records.first(where: { $0.id == recordId }) {
-                    RecordCard(record: record)
-                        .frame(width: 1200)
-                        .opacity(isRecordCardShown ? 1 : 0)
-                        .offset(z: 200.0)
-                        //.offset(x: -490, y: 36)   // For RecordCard2
-                        .offset(x: -360, y: 36)
-                        .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
-                }
-            }
-        }
-        .overlay(alignment: .bottomTrailing) {
-            Toggle("Show Globe", isOn: $isGlobeShown)
-                .toggleStyle(.button)
-                .padding(16)
-        }
-        .overlay(alignment: .bottomTrailing) {
-            GlobeView(yaw: $yaw, pitch: $pitch)
-                .opacity(isGlobeShown ? 1 : 0)
-                //.transition(.scale)
-                //.animation(.easeInOut(duration: 0.2), value: isGlobeShown)
-                .offset(z: 154.0)
-                .offset(x: 2.0)
-                .environmentObject(viewModel)
-        }
-        
     }
 }
 

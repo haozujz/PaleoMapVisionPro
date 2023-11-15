@@ -12,7 +12,7 @@ struct RecordCard: View {
     let record: Record
     
     //@Environment(\.verticalSizeClass) var verticalSizeClass
-    @State private var overImage = false
+    //@State private var onHover = false
         
     var body: some View {
         HStack(spacing: 0) {
@@ -37,7 +37,7 @@ struct RecordCard: View {
 //                print("\(hovering)")
 //                
 //                if hovering {
-//                    overImage = true
+//                    onHover = true
 //                }
 //            })
             

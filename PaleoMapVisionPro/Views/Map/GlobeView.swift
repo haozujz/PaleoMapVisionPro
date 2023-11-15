@@ -14,7 +14,9 @@ import CoreLocation
 struct GlobeView: View {
     //@Binding var longitude: Double
     //@Binding var latitude: Double
-    @EnvironmentObject private var viewModel: MapViewModel
+    //@EnvironmentObject private var viewModel: MapViewModel
+    
+    @Environment(MapViewModel.self) private var viewModel
 
     @Binding var yaw: Double
     @Binding var pitch: Double
@@ -46,7 +48,6 @@ struct GlobeView: View {
                         let interimPitch = basePitch + Double(delta.height) * sensitivity * -1
                         let lowerLimit = -(.pi / 2) + buffer
                         let upperLimit = .pi / 2 - buffer
-                        //pitch = min(max(interimPitch, -(.pi/2)), .pi/2)
                         pitch = min(max(interimPitch, lowerLimit), upperLimit)
                         
                         let newLon = yawToLongitude(yaw: yaw)
@@ -57,17 +58,6 @@ struct GlobeView: View {
                     .onEnded { value in
                         baseYaw = yaw
                         basePitch = pitch
-  
-//                        print("yaw", yaw)
-//                        print("pitch", pitch)
-//
-//                        let newLon = yawToLongitude(yaw: yaw)
-//                        let newLat = pitchToLatitude(pitch: pitch)
-//                        
-//                        print("newLon", newLon)
-//                        print("newLat", newLat)
-//
-//                        viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon), isSpanLarge: true)
                     }
             )
     }
@@ -94,25 +84,3 @@ func yawToLongitude(yaw: Double) -> Double {
     }
     return longitude
 }
-
-
-
-//
-////                        // Update MapViewModel
-////                        guard let lat = viewModel.cameraPosition.region?.center.latitude,
-////                              let lon = viewModel.cameraPosition.region?.center.longitude else { return }
-////
-////                        print("lat", lat)
-////
-                        //let newLon = (yaw * 180.0 / .pi) + 67.5
-                        //let newLat = (pitch * 180.0 / .pi)
-                        
-
-////
-////                        let latDiff = abs(newLat - lat)
-////                        let lonDiff = abs(newLon - lon)
-////
-////                        let threshold = 6.0
-//
-//                        if (latDiff > threshold) && (lonDiff > threshold) {
-                        

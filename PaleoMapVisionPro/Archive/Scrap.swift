@@ -36,33 +36,7 @@
 
 
 
-//private struct ItemView: View {
-//    var item: Item
-//    var orientation: SIMD3<Double> = .zero
-//
-//    private let modelDepth: Double = 200
-//
-//    var body: some View {
-//        Model3D(named: item.name, bundle: realityKitContentBundle) { model in
-//            model.resizable()
-//                .scaledToFit()
-//                .rotation3DEffect(
-//                    Rotation3D(
-//                        eulerAngles: .init(angles: orientation, order: .xyz)
-//                    )
-//                )
-//                .frame(depth: modelDepth)
-//                .offset(z: -modelDepth / 2)
-//                .accessibilitySortPriority(1)
-//        } placeholder: {
-//            ProgressView()
-//                .offset(z: -modelDepth * 0.75)
-//        }
-//        //.dragRotation(yaw: $yaw, pitch: $pitch)
-//        .offset(z: modelDepth)
-//    }
-//}
-//
+
 //private enum Item: String, CaseIterable, Identifiable {
 //    case globe
 //    var id: Self { self }
@@ -197,3 +171,18 @@
 //                        imageModel.image = image
 //                        imageModel.isShowImage = true
 //                    }
+
+
+
+// Equatable MKCoordinateSpan
+//extension MKCoordinateSpan: Equatable {}
+//
+//public func ==(lhs: MKCoordinateSpan, rhs: MKCoordinateSpan) -> Bool {
+//    return lhs.latitudeDelta == rhs.latitudeDelta && lhs.longitudeDelta == rhs.longitudeDelta
+//}
+//
+//extension MKCoordinateRegion: Equatable {}
+//
+//public func ==(lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
+//    return lhs.center == rhs.center && lhs.span == rhs.span
+//}

@@ -10,7 +10,8 @@ import MapKit
 
 struct FilterView: View {
     @EnvironmentObject var modelData: ModelData
-    @EnvironmentObject private var viewModel: MapViewModel
+    //@EnvironmentObject private var viewModel: MapViewModel
+    @Environment(MapViewModel.self) private var viewModel
     @EnvironmentObject private var selectModel: RecordSelectModel
     
     @State private var filterDict: [Phylum : Bool]

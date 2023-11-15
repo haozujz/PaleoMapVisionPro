@@ -28,7 +28,10 @@ struct ContentView: View {
 //    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     
     @StateObject var modelData = ModelData()
-    @StateObject var viewModel = MapViewModel()
+    
+    //@StateObject var viewModel = MapViewModel()
+    @Environment(MapViewModel.self) private var viewModel
+    
     @StateObject var selectModel = RecordSelectModel()
 
 //    @State private var yaw: Double = 0
@@ -44,9 +47,10 @@ struct ContentView: View {
                         Text("Map")
                     }
                     .frame(width: 1280, height: 720)
-                    .cornerRadius(36.0)
+                    //.cornerRadius(36.0)
                     .environmentObject(modelData)
-                    .environmentObject(viewModel)
+                    //.environmentObject(viewModel)
+                    .environment(viewModel)
                     .environmentObject(selectModel)
                 
                     //.environmentObject(searchModel)
@@ -58,7 +62,8 @@ struct ContentView: View {
                         Text("Filter")
                     }
                     .environmentObject(modelData)
-                    .environmentObject(viewModel)
+                    //.environmentObject(viewModel)
+                    .environment(viewModel)
                     .environmentObject(selectModel)
             }
         }

@@ -21,7 +21,7 @@ final class RecordSelectModel: ObservableObject {
     
     func updateRecordsSelection(coord: CLLocationCoordinate2D, db: Connection, recordsTable: Table, boxesTable: Table, filter: [Phylum : Bool], isIgnoreThreshold: Bool = false) {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { [weak self] _ in
             guard let self = self else {return}
             
             DispatchQueue.global(qos: .userInteractive).async {
@@ -80,6 +80,32 @@ final class RecordSelectModel: ObservableObject {
         let yD = abs(loc1.longitude - loc2.longitude)
         return xD + yD
     }
+    
+    func generateSquareModifiers(for level: Int) -> [Int] {
+        guard level > 0 else { return [] }
+        
+        var modifiers: [Int] = []
+        
+        // Top and Bottom Rows
+        for i in -level...level {
+            modifiers.append(-3600 * level + i) // Top row
+            modifiers.append(3600 * level + i)  // Bottom row
+        }
+
+        // Left and Right Columns (excluding corners already added)
+        for i in stride(from: -level + 1, through: level - 1, by: 1) {
+            modifiers.append(i * 3600 - level) // Left column
+            modifiers.append(i * 3600 + level) // Right column
+        }
+
+        return modifiers
+    }
+
+//    let modifier = generateSquareModifiers(for: 1)
+//    let modifier2 = generateSquareModifiers(for: 2)
+//    let modifier3 = generateSquareModifiers(for: 3)
+//    let modifier4 = generateSquareModifiers(for: 4)
+
     
     func getRecordsFromDbPerBox(centerIndex: Int, db: Connection, recordsTable: Table, boxesTable: Table, filter: [Phylum : Bool], coord: CLLocationCoordinate2D) -> [Record] {
         let i = centerIndex
