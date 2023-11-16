@@ -27,12 +27,14 @@ struct ContentView: View {
 //    @Environment(\.openImmersiveSpace) var openImmersiveSpace
 //    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     
-    @StateObject var modelData = ModelData()
+    //@StateObject var modelData = ModelData()
+    @Environment(ModelData.self) private var modelData
     
     //@StateObject var viewModel = MapViewModel()
     @Environment(MapViewModel.self) private var viewModel
     
-    @StateObject var selectModel = RecordSelectModel()
+    //@StateObject var selectModel = RecordSelectModel()
+    @Environment(RecordSelectModel.self) private var selectModel
 
 //    @State private var yaw: Double = 0
 //    @State private var pitch: Double = 0
@@ -48,10 +50,11 @@ struct ContentView: View {
                     }
                     .frame(width: 1280, height: 720)
                     //.cornerRadius(36.0)
-                    .environmentObject(modelData)
+                    //.environmentObject(modelData)
                     //.environmentObject(viewModel)
                     .environment(viewModel)
-                    .environmentObject(selectModel)
+                    .environment(modelData)
+                    .environment(selectModel)
                 
                     //.environmentObject(searchModel)
 
@@ -61,10 +64,11 @@ struct ContentView: View {
                         Image(systemName: TabBarItem.filter.icon)
                         Text("Filter")
                     }
-                    .environmentObject(modelData)
+                    //.environmentObject(modelData)
                     //.environmentObject(viewModel)
                     .environment(viewModel)
-                    .environmentObject(selectModel)
+                    .environment(modelData)
+                    .environment(selectModel)
             }
         }
         

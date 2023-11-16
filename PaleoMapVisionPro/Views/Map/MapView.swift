@@ -15,10 +15,10 @@ import RealityKitContent
 
 
 struct MapView: View {
-    @EnvironmentObject private var modelData: ModelData
-    //@EnvironmentObject private var viewModel: MapViewModel
-    @EnvironmentObject private var selectModel: RecordSelectModel
-    
+//    @EnvironmentObject private var modelData: ModelData
+    @Environment(ModelData.self) private var modelData
+    @Environment(RecordSelectModel.self) private var selectModel
+    //@EnvironmentObject private var selectModel: RecordSelectModel
     @Environment(MapViewModel.self) private var viewModel
     
     @State private var isLocationServicesChecked: Bool = false
@@ -78,7 +78,6 @@ struct MapView: View {
                     .padding(8)
                     .padding(.top, 8)
                     .padding(.trailing, 8)
-                    //.offset(z: 1.0)
                 }
                 .mapScope(mapScope)
 //                .mapControls {
@@ -96,7 +95,6 @@ struct MapView: View {
                     Toggle("Show Globe", isOn: $isGlobeShown)
                         .toggleStyle(.button)
                         .padding(18)
-                        //.offset(z: 1.0)
                 }
 //                .ornament(visibility: .automatic, attachmentAnchor: .scene(.bottomLeading)) {
 //                }
@@ -126,7 +124,15 @@ struct MapView: View {
                         isLocationServicesChecked = true
                     }
                 }
+//                .onChange(of: modelData.filterDict) {
+//                    print("\(modelData.filterDict)")
+//                    
+//                    guard let currentRegion = viewModel.cameraPosition.region else { return }
+//                    selectModel.updateRecordsSelection(coord: currentRegion.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict)
+//                }
                 .onMapCameraChange(frequency: .continuous) { context in
+                    print("changed")
+                    
                     selectModel.updateRecordsSelection(coord: context.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict)
                     
                     // Convert map's center latitude and longitude to pitch and yaw.

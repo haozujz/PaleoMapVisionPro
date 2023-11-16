@@ -10,12 +10,16 @@ import SwiftUI
 @main
 struct PaleoMapVisionProApp: App {
     @State private var viewModel = MapViewModel()
+    @State private var modelData = ModelData()
+    @State private var selectModel = RecordSelectModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .frame(width: 1280, height: 720)
                 .environment(viewModel)
+                .environment(modelData)
+                .environment(selectModel)
         }
         .windowResizability(.contentSize)
 

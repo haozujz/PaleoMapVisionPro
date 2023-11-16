@@ -24,7 +24,7 @@ struct GlobeView: View {
     @State private var baseYaw: Double
     @State private var basePitch: Double
     
-    let sensitivity: Double = 0.01
+    let sensitivity: Double = 0.009
     let buffer: Double =  12 * .pi / 180
     
     init(yaw: Binding<Double>, pitch: Binding<Double>) {
@@ -42,6 +42,8 @@ struct GlobeView: View {
                 DragGesture()
                     .targetedToAnyEntity()
                     .onChanged { value in
+                        // if isReadyToUpdateGlobeBase {=false}
+                        
                         let delta = value.translation
                         yaw = baseYaw + Double(delta.width) * sensitivity
                         
@@ -58,6 +60,8 @@ struct GlobeView: View {
                     .onEnded { value in
                         baseYaw = yaw
                         basePitch = pitch
+                        
+                        // isReadyToUpdateGlobeBase {=true}
                     }
             )
     }

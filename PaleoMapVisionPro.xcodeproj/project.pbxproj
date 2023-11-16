@@ -34,7 +34,6 @@
 		7C09620B2AE92D0100471918 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7C0962092AE92D0100471918 /* db.sqlite */; };
 		7C09620C2AE92D0100471918 /* dbsqlitePlaceholder.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */; };
 		7C2916EC2B00F6A600E01238 /* MapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */; };
-		7C30D54B2B04D2740000FB97 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C30D54A2B04D2740000FB97 /* CLLocationCoordinate2D+Equatable.swift */; };
 		7CB482252B03602000AB2FB8 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB482242B03602000AB2FB8 /* Demo.swift */; };
 		7CB482272B036B4100AB2FB8 /* OldMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -68,7 +67,6 @@
 		7C0962092AE92D0100471918 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 		7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dbsqlitePlaceholder.txt; sourceTree = "<group>"; };
 		7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationView.swift; sourceTree = "<group>"; };
-		7C30D54A2B04D2740000FB97 /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		7CB482242B03602000AB2FB8 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
 		7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldMapViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -214,7 +212,6 @@
 		7C30D5492B04D2450000FB97 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				7C30D54A2B04D2740000FB97 /* CLLocationCoordinate2D+Equatable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -304,7 +301,6 @@
 				7C0961F22AE92AF000471918 /* RecordSelectModel.swift in Sources */,
 				7C0961EC2AE92AE100471918 /* GeoPoint.swift in Sources */,
 				7C0961D52AE9250C00471918 /* ContentView.swift in Sources */,
-				7C30D54B2B04D2740000FB97 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				7C0961EA2AE92ADA00471918 /* MapViewModel.swift in Sources */,
 				7C0962072AE92BFC00471918 /* ModelData.swift in Sources */,
 				7C0962052AE92B6B00471918 /* GridStack.swift in Sources */,

@@ -9,7 +9,9 @@ import Foundation
 import Combine
 import SwiftUI
 import SQLite
+import Observation
 
+@Observable
 final class ModelData: ObservableObject {
     var bookmarked: [Record] = [] {
         didSet {

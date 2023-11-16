@@ -9,10 +9,12 @@ import SwiftUI
 import MapKit
 
 struct FilterView: View {
-    @EnvironmentObject var modelData: ModelData
+    //@EnvironmentObject var modelData: ModelData
     //@EnvironmentObject private var viewModel: MapViewModel
     @Environment(MapViewModel.self) private var viewModel
-    @EnvironmentObject private var selectModel: RecordSelectModel
+    @Environment(ModelData.self) private var modelData
+    @Environment(RecordSelectModel.self) private var selectModel
+    //@EnvironmentObject private var selectModel: RecordSelectModel
     
     @State private var filterDict: [Phylum : Bool]
     

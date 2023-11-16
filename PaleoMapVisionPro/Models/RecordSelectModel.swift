@@ -8,11 +8,14 @@
 import Foundation
 import MapKit
 import SQLite
+import Observation
 
+@Observable
 final class RecordSelectModel: ObservableObject {
-    @Published var records: [Record] = []
-    @Published var recordsNearby: [Record]? = nil
-    @Published var isDetailedMode: Bool = false
+    var records: [Record] = []
+    var recordsNearby: [Record]? = nil
+    //var isDetailedMode: Bool = false
+    
     private var savedCoord = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     private var timer: Timer?
     private var isRecordsNearbyFrozen: Bool = false
@@ -101,25 +104,29 @@ final class RecordSelectModel: ObservableObject {
         return modifiers
     }
 
-//    let modifier = generateSquareModifiers(for: 1)
-//    let modifier2 = generateSquareModifiers(for: 2)
-//    let modifier3 = generateSquareModifiers(for: 3)
-//    let modifier4 = generateSquareModifiers(for: 4)
-
-    
     func getRecordsFromDbPerBox(centerIndex: Int, db: Connection, recordsTable: Table, boxesTable: Table, filter: [Phylum : Bool], coord: CLLocationCoordinate2D) -> [Record] {
         let i = centerIndex
-        let modifier: Array = [1,-1,-3600,-3601,-3599,3600,3599,3601]
-        let modifier2: Array = [2,-2, -7200,-7201,-7202,-7199,-7198, 7200,7199,7198,7201,7202, -3602,-3598, 3598,3602]
-        let modifier3: Array = [3, -3, -10800,-10801,-10802,-10803,-10799,-10798,-10797, 10800,10799,10798,10797,10801,10802,10803, -7203,-7197, -3603,-3597, 3597,3603, 7197,7203]
+//        let modifier: Array = [1,-1,-3600,-3601,-3599,3600,3599,3601]
+//        let modifier2: Array = [2,-2, -7200,-7201,-7202,-7199,-7198, 7200,7199,7198,7201,7202, -3602,-3598, 3598,3602]
+//        let modifier3: Array = [3, -3, -10800,-10801,-10802,-10803,-10799,-10798,-10797, 10800,10799,10798,10797,10801,10802,10803, -7203,-7197, -3603,-3597, 3597,3603, 7197,7203]
+        
+        let modifier = generateSquareModifiers(for: 1)
+        let modifier2 = generateSquareModifiers(for: 2)
+        let modifier3 = generateSquareModifiers(for: 3)
+        let modifier4 = generateSquareModifiers(for: 4)
+        let modifier5 = generateSquareModifiers(for: 5)
         
         var targets: [Int] = []
         var targets2: [Int] = []
         var targets3: [Int] = []
+        var targets4: [Int] = []
+        var targets5: [Int] = []
         
         var x: [Record] = []
         var x2: [Record] = []
         var x3: [Record] = []
+        var x4: [Record] = []
+        var x5: [Record] = []
         
         for m in modifier {
             let target = i+m
@@ -149,6 +156,28 @@ final class RecordSelectModel: ObservableObject {
             x3 += queryDbPerBox(indexes: targets3, db: db, recordsTable: recordsTable, boxesTable: boxesTable)
             x3 = filterArray(array: x3, filter: filter)
             x.insert(contentsOf: x3, at: 0)
+        }
+        
+        if x.count < maxRecordsCount {
+            for m in modifier4 {
+                let target = i+m
+                if target < 0 || target > 6479999 {continue}
+                targets4.append(target)
+            }
+            x4 += queryDbPerBox(indexes: targets4, db: db, recordsTable: recordsTable, boxesTable: boxesTable)
+            x4 = filterArray(array: x4, filter: filter)
+            x.insert(contentsOf: x4, at: 0)
+        }
+        
+        if x.count < maxRecordsCount {
+            for m in modifier5 {
+                let target = i + m
+                if target < 0 || target > 6479999 { continue }
+                targets5.append(target)
+            }
+            x5 += queryDbPerBox(indexes: targets5, db: db, recordsTable: recordsTable, boxesTable: boxesTable)
+            x5 = filterArray(array: x5, filter: filter)
+            x.insert(contentsOf: x5, at: 0)
         }
         
         x.sort {manhattanDistance(loc1: $0.locationCoordinate, loc2: coord) > manhattanDistance(loc1: $1.locationCoordinate, loc2: coord)}
