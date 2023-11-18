@@ -14,13 +14,12 @@ import Observation
 final class RecordSelectModel: ObservableObject {
     var records: [Record] = []
     var recordsNearby: [Record]? = nil
-    //var isDetailedMode: Bool = false
+    var savedCoord = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     
-    private var savedCoord = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+    private let maxRecordsCount: Int = 20
     private var timer: Timer?
     private var isRecordsNearbyFrozen: Bool = false
-    private let threshold: CGFloat = 0.008   
-    private let maxRecordsCount: Int = 20
+    private let threshold: CGFloat = 0.008
     
     func updateRecordsSelection(coord: CLLocationCoordinate2D, db: Connection, recordsTable: Table, boxesTable: Table, filter: [Phylum : Bool], isIgnoreThreshold: Bool = false) {
         timer?.invalidate()

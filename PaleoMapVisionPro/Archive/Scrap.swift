@@ -186,3 +186,85 @@
 //public func ==(lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
 //    return lhs.center == rhs.center && lhs.span == rhs.span
 //}
+
+//OLD Phylum toggle
+
+//var icon: String {
+//    switch phylum {
+//    case .annelida: return "hurricane"
+//    case .archaeocyatha: return "aqi.medium"
+//    case .arthropoda: return "ant.fill"
+//        
+//    case .brachiopoda:
+//        if #available(iOS 16.0, *) {return "fossil.shell.fill"}
+//        else {return "seal.fill"}
+//    case .bryozoa: return "aqi.medium"
+//    case .chordata: return "hare.fill"
+//        
+//    case .cnidaria: return "snowflake"
+//    case .coelenterata: return "aqi.medium"
+//    case .echinodermata: return "staroflife.fill"
+//        
+//    case .mollusca:
+//        if #available(iOS 16.0, *) {return "fossil.shell.fill"}
+//        else {return "seal.fill"}
+//    case .platyhelminthes: return "hurricane"
+//    case .porifera: return "aqi.medium"
+//    }
+//}
+//
+//var colors: [Color] {
+//    switch self.phylum {
+//    case .annelida: return [.brown]
+//    case .archaeocyatha: return [.blue]
+//    case .arthropoda: return [.purple]
+//        
+//    case .brachiopoda: return [.orange]
+//    case .bryozoa: return [.blue]
+//    case .chordata: return [.yellow, .cyan, .cyan, .green, .green, .indigo, .indigo, .yellow]
+//        
+//    case .cnidaria: return [.pink]
+//    case .coelenterata: return [.blue]
+//    case .echinodermata: return [.red]
+//        
+//    case .mollusca: return [.orange]
+//    case .platyhelminthes: return [.brown]
+//    case .porifera: return [.blue]
+//    }
+//}
+
+//OLD FilterView
+//@State private var filterDict: [Phylum : Bool]
+
+//    init() {
+//        var x: [Phylum : Bool] = [:]
+//        var dict = UserDefaults.standard.dictionary(forKey: "filterDict") as? [String : Bool] ?? [:]
+//
+//        if dict == [:] {
+//            var y: [String : Bool] = [:]
+//            Phylum.allCases.forEach { phylum in
+//                y[phylum.rawValue] = true
+//            }
+//            UserDefaults.standard.set(y, forKey: "filterDict")
+//            dict = y
+//        }
+//        for (k, v) in dict {
+//            x[Phylum(rawValue: k)!] = v
+//        }
+//        self._filterDict = State(initialValue: x)
+//    }
+
+//    func binding(key: Phylum) -> Binding<Bool> {
+//        return .init(
+//            get: { self.filterDict[key, default: true] },
+//            set: {
+//                self.filterDict[key] = $0
+//
+//                var x: [String : Bool] = [:]
+//                Phylum.allCases.forEach { phylum in
+//                    x[phylum.rawValue] = self.filterDict[phylum]
+//                }
+//                UserDefaults.standard.set(x, forKey: "filterDict")
+//            }
+//        )
+//    }

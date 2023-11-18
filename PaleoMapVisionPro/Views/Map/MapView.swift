@@ -39,7 +39,7 @@ struct MapView: View {
     var body: some View {
         @Bindable var viewModel = viewModel
         
-        GeometryReader { geometry in
+        ZStack {
                 Map(
                     position: $viewModel.cameraPosition,
                     //interactionModes: [.pan, .zoom, .pitch, .rotate],
@@ -83,13 +83,10 @@ struct MapView: View {
 //                .mapControls {
 //                    VStack {
 //                        MapUserLocationButton()
-//                            .padding(.bottom, geometry.safeAreaInsets.trailing + 50)
 //                        MapPitchToggle()
 //                        MapCompass()
 //                    }
 //                    .buttonBorderShape(.circle)
-//                    .padding(30)
-//                    .padding(.bottom, geometry.safeAreaInsets.trailing + 50)
 //                }
                 .overlay(alignment: .bottomTrailing) {
                     Toggle("Show Globe", isOn: $isGlobeShown)
@@ -106,6 +103,11 @@ struct MapView: View {
                         .offset(z: 148.0)
                         .environment(viewModel)
                         .offset(x: 536)
+//                    GlobeView2(pos: $viewModel.cameraPosition)
+//                        .opacity(isGlobeShown ? 1 : 0)
+//                        .offset(z: 148.0)
+//                        .environment(viewModel)
+//                        .offset(x: 536)
                 }
                 .overlay(alignment: .bottom) {
                     if let salientRecord = salientRecord {
@@ -124,20 +126,23 @@ struct MapView: View {
                         isLocationServicesChecked = true
                     }
                 }
-//                .onChange(of: modelData.filterDict) {
-//                    print("\(modelData.filterDict)")
-//                    
-//                    guard let currentRegion = viewModel.cameraPosition.region else { return }
-//                    selectModel.updateRecordsSelection(coord: currentRegion.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict)
-//                }
-                .onMapCameraChange(frequency: .continuous) { context in
-                    print("changed")
+                .onChange(of: modelData.filterDict) {
+                    print("\(modelData.filterDict)")
                     
+//                    print(viewModel.locationManager?.location?.coordinate.latitude ?? 0.0)
+
+                    let coord = CLLocationCoordinate2D(latitude: viewModel.locationManager?.location?.coordinate.latitude ?? 0.0, longitude: viewModel.locationManager?.location?.coordinate.longitude ?? 0.0)
+                    
+                    selectModel.updateRecordsSelection(coord: coord, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+                }
+                .onMapCameraChange(frequency: .continuous) { context in
                     selectModel.updateRecordsSelection(coord: context.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict)
                     
                     // Convert map's center latitude and longitude to pitch and yaw.
                     let newYaw = context.region.center.longitude * -.pi / 180.0
                     let newPitch = (context.region.center.latitude) * -.pi / 180.0
+//                    let newYaw = context.camera.centerCoordinate.longitude * -.pi / 180.0
+//                    let newPitch = context.camera.centerCoordinate.latitude * -.pi / 180.0
                     
                     // Check the difference between the new yaw and pitch and the current ones.
                     let yawDiff = abs(newYaw - yaw)
@@ -181,6 +186,7 @@ struct MapView: View {
                 } message: {
                     Text(viewModel.alertMessage)
                 }
+            
         }
     }
 }

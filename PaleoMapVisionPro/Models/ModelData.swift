@@ -25,7 +25,22 @@ final class ModelData: ObservableObject {
         }
     }
     
-    var filterDict: [Phylum : Bool]
+    //var filterDict: [Phylum : Bool]
+    var filterDict: [Phylum : Bool] = [:] {
+        didSet {
+            objectWillChange.send()
+            
+            var x: [String : Bool] = [:]
+            for (k, v) in filterDict {
+                x[k.rawValue] = v
+            }
+            
+//            var dict = UserDefaults.standard.dictionary(forKey: "filterDict") as? [String : Bool] ?? [:]
+            
+            UserDefaults.standard.set(x, forKey: "filterDict")
+        }
+    }
+    
     let db: Connection
     let recordsTable: SQLite.Table
     let boxesTable: SQLite.Table

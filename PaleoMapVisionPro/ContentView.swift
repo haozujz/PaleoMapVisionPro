@@ -39,38 +39,99 @@ struct ContentView: View {
 //    @State private var yaw: Double = 0
 //    @State private var pitch: Double = 0
     
+//    var isColumnVisible: NavigationSplitViewVisibility {
+//        if (currentTab != .map) {
+//            return .automatic
+//        } else {
+//            return .detailOnly
+//        }
+//    }
+    
     var body: some View {
-        ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
+       
+        ZStack {
+            MapView()
+                .frame(width: 1280, height: 720)
+                .environment(viewModel)
+                .environment(modelData)
+                .environment(selectModel)
+            
+            FilterView()
+                .frame(width: 300)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .opacity(currentTab == .map ? 0 : 1)
+                .tag(.filter as TabBarItem)
+//                .tabItem {
+//                    Image(systemName: TabBarItem.filter.icon)
+//                    Text("Filter")
+//                }
+                .environment(viewModel)
+                .environment(modelData)
+                .environment(selectModel)
+            
+            
             TabView(selection: $currentTab) {
-                MapView()
+                // Use EmptyView or a specific content based on your need
+                Text("0")
+                    .frame(width: 0)
                     .tag(.map as TabBarItem)
                     .tabItem {
                         Image(systemName: TabBarItem.map.icon)
                         Text("Map")
                     }
-                    .frame(width: 1280, height: 720)
-                    //.cornerRadius(36.0)
-                    //.environmentObject(modelData)
-                    //.environmentObject(viewModel)
-                    .environment(viewModel)
-                    .environment(modelData)
-                    .environment(selectModel)
-                
-                    //.environmentObject(searchModel)
 
-                FilterView()
+
+                Text("1")
+                    .frame(width: 0)
+                    .offset(x: 150)
                     .tag(.filter as TabBarItem)
                     .tabItem {
                         Image(systemName: TabBarItem.filter.icon)
                         Text("Filter")
                     }
-                    //.environmentObject(modelData)
-                    //.environmentObject(viewModel)
-                    .environment(viewModel)
-                    .environment(modelData)
-                    .environment(selectModel)
+
             }
+            .frame(width: 0)
+            .allowsHitTesting(false)
+
+            // Align the TabView to the side or bottom, so it doesn't cover the entire MapView
+//            VStack {
+//                Spacer() // Pushes the TabView to the bottom or side
+//
+//                TabView(selection: $currentTab) {
+//                    // Use EmptyView or a specific content based on your need
+//                    Text("O")
+//                        .frame(width: 0)
+//                        .tag(.map as TabBarItem)
+//                        .tabItem {
+//                            Image(systemName: TabBarItem.map.icon)
+//                            Text("Map")
+//                        }
+//                    
+//
+//                    FilterView()
+//                        .frame(width: 300)
+//                        .offset(x: 150)
+//                        .tag(.filter as TabBarItem)
+//                        .tabItem {
+//                            Image(systemName: TabBarItem.filter.icon)
+//                            Text("Filter")
+//                        }
+//                        .environment(viewModel)
+//                        .environment(modelData)
+//                        .environment(selectModel)
+//                    
+//                }
+//                .frame(width: 300)
+//                //.frame(maxWidth: .infinity, alignment: .leading)
+//                .border(Color.blue)
+//                .allowsHitTesting(false)
+//            }
         }
+
+        
+        
+        
         
 //        VStack {
 //            Model3D(named: "Scene", bundle: realityKitContentBundle)
@@ -107,6 +168,6 @@ struct ContentView: View {
     }
 }
 
-#Preview(windowStyle: .automatic) {
-    ContentView()
-}
+//#Preview(windowStyle: .automatic) {
+//    ContentView()
+//}

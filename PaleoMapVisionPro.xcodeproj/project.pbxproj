@@ -34,8 +34,10 @@
 		7C09620B2AE92D0100471918 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7C0962092AE92D0100471918 /* db.sqlite */; };
 		7C09620C2AE92D0100471918 /* dbsqlitePlaceholder.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */; };
 		7C2916EC2B00F6A600E01238 /* MapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */; };
+		7CB2BE212B07124000CE398F /* GlobeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB2BE202B07124000CE398F /* GlobeView2.swift */; };
 		7CB482252B03602000AB2FB8 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB482242B03602000AB2FB8 /* Demo.swift */; };
 		7CB482272B036B4100AB2FB8 /* OldMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */; };
+		7CD038E52B08A1E000B18EB9 /* GlobeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,8 +69,10 @@
 		7C0962092AE92D0100471918 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 		7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dbsqlitePlaceholder.txt; sourceTree = "<group>"; };
 		7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationView.swift; sourceTree = "<group>"; };
+		7CB2BE202B07124000CE398F /* GlobeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView2.swift; sourceTree = "<group>"; };
 		7CB482242B03602000AB2FB8 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
 		7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldMapViewModel.swift; sourceTree = "<group>"; };
+		7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +190,8 @@
 				7C0961FB2AE92B5700471918 /* RecordCard.swift */,
 				7C0961FD2AE92B5B00471918 /* ImageCell.swift */,
 				7C0697DB2B00ED2B006FF1B2 /* GlobeView.swift */,
+				7CB2BE202B07124000CE398F /* GlobeView2.swift */,
+				7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -314,7 +320,9 @@
 				7CB482272B036B4100AB2FB8 /* OldMapViewModel.swift in Sources */,
 				7C0961D72AE9250C00471918 /* ImmersiveView.swift in Sources */,
 				7C0697DA2B00BF77006FF1B2 /* Scrap.swift in Sources */,
+				7CD038E52B08A1E000B18EB9 /* GlobeView3.swift in Sources */,
 				7C0961FA2AE92B5400471918 /* MapView.swift in Sources */,
+				7CB2BE212B07124000CE398F /* GlobeView2.swift in Sources */,
 				7C0961FC2AE92B5700471918 /* RecordCard.swift in Sources */,
 				7C0961F02AE92AE900471918 /* Record.swift in Sources */,
 				7C0961EE2AE92AE500471918 /* Phylum.swift in Sources */,
