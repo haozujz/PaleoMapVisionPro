@@ -92,6 +92,11 @@ struct Record: Hashable, Codable, Identifiable {
     }
 }
 
+struct GeoPoint: Hashable, Codable {
+    let lat: Double
+    let lon: Double
+}
+
 //extension Record: Equatable {}
 //
 //func ==(lhs: Record, rhs: Record) -> Bool {

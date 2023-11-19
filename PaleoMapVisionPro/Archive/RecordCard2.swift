@@ -82,7 +82,7 @@ struct RecordCard2: View {
                 ScrollView(.horizontal, showsIndicators: true) {
                     HStack(spacing: 0) {
                         ForEach(record.media, id: \.self) { image in
-                            ImageCell(url: image)
+                            ImageCell(url: image, cornerRadius: 25.0)
                                 .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                         }
                     }

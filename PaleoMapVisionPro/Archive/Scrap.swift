@@ -233,6 +233,8 @@
 //    }
 //}
 
+
+
 //OLD FilterView
 //@State private var filterDict: [Phylum : Bool]
 
@@ -268,3 +270,44 @@
 //            }
 //        )
 //    }
+
+// OLD FilteView
+
+//@Environment(RecordSelectModel.self) private var selectModel
+//@Environment(MapViewModel.self) private var viewModel
+
+//                GridStack(rows: 6, cols: 2, rowSpacing: -100, colSpacing: -120) { row, col in
+//                    let phylum: Phylum = Phylum.allCases[row * 2 + col]
+//                    PhylumToggle(isActive: Binding(
+//                        get: { modelData.filterDict[phylum] ?? true },
+//                        set: { modelData.filterDict[phylum] = $0 })
+//                        , phylum: phylum)
+//                }
+//                .frame(width: 390, height: 600)
+
+//        .onDisappear {
+//            guard let recordsNearby = selectModel.recordsNearby else {return}
+//
+//            guard let r = viewModel.cameraPosition.region else {return}
+//
+//            if recordsNearby.count == 0 {
+//                selectModel.updateRecordsSelection(coord: r.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+//            } else if let _ = recordsNearby.first(where: {!(modelData.filterDict[$0.phylum] ?? true)}) {
+//                selectModel.updateRecordsSelection(coord: r.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+//            } else {
+//                selectModel.freezeRecordsNearbyThenUpdate(coord: r.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+//            }
+//        }
+
+//struct FilterView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FilterView()
+//            .background(Color(red:0.05, green:0.05, blue:0.05))
+//            .preferredColorScheme(.dark)
+//
+//        FilterView()
+//            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (5th generation)"))
+//            .background(Color(red:0.05, green:0.05, blue:0.05))
+//            .preferredColorScheme(.dark)
+//    }
+//}

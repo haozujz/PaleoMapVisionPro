@@ -9,137 +9,94 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
+import MapKit
+
 struct ContentView: View {
     @State private var currentTab: TabBarItem = .map
     enum TabBarItem {
-        case map, filter
+        case map, filter, search
         
         var icon: String {
             switch self {
             case .map: return "map"
             case .filter: return "line.3.horizontal"
+            case .search: return "magnifyingglass"
             }
         }
     }
+    
+    @Environment(ModelData.self) private var modelData
+    @Environment(MapViewModel.self) private var viewModel
+    @Environment(RecordSelectModel.self) private var selectModel
+    @Environment(SearchModel.self) private var searchModel
+    
 //    @State private var showImmersiveSpace = false
 //    @State private var immersiveSpaceIsShown = false
-//
 //    @Environment(\.openImmersiveSpace) var openImmersiveSpace
 //    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     
-    //@StateObject var modelData = ModelData()
-    @Environment(ModelData.self) private var modelData
-    
-    //@StateObject var viewModel = MapViewModel()
-    @Environment(MapViewModel.self) private var viewModel
-    
-    //@StateObject var selectModel = RecordSelectModel()
-    @Environment(RecordSelectModel.self) private var selectModel
-
-//    @State private var yaw: Double = 0
-//    @State private var pitch: Double = 0
-    
-//    var isColumnVisible: NavigationSplitViewVisibility {
-//        if (currentTab != .map) {
-//            return .automatic
-//        } else {
-//            return .detailOnly
-//        }
-//    }
-    
     var body: some View {
-       
-        ZStack {
-            MapView()
-                .frame(width: 1280, height: 720)
-                .environment(viewModel)
-                .environment(modelData)
-                .environment(selectModel)
-            
-            FilterView()
-                .frame(width: 300)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .opacity(currentTab == .map ? 0 : 1)
-                .tag(.filter as TabBarItem)
-//                .tabItem {
-//                    Image(systemName: TabBarItem.filter.icon)
-//                    Text("Filter")
-//                }
-                .environment(viewModel)
-                .environment(modelData)
-                .environment(selectModel)
-            
-            
-            TabView(selection: $currentTab) {
-                // Use EmptyView or a specific content based on your need
-                Text("0")
-                    .frame(width: 0)
-                    .tag(.map as TabBarItem)
-                    .tabItem {
-                        Image(systemName: TabBarItem.map.icon)
-                        Text("Map")
+        NavigationStack {
+            ZStack {
+                MapView()
+                    .frame(width: 1280, height: 720)
+                    .environment(viewModel)
+                    .environment(modelData)
+                    .environment(selectModel)
+                
+                SearchView()
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .frame(width: 400, height: 660)
+                    .glassBackgroundEffect()
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .opacity(currentTab == .search ? 1 : 0)
+                    .environment(viewModel)
+                    .environment(modelData)
+                    .environment(searchModel)
+    
+                FilterView()
+                    .frame(maxHeight: .infinity, alignment: .top) 
+                    .frame(width: 400, height: 660)
+                    .glassBackgroundEffect()
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .opacity(currentTab == .filter ? 1 : 0)
+                    .environment(modelData)
+                
+                TabView(selection: $currentTab) {
+                        Text("0")
+                            .frame(width: 0)
+                            .tag(.map as TabBarItem)
+                            .tabItem {
+                                Image(systemName: TabBarItem.map.icon)
+                                Text("Map")
+                            }
+        
+                        Text("1")
+                            .frame(width: 0)
+                            .tag(.search as TabBarItem)
+                            .tabItem {
+                                Image(systemName: TabBarItem.search.icon)
+                                Text("Search")
+                            }
+                    
+                        Text("2")
+                            .frame(width: 0)
+                            .tag(.filter as TabBarItem)
+                            .tabItem {
+                                Image(systemName: TabBarItem.filter.icon)
+                                Text("Filter")
+                            }
+                    
+
                     }
-
-
-                Text("1")
                     .frame(width: 0)
-                    .offset(x: 150)
-                    .tag(.filter as TabBarItem)
-                    .tabItem {
-                        Image(systemName: TabBarItem.filter.icon)
-                        Text("Filter")
-                    }
-
+                    .allowsHitTesting(false)
             }
-            .frame(width: 0)
-            .allowsHitTesting(false)
-
-            // Align the TabView to the side or bottom, so it doesn't cover the entire MapView
-//            VStack {
-//                Spacer() // Pushes the TabView to the bottom or side
-//
-//                TabView(selection: $currentTab) {
-//                    // Use EmptyView or a specific content based on your need
-//                    Text("O")
-//                        .frame(width: 0)
-//                        .tag(.map as TabBarItem)
-//                        .tabItem {
-//                            Image(systemName: TabBarItem.map.icon)
-//                            Text("Map")
-//                        }
-//                    
-//
-//                    FilterView()
-//                        .frame(width: 300)
-//                        .offset(x: 150)
-//                        .tag(.filter as TabBarItem)
-//                        .tabItem {
-//                            Image(systemName: TabBarItem.filter.icon)
-//                            Text("Filter")
-//                        }
-//                        .environment(viewModel)
-//                        .environment(modelData)
-//                        .environment(selectModel)
-//                    
-//                }
-//                .frame(width: 300)
-//                //.frame(maxWidth: .infinity, alignment: .leading)
-//                .border(Color.blue)
-//                .allowsHitTesting(false)
-//            }
         }
 
-        
-        
-        
-        
 //        VStack {
-//            Model3D(named: "Scene", bundle: realityKitContentBundle)
-//                .dragRotation(
-//                    yaw: $yaw,
-//                    pitch: $pitch)
-//                .padding(.bottom, 50)
-
 //            Text("Hello, world!")
 //
 //            Toggle("Show Immersive Space", isOn: $showImmersiveSpace)
@@ -165,9 +122,33 @@ struct ContentView: View {
 //                }
 //            }
 //        }
+
+        
     }
 }
 
 //#Preview(windowStyle: .automatic) {
 //    ContentView()
 //}
+
+// Makes the underlying MapView unresponsive if opening/closing new window
+//            TabView(selection: $currentTab) {
+//                Text("0")
+//                    .frame(width: 0)
+//                    .tag(.map as TabBarItem)
+//                    .tabItem {
+//                        Image(systemName: TabBarItem.map.icon)
+//                        Text("Map")
+//                    }
+//
+//                Text("1")
+//                    .frame(width: 0)
+//                    .tag(.filter as TabBarItem)
+//                    .tabItem {
+//                        Image(systemName: TabBarItem.filter.icon)
+//                        Text("Filter")
+//                    }
+//
+//            }
+//            .frame(width: 0)
+//            .allowsHitTesting(false)

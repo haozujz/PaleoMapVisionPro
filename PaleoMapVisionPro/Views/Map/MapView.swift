@@ -15,35 +15,25 @@ import RealityKitContent
 
 
 struct MapView: View {
-//    @EnvironmentObject private var modelData: ModelData
     @Environment(ModelData.self) private var modelData
     @Environment(RecordSelectModel.self) private var selectModel
-    //@EnvironmentObject private var selectModel: RecordSelectModel
     @Environment(MapViewModel.self) private var viewModel
     
-    @State private var isLocationServicesChecked: Bool = false
-    
-    @State private var selectedItem: String?
-    @State private var salientRecord: Record? = nil
     @State private var isRecordCardShown: Bool = false
     @State private var isGlobeShown: Bool = true
-    
     @Namespace var mapScope
-    
-//    let sydneyLongitude = 151.2093
-//    let sydneyLatitude = -33.8688
 
     @State private var yaw: Double = 151.2093 * .pi / 180.0
     @State private var pitch: Double = -33.8688 * .pi / 180.0
-    
+ 
     var body: some View {
-        @Bindable var viewModel = viewModel
+        @Bindable var viewModelB = viewModel
         
         ZStack {
                 Map(
-                    position: $viewModel.cameraPosition,
+                    position: $viewModelB.cameraPosition,
                     //interactionModes: [.pan, .zoom, .pitch, .rotate],
-                    selection: $selectedItem,
+                    selection: $viewModelB.selectedItem,
                     scope: mapScope
                 ) {
                     UserAnnotation()
@@ -52,7 +42,7 @@ struct MapView: View {
                         Marker(record.commonName == "" ? record.family.capitalized : record.commonName.capitalized, systemImage: record.icon, coordinate: record.locationCoordinate)
                             .tint(record.color)
                             .annotationTitles(.hidden)
-                            .tag(record.id)
+                            .tag(record)
                     }
                 }
                 .mapStyle(.hybrid(
@@ -89,49 +79,40 @@ struct MapView: View {
 //                    .buttonBorderShape(.circle)
 //                }
                 .overlay(alignment: .bottomTrailing) {
-                    Toggle("Show Globe", isOn: $isGlobeShown)
+                    Toggle(isGlobeShown ? "Hide Globe" : "Show Globe", isOn: $isGlobeShown)
                         .toggleStyle(.button)
                         .padding(18)
+                        .offset(x: isGlobeShown ? -110 : 0)
+                        .animation(.easeInOut(duration: 0.1), value: isGlobeShown)
                 }
 //                .ornament(visibility: .automatic, attachmentAnchor: .scene(.bottomLeading)) {
 //                }
                 .overlay(alignment: .bottom) {
                     GlobeView(yaw: $yaw, pitch: $pitch)
                         .opacity(isGlobeShown ? 1 : 0)
-                        //.transition(.scale)
-                        //.animation(.easeInOut(duration: 0.2), value: isGlobeShown)
                         .offset(z: 148.0)
                         .environment(viewModel)
                         .offset(x: 536)
-//                    GlobeView2(pos: $viewModel.cameraPosition)
-//                        .opacity(isGlobeShown ? 1 : 0)
-//                        .offset(z: 148.0)
-//                        .environment(viewModel)
-//                        .offset(x: 536)
                 }
                 .overlay(alignment: .bottom) {
-                    if let salientRecord = salientRecord {
+                    if let salientRecord = viewModel.salientRecord {
                         RecordCard(record: salientRecord)
                             .opacity(isRecordCardShown ? 1 : 0)
                             .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
                             .offset(x: -374.0)
                             .offset(z: 270.0)
-                            
+                            .id(salientRecord.id)
+                            .animation(.easeInOut(duration: 0.1), value: isRecordCardShown)
                     }
                 }
                 .task {
-                    // Consider removing this later
-                    if !isLocationServicesChecked {
+                    if !viewModel.isLocationServicesChecked {
                         viewModel.checkIfLocationServicesIsEnabled()
-                        isLocationServicesChecked = true
+                        viewModel.isLocationServicesChecked = true
                     }
                 }
                 .onChange(of: modelData.filterDict) {
-                    print("\(modelData.filterDict)")
-                    
-//                    print(viewModel.locationManager?.location?.coordinate.latitude ?? 0.0)
-
-                    let coord = CLLocationCoordinate2D(latitude: viewModel.locationManager?.location?.coordinate.latitude ?? 0.0, longitude: viewModel.locationManager?.location?.coordinate.longitude ?? 0.0)
+                    let coord = CLLocationCoordinate2D(latitude: viewModel.locationManager.location?.coordinate.latitude ?? 0.0, longitude: viewModel.locationManager.location?.coordinate.longitude ?? 0.0)
                     
                     selectModel.updateRecordsSelection(coord: coord, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
                 }
@@ -144,49 +125,44 @@ struct MapView: View {
 //                    let newYaw = context.camera.centerCoordinate.longitude * -.pi / 180.0
 //                    let newPitch = context.camera.centerCoordinate.latitude * -.pi / 180.0
                     
-                    // Check the difference between the new yaw and pitch and the current ones.
                     let yawDiff = abs(newYaw - yaw)
                     let pitchDiff = abs(newPitch - pitch)
                     
                     let threshold = 0.0001
                     
-                    // If the yaw difference exceeds the threshold, update the model's yaw.
+                    // If the difference exceeds the threshold, update the model's yaw and/or pitch.
                     if yawDiff > threshold {
                         Task { @MainActor in
                             yaw = newYaw
                         }
                     }
                     
-                    // If the pitch difference exceeds the threshold, update the model's pitch.
                     if pitchDiff > threshold {
                         Task { @MainActor in
                             pitch = newPitch
                         }
                     }
                 }
-                .onChange(of: selectedItem, initial: false) {
+                .onChange(of: viewModel.selectedItem, initial: false) {
                     withAnimation(.easeInOut) {
-                        if selectedItem == nil {
+                        if let record = viewModel.selectedItem {
                             Task { @MainActor in
-                                isRecordCardShown = false
+                                viewModel.salientRecord = record
+                                isRecordCardShown = true
                             }
                         } else {
-                            if let record = selectModel.records.first(where: { $0.id == selectedItem }) {
-                                Task { @MainActor in
-                                    salientRecord = record
-                                    isRecordCardShown = true
-                                }
+                            Task { @MainActor in
+                                isRecordCardShown = false
                             }
                         }
                     }
                     
                 }
-                .alert("Alert", isPresented: $viewModel.isShowAlert) {
+                .alert("Alert", isPresented: $viewModelB.isShowAlert) {
                     Button("OK", role: .cancel) {}
                 } message: {
                     Text(viewModel.alertMessage)
                 }
-            
         }
     }
 }

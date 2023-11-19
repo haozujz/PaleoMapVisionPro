@@ -29,7 +29,7 @@ struct PhylumToggle: View {
             
             RoundedRectangle(cornerRadius: 25, style: .continuous)
                 .fill(.white)
-                .opacity(isActive ? 0.9 : 0.5)
+                .opacity(isActive ? 0.2 : 0.5)
                 .frame(width: 160, height: 80)
             
             RoundedRectangle(cornerRadius: 25, style: .continuous)
@@ -49,9 +49,6 @@ struct PhylumToggle: View {
                 .rotationEffect(.degrees(icon == "hurricane" ? -20.0 : 0.0))
                 .offset(y: 18)
                 .symbolRenderingMode(.monochrome)
-                .onTapGesture {
-                    isActive = !isActive
-                }
                 .frame(width: 160, height: 80)
                 .cornerRadius(25)
             
@@ -71,15 +68,20 @@ struct PhylumToggle: View {
             
             Text(phylum.rawValue.capitalized)
                 .frame(width: 150, height: 40, alignment: .leading)
-                .font(.system(size: 22, weight: .heavy))
+                //.font(.system(size: 22, weight: .heavy))
+                .font(.title2)
                 .scaledToFit()
-                .minimumScaleFactor(0.9)
+                .minimumScaleFactor(0.8)
                 .lineLimit(1)
                 .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
                 .offset(x: 0, y: -20)
                 .allowsHitTesting(false)
         }
         .animation(.spring(response: 0.05), value: isActive)
+        .frame(width: 160, height: 80)
+        .onTapGesture {
+            isActive = !isActive
+        }
     }
 }
 

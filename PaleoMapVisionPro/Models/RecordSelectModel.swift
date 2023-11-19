@@ -212,10 +212,10 @@ final class RecordSelectModel: ObservableObject {
             let query = recordsTable.filter(id == recordId).limit(1)
             
             for record in try db.prepare(query) {
-                let phy: Phylum = Phylum(rawValue: record[phylum]) ?? .chordata
-                let geo: GeoPoint = GeoPoint(lat: record[lat], lon: record[lon])
-                let med: [String] = record[mediaS].components(separatedBy: "|")
-                recordsNearby = [Record(id: record[id], commonName: record[cName] ?? "", scientificName: record[sName] ?? "", phylum: phy, classT: record[classT] ?? "", order: record[orderT] ?? "", family: record[family] ?? "", locality: record[locality] ?? "", eventDate: record[date] ?? "", media: med, geoPoint: geo)]
+//                let phy: Phylum = Phylum(rawValue: record[phylum]) ?? .chordata
+//                let geo: GeoPoint = GeoPoint(lat: record[lat], lon: record[lon])
+//                let med: [String] = record[mediaS].components(separatedBy: "|")
+//                recordsNearby = [Record(id: record[id], commonName: record[cName] ?? "", scientificName: record[sName] ?? "", phylum: phy, classT: record[classT] ?? "", order: record[orderT] ?? "", family: record[family] ?? "", locality: record[locality] ?? "", eventDate: record[date] ?? "", media: med, geoPoint: geo)]
             }
         } catch {
             fatalError("Failed query:\n\(error)")

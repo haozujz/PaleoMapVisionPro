@@ -9,11 +9,11 @@ import MapKit
 import SwiftUI
 import Observation
 
-extension CLLocationCoordinate2D: Equatable {
-    public static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
-    }
-}
+//extension CLLocationCoordinate2D: Equatable {
+//    public static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+//        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+//    }
+//}
 
 enum MapDetails {
     static let defaultLocation = CLLocationCoordinate2D(latitude:  -33.8688, longitude: 151.2093)
@@ -25,21 +25,23 @@ enum MapDetails {
 
 @Observable
 final class MapViewModel: NSObject, CLLocationManagerDelegate {
-    var cameraPosition: MapCameraPosition
-    var isShowAlert: Bool = false
+    var locationManager: CLLocationManager
     
-    var locationManager: CLLocationManager?
+    var cameraPosition = MapCameraPosition.userLocation(fallback:
+            MapCameraPosition.region(MKCoordinateRegion(
+            center: MapDetails.defaultLocation,
+            span: MapDetails.defaultSpan
+        ))
+    )
+    
+    var isLocationServicesChecked: Bool = false
+    var selectedItem: Record?
+    var salientRecord: Record? = nil
+    var isShowAlert: Bool = false
     var alertMessage: String = ""
 
     override init() {
-        let initialRegion = MKCoordinateRegion(
-            center: MapDetails.defaultLocation,
-            span: MapDetails.defaultSpan
-        )
-        
-        let fallback = MapCameraPosition.region(initialRegion)
-        self.cameraPosition = .userLocation(fallback: fallback)
-        
+        self.locationManager = CLLocationManager()
         super.init()
     }
     
@@ -47,12 +49,13 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
         Task {
             if CLLocationManager.locationServicesEnabled() {
                 print("Location Services is enabled")
-                locationManager = CLLocationManager()
-                locationManager?.desiredAccuracy = kCLLocationAccuracyKilometer
-                locationManager?.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+                locationManager.delegate = self
                 
                 // Request the current authorization status
-                locationManager?.requestWhenInUseAuthorization()
+                
+                locationManager.requestWhenInUseAuthorization()
+                
             } else {
                 alertMessage = "Allow Location Access"
                 Task { @MainActor in
@@ -62,81 +65,61 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
         }
     }
 
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        print("locationManagerDidChangeAuthorization")
-        
-        switch manager.authorizationStatus {
-        case .notDetermined:
-            print("Location Authorization Not Determined")
-            //manager.requestWhenInUseAuthorization()
-        case .restricted:
-            print("Location Authorization Restricted")
-            alertMessage = "Your location is restricted, possibly due to parental controls"
-            Task { @MainActor in
-                isShowAlert = true
-            }
-        case .denied:
-            print("Location Authorization Denied")
-//            alertMessage = "You have denied this app location permission. Consider changing this in the settings."
+//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+//        switch manager.authorizationStatus {
+//        case .notDetermined:
+//            print("Location Authorization Not Determined")
+//            manager.requestWhenInUseAuthorization()
+//        case .restricted:
+//            print("Location Authorization Restricted")
+////            alertMessage = "Your location is restricted, possibly due to parental controls"
+////            Task { @MainActor in
+////                isShowAlert = true
+////            }
+//        case .denied:
+//            print("Location Authorization Denied")
+////            alertMessage = "You have denied this app location permission. Consider changing this in the settings."
+////            Task { @MainActor in
+////                isShowAlert = true
+////            }
+//        case .authorizedAlways, .authorizedWhenInUse:
+//            print("Location Authorization Confirmed")
+//        @unknown default:
+//            break
+//        }
+//    }
+
+//    func requestAllowOnceLocationPermission() {
+//        //locationManager?.requestLocation()    //slower & more accurate
+//        locationManager?.startUpdatingLocation()
+//    }
+//    
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let latestLocation = locations.first else {
+//            alertMessage = "Could not retrieve user location"
 //            Task { @MainActor in
 //                isShowAlert = true
 //            }
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("Location Authorization Confirmed")
-            
-//            let x = MKCoordinateRegion(
-//                center: locationManager?.location?.coordinate ?? MapDetails.defaultLocation,
-//                span: MapDetails.defaultSpan
-//            )
-            
-//            Task { @MainActor in
-                //self.cameraPosition = MapCameraPosition.region(x)
-//                self.cameraPosition = MapCameraPosition.camera(
-//                    MapCamera(centerCoordinate: locationManager?.location?.coordinate ?? MapDetails.defaultLocation, distance: MapDetails.defaultDistance)
-//                )
-//            }
-        @unknown default:
-            break
-        }
-    }
-
-    func requestAllowOnceLocationPermission() {
-        //locationManager?.requestLocation()    //slower & more accurate
-        locationManager?.startUpdatingLocation()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let latestLocation = locations.first else {
-            alertMessage = "Could not retrieve user location"
-            Task { @MainActor in
-                isShowAlert = true
-            }
-            return
-        }
-        locationManager?.stopUpdatingLocation()
-        
-        let x = MKCoordinateRegion(
-            center: latestLocation.coordinate,
-            span: MapDetails.defaultSpan
-        )
-        
-        Task { @MainActor in
-            self.cameraPosition = MapCameraPosition.region(x)
-        }
-    }
-    
+//            return
+//        }
+//        locationManager.stopUpdatingLocation()
+//        
+//        let x = MKCoordinateRegion(
+//            center: latestLocation.coordinate,
+//            span: MapDetails.defaultSpan
+//        )
+//        
+//        Task { @MainActor in
+//            self.cameraPosition = MapCameraPosition.region(x)
+//        }
+//    }
+//    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
     
     func changeLocation(coord: CLLocationCoordinate2D, isSpanLarge: Bool = false) {
-//        let x = MKCoordinateRegion(
-//            center: coord,
-//            span: isSpanLarge ? MapDetails.largeSpan : MapDetails.defaultSpan
-//        )
-        
         Task { @MainActor in
-            //self.cameraPosition = MapCameraPosition.region(x)
             self.cameraPosition = MapCameraPosition.camera(
                 MapCamera(centerCoordinate: coord, distance: isSpanLarge ? MapDetails.largeDistance : MapDetails.defaultDistance)
             )

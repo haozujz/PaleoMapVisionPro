@@ -13,14 +13,19 @@ struct RecordCard: View {
     
     //@Environment(\.verticalSizeClass) var verticalSizeClass
     //@State private var onHover = false
-        
+    
+    //@State var snapshot: UIImage?
+    
+    @State var scene: MKLookAroundScene? = nil
+    @State var isSceneShown: Bool = false
+    
     var body: some View {
         HStack(spacing: 0) {
             ZStack {
                 ScrollView(.horizontal, showsIndicators: true) {
                     HStack(spacing: 0) {
                         ForEach(record.media, id: \.self) { image in
-                            ImageCell(url: image)
+                            ImageCell(url: image, cornerRadius: 25.0)
                                 .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                         }
                     }
@@ -42,7 +47,12 @@ struct RecordCard: View {
 //            })
             
             VStack(spacing: 15.0) {
-                Text("\(record.scientificName)".capitalized)
+                Text(
+                    (record.commonName.isEmpty
+                        ? (record.family.isEmpty ? record.scientificName : record.family)
+                        : record.commonName
+                    ).capitalized
+                )
                     .lineLimit(1)
                     .foregroundStyle(.primary)
                     .frame(width: 240)
@@ -84,8 +94,52 @@ struct RecordCard: View {
         .bold()
         .frame(height: 210)
         .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25.0, style: .continuous))
+        .task {
+            do {
+                let result = try await fetchScene(coord: record.locationCoordinate)
+                await MainActor.run {
+                    withAnimation(.easeInOut) {
+                        scene = result
+                    }
+                }
+            } catch {
+                print("An error occurred: \(error)")
+            }
+        }
+        .overlay(alignment: .bottomTrailing) {
+            ZStack {
+                ZStack {
+                    if scene != nil {
+                        LookAroundPreview(initialScene: scene)
+                            .opacity(isSceneShown ? 1 : 0)
+                            .frame(width: 166, height: 160, alignment: .topLeading)
+                            .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
+                            .onTapGesture {
+                                isSceneShown = false
+                            }
+                            .animation(.easeInOut(duration: 0.1), value: isSceneShown)
+                    }
+                }
+                .frame(width: 166, height: 160)
+                .overlay(alignment: .bottomTrailing) {
+                    Button(action: {
+                        isSceneShown.toggle()
+                    }) {
+                        Image(systemName: isSceneShown ? "x.circle.fill" : "binoculars.circle.fill")
+                            .frame(width: 44, height: 44)
+                    }
+                    .opacity(scene != nil ? 1 : 0)
+                    .buttonStyle(PlainButtonStyle())
+                    .animation(.easeInOut(duration: 0.1), value: scene != nil)
+                }
+            }
+        }
     }
 }
+
+//                            let image = try await fetchSnapshot(coord: record.locationCoordinate)
+//                            print("Success")
+//                            snapshot = image
 
 #Preview(windowStyle: .automatic) {
     RecordCard(record:
