@@ -18,11 +18,12 @@ struct MapView: View {
     @Environment(ModelData.self) private var modelData
     @Environment(RecordSelectModel.self) private var selectModel
     @Environment(MapViewModel.self) private var viewModel
+    @Environment(SearchModel.self) private var searchModel
+    
+    @Namespace var mapScope
     
     @State private var isRecordCardShown: Bool = false
     @State private var isGlobeShown: Bool = true
-    @Namespace var mapScope
-
     @State private var yaw: Double = 151.2093 * .pi / 180.0
     @State private var pitch: Double = -33.8688 * .pi / 180.0
  
@@ -108,11 +109,14 @@ struct MapView: View {
                 .task {
                     if !viewModel.isLocationServicesChecked {
                         viewModel.checkIfLocationServicesIsEnabled()
+                        searchModel.loadTrie()
                         viewModel.isLocationServicesChecked = true
                     }
                 }
                 .onChange(of: modelData.filterDict) {
                     let coord = CLLocationCoordinate2D(latitude: viewModel.locationManager.location?.coordinate.latitude ?? 0.0, longitude: viewModel.locationManager.location?.coordinate.longitude ?? 0.0)
+                    
+                    
                     
                     selectModel.updateRecordsSelection(coord: coord, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
                 }

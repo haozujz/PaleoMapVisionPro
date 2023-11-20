@@ -10,18 +10,29 @@ import UIKit
 
 struct SearchBar: UIViewRepresentable {
     @Binding var text: String
+    @Binding var isFocused: Bool
     var placeholder: String
     var onSearchButtonClicked: (() -> Void)
 
     class Coordinator: NSObject, UISearchBarDelegate {
         @Binding var text: String
+        @Binding var isFocused: Bool
         var onSearchButtonClicked: (() -> Void)
 
-        init(text: Binding<String>, onSearchButtonClicked: @escaping (() -> Void)) {
+        init(text: Binding<String>, isFocused: Binding<Bool>, onSearchButtonClicked: @escaping (() -> Void)) {
             _text = text
+            _isFocused = isFocused
             self.onSearchButtonClicked = onSearchButtonClicked
         }
 
+        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+            isFocused = true
+        }
+
+        func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+            isFocused = false
+        }
+        
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             text = searchText
         }
@@ -33,7 +44,7 @@ struct SearchBar: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator(text: $text, onSearchButtonClicked: onSearchButtonClicked)
+        return Coordinator(text: $text, isFocused: $isFocused, onSearchButtonClicked: onSearchButtonClicked)
     }
 
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {

@@ -5,7 +5,6 @@
 //  Created by Joseph Zhu on 25/5/2022.
 //
 
-import Foundation
 import CoreLocation
 import SwiftUI
 

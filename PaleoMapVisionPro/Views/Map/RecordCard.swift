@@ -73,6 +73,7 @@ struct RecordCard: View {
                         Text("\(record.order)".capitalized)
                         Text("\(record.family)".capitalized)
                     }
+                    .minimumScaleFactor(0.8)
                     .lineLimit(1)
                 }
                 .foregroundStyle(.secondary)
@@ -96,14 +97,14 @@ struct RecordCard: View {
         .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 25.0, style: .continuous))
         .task {
             do {
-                let result = try await fetchScene(coord: record.locationCoordinate)
+                let result = try await LookAroundService.fetchScene(coord: record.locationCoordinate)
                 await MainActor.run {
                     withAnimation(.easeInOut) {
                         scene = result
                     }
                 }
             } catch {
-                print("An error occurred: \(error)")
+                print("\(error)")
             }
         }
         .overlay(alignment: .bottomTrailing) {
@@ -136,10 +137,6 @@ struct RecordCard: View {
         }
     }
 }
-
-//                            let image = try await fetchSnapshot(coord: record.locationCoordinate)
-//                            print("Success")
-//                            snapshot = image
 
 #Preview(windowStyle: .automatic) {
     RecordCard(record:

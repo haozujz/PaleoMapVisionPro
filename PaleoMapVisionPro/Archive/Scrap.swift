@@ -5,6 +5,71 @@
 //  Created by Joseph Zhu on 12/11/2023.
 //
 
+// Trie generate
+
+//Trie saved to
+//Users/joseph/Library/Developer/CoreSimulator/Devices/A22029EC-9BAE-442B-8FD1-B91A24844EED/data/Containers/Data/Application/00389CE2-8E56-44EA-8AD2-1CB8D118238E/Documents/trieData.json
+//count:  54215
+
+//                //
+//                var trie = Trie()
+//                var set = Set<String>()
+//                let query2 = recordsTable
+//
+//                Phylum.allCases.forEach { p in
+//                    set.insert(p.rawValue)
+//                }
+//
+//                for record in try db.prepare(query2) {
+//                    if let c = record[classT] {
+//                        if c != "" && c.count > 2 {
+//                            set.insert(c)
+//                        }
+//                    }
+//
+//                    if let o = record[orderT] {
+//                        if o != "" && o.count > 2 {
+//                            set.insert(o)
+//                        }
+//                    }
+//
+//                    if let f = record[family] {
+//                        if f != "" && f.count > 2 {
+//                            set.insert(f)
+//                        }
+//                    }
+//
+//                    if let sName = record[sName] {
+//                        if sName != "" && sName.count > 2 {
+//                            set.insert(sName)
+//                        }
+//                    }
+//
+//                    if let cName = record[cName] {
+//                        if cName != "" && cName.count > 2 {
+//                            set.insert(cName)
+//                        }
+//                    }
+//
+//                }
+//
+//                for word in set {
+//                    trie.insert(word: word)
+//                }
+//
+//                print("count: ", trie.countWords())
+//
+//                saveTrieToFile(trie: trie, fileName: "trieData.json")
+//
+//                // Later, when you need to load the trie
+//                let newTrie = Trie()
+//                loadTrieFromFile(trie: newTrie, fileName: "trieData.json")
+//
+//                print("count: ", newTrie.countWords())
+//                //
+
+
+
 
 
 //ScrollTransition

@@ -43,6 +43,7 @@ struct ContentView: View {
                     .environment(viewModel)
                     .environment(modelData)
                     .environment(selectModel)
+                    .environment(searchModel)
                 
                 SearchView()
                     .frame(maxHeight: .infinity, alignment: .top)

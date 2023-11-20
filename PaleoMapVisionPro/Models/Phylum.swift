@@ -5,7 +5,6 @@
 //  Created by Joseph Zhu on 16/7/2022.
 //
 
-import Foundation
 import SwiftUI
 
 enum Phylum: String, Codable, CaseIterable {

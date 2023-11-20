@@ -14,16 +14,53 @@ final class SearchModel {
     var searchText: String = ""
     var isSearching: Bool = false
     var lastSubmittedText: String = ""
-    
     var lastCompletedSearch: String = ""
-
+    var isSearchBarFocused: Bool = false
+    
     enum AbortEvent: Equatable { case cancel, search }
     private var abortKey: Int = 0
     var results: [Record] = []
     
-    func search(db: Connection, recordsTable: SQLite.Table) {
+    private var trie: Trie?
+    private var timer: Timer?
+    var suggestions: [String] = []
+    
+    func loadTrie() {
+        let newTrie = Trie()
+        loadTrieFromBundle(trie: newTrie, fileName: "trieData")
+        trie = newTrie
+    }
+    
+    func updateSuggestions() {
+        guard !isSearching else { return }
+        
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [weak self] _ in
+            guard let self = self else { return }
+            
+            Task { @MainActor in
+                if self.searchText.count > 2 {
+                    guard let trie = self.trie else { return }
+                    var x = trie.collectWords(startingWith: self.searchText)
+                    x.sort { $0 < $1 }
+                    
+                    guard !self.isSearching else { return }
+                    self.suggestions = x
+                } else {
+                    guard !self.isSearching else { return }
+                    self.suggestions = []
+                }
+            }
+        }
+    }
+    
+    func search(db: Connection, recordsTable: SQLite.Table, suggestion: String? = nil) {
         logSearchEvent()
         isSearching = true
+        
+        if let suggestion = suggestion {
+            searchText = suggestion
+        }
         
         lastSubmittedText = searchText.capitalized
         let submittedText: String = searchText.lowercased()
