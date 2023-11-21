@@ -44,6 +44,8 @@
 		7CC850742B09F3350092D703 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC850732B09F3350092D703 /* SearchModel.swift */; };
 		7CC850782B0A13510092D703 /* LookAroundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC850772B0A13510092D703 /* LookAroundService.swift */; };
 		7CD038E52B08A1E000B18EB9 /* GlobeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */; };
+		7CE2EC682B0CBB2F0008ABCC /* ImmersiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE2EC672B0CBB2F0008ABCC /* ImmersiveModel.swift */; };
+		7CE2EC6A2B0CC1540008ABCC /* GlovesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE2EC692B0CC1540008ABCC /* GlovesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +87,8 @@
 		7CC850732B09F3350092D703 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		7CC850772B0A13510092D703 /* LookAroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundService.swift; sourceTree = "<group>"; };
 		7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView3.swift; sourceTree = "<group>"; };
+		7CE2EC672B0CBB2F0008ABCC /* ImmersiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveModel.swift; sourceTree = "<group>"; };
+		7CE2EC692B0CC1540008ABCC /* GlovesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlovesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,7 @@
 				7C0961D22AE9250C00471918 /* PaleoMapVisionProApp.swift */,
 				7C0961D42AE9250C00471918 /* ContentView.swift */,
 				7C0961D62AE9250C00471918 /* ImmersiveView.swift */,
+				7CE2EC692B0CC1540008ABCC /* GlovesView.swift */,
 				7C0961F72AE92B3600471918 /* Views */,
 				7C30D5492B04D2450000FB97 /* Extensions */,
 				7C0961E52AE9280300471918 /* Modifiers */,
@@ -170,6 +175,7 @@
 				7CC850732B09F3350092D703 /* SearchModel.swift */,
 				7C0961ED2AE92AE500471918 /* Phylum.swift */,
 				7C0961EF2AE92AE900471918 /* Record.swift */,
+				7CE2EC672B0CBB2F0008ABCC /* ImmersiveModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -181,6 +187,7 @@
 				7CB482242B03602000AB2FB8 /* Demo.swift */,
 				7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */,
 				7C0697D72B00A730006FF1B2 /* RecordCard2.swift */,
+				7C0962022AE92B6B00471918 /* GridStack.swift */,
 				7C0697D92B00BF77006FF1B2 /* Scrap.swift */,
 				7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */,
 				7CC850682B0995970092D703 /* LocationProvider.swift */,
@@ -216,7 +223,6 @@
 			children = (
 				7C0962002AE92B6B00471918 /* FilterView.swift */,
 				7C0962012AE92B6B00471918 /* PhylumToggle.swift */,
-				7C0962022AE92B6B00471918 /* GridStack.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -350,12 +356,14 @@
 				7CC850742B09F3350092D703 /* SearchModel.swift in Sources */,
 				7C2916EC2B00F6A600E01238 /* MapAnnotationView.swift in Sources */,
 				7CC850782B0A13510092D703 /* LookAroundService.swift in Sources */,
+				7CE2EC682B0CBB2F0008ABCC /* ImmersiveModel.swift in Sources */,
 				7CB482252B03602000AB2FB8 /* Demo.swift in Sources */,
 				7C0962042AE92B6B00471918 /* PhylumToggle.swift in Sources */,
 				7CC850722B09EAF90092D703 /* SearchBar.swift in Sources */,
 				7C0961FE2AE92B5B00471918 /* ImageCell.swift in Sources */,
 				7C0961E72AE9282C00471918 /* DragRotationModifier.swift in Sources */,
 				7CB482272B036B4100AB2FB8 /* OldMapViewModel.swift in Sources */,
+				7CE2EC6A2B0CC1540008ABCC /* GlovesView.swift in Sources */,
 				7C0961D72AE9250C00471918 /* ImmersiveView.swift in Sources */,
 				7C0697DA2B00BF77006FF1B2 /* Scrap.swift in Sources */,
 				7CD038E52B08A1E000B18EB9 /* GlobeView3.swift in Sources */,

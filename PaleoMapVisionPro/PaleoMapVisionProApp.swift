@@ -14,6 +14,8 @@ struct PaleoMapVisionProApp: App {
     @State private var selectModel = RecordSelectModel()
     @State private var searchModel = SearchModel()
     
+    @State private var immersiveModel = ImmersiveModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -25,8 +27,11 @@ struct PaleoMapVisionProApp: App {
         }
         .windowResizability(.contentSize)
 
-        ImmersiveSpace(id: "ImmersiveSpace") {
+        ImmersiveSpace(id: "Globe") {
             ImmersiveView()
-        }.immersionStyle(selection: .constant(.full), in: .full)
+                .environment(immersiveModel)
+        }
+        .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        .upperLimbVisibility(.hidden)
     }
 }

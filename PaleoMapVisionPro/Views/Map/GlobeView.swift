@@ -12,15 +12,10 @@ import RealityKitContent
 import CoreLocation
 
 struct GlobeView: View {
-    //@Binding var longitude: Double
-    //@Binding var latitude: Double
-    //@EnvironmentObject private var viewModel: MapViewModel
-    
     @Environment(MapViewModel.self) private var viewModel
-
     @Binding var yaw: Double
     @Binding var pitch: Double
-    
+
     @State private var baseYaw: Double
     @State private var basePitch: Double
     
@@ -35,36 +30,49 @@ struct GlobeView: View {
     }
     
     var body: some View {
-        Model3D(named: "Scene", bundle: realityKitContentBundle)
-            .rotation3DEffect(.degrees((yaw * 180.0 / .pi) + 67.5), axis: (x: 0.0, y: 1.0, z: 0.0))
-            .rotation3DEffect(.degrees(pitch * 180.0 / .pi), axis: (x: 1.0, y: 0.0, z: 0.0))
-            .gesture(
-                DragGesture()
-                    .targetedToAnyEntity()
-                    .onChanged { value in
-                        // if isReadyToUpdateGlobeBase {=false}
-                        
-                        let delta = value.translation
-                        yaw = baseYaw + Double(delta.width) * sensitivity
-                        
-                        let interimPitch = basePitch + Double(delta.height) * sensitivity * -1
-                        let lowerLimit = -(.pi / 2) + buffer
-                        let upperLimit = .pi / 2 - buffer
-                        pitch = min(max(interimPitch, lowerLimit), upperLimit)
-                        
-                        let newLon = yawToLongitude(yaw: yaw)
-                        let newLat = pitchToLatitude(pitch: pitch)
-                        
-                        viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon), isSpanLarge: true)
-                    }
-                    .onEnded { value in
-                        baseYaw = yaw
-                        basePitch = pitch
-                        
-                        // isReadyToUpdateGlobeBase {=true}
-                    }
-            )
+        Model3D(named: "Scene", bundle: realityKitContentBundle) { phase in
+            switch phase {
+                case .empty:
+                    ProgressView()
+                case .failure(let error):
+                    Text("Error \(error.localizedDescription)")
+                case .success(let model):
+                    model
+                    .rotation3DEffect(.degrees((yaw * 180.0 / .pi) + 67.5), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    .rotation3DEffect(.degrees(pitch * 180.0 / .pi), axis: (x: 1.0, y: 0.0, z: 0.0))
+                    .gesture(
+                        DragGesture()
+                            .targetedToAnyEntity()
+                            .onChanged { value in
+                                // if isReadyToUpdateGlobeBase {=false}
+                                
+                                let delta = value.translation
+                                yaw = baseYaw + Double(delta.width) * sensitivity
+                                
+                                let interimPitch = basePitch + Double(delta.height) * sensitivity * -1
+                                let lowerLimit = -(.pi / 2) + buffer
+                                let upperLimit = .pi / 2 - buffer
+                                pitch = min(max(interimPitch, lowerLimit), upperLimit)
+                                
+                                let newLon = yawToLongitude(yaw: yaw)
+                                let newLat = pitchToLatitude(pitch: pitch)
+                                
+                                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon), isSpanLarge: true)
+                            }
+                            .onEnded { value in
+                                baseYaw = yaw
+                                basePitch = pitch
+                                
+                                // isReadyToUpdateGlobeBase {=true}
+                            }
+                    )
+            @unknown default:
+                Text("Error default")
+            }
+        }
+        
     }
+    
 }
 
 #Preview {

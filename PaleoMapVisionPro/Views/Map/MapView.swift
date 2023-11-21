@@ -8,9 +8,9 @@
 import SwiftUI
 import MapKit
 //import CoreLocationUI
-import Combine
+//import Combine
 
-import RealityKit
+//import RealityKit
 import RealityKitContent
 
 
@@ -21,11 +21,6 @@ struct MapView: View {
     @Environment(SearchModel.self) private var searchModel
     
     @Namespace var mapScope
-    
-    @State private var isRecordCardShown: Bool = false
-    @State private var isGlobeShown: Bool = true
-    @State private var yaw: Double = 151.2093 * .pi / 180.0
-    @State private var pitch: Double = -33.8688 * .pi / 180.0
  
     var body: some View {
         @Bindable var viewModelB = viewModel
@@ -79,33 +74,8 @@ struct MapView: View {
 //                    }
 //                    .buttonBorderShape(.circle)
 //                }
-                .overlay(alignment: .bottomTrailing) {
-                    Toggle(isGlobeShown ? "Hide Globe" : "Show Globe", isOn: $isGlobeShown)
-                        .toggleStyle(.button)
-                        .padding(18)
-                        .offset(x: isGlobeShown ? -110 : 0)
-                        .animation(.easeInOut(duration: 0.1), value: isGlobeShown)
-                }
 //                .ornament(visibility: .automatic, attachmentAnchor: .scene(.bottomLeading)) {
 //                }
-                .overlay(alignment: .bottom) {
-                    GlobeView(yaw: $yaw, pitch: $pitch)
-                        .opacity(isGlobeShown ? 1 : 0)
-                        .offset(z: 148.0)
-                        .environment(viewModel)
-                        .offset(x: 536)
-                }
-                .overlay(alignment: .bottom) {
-                    if let salientRecord = viewModel.salientRecord {
-                        RecordCard(record: salientRecord)
-                            .opacity(isRecordCardShown ? 1 : 0)
-                            .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
-                            .offset(x: -374.0)
-                            .offset(z: 270.0)
-                            .id(salientRecord.id)
-                            .animation(.easeInOut(duration: 0.1), value: isRecordCardShown)
-                    }
-                }
                 .task {
                     if !viewModel.isLocationServicesChecked {
                         viewModel.checkIfLocationServicesIsEnabled()
@@ -113,12 +83,35 @@ struct MapView: View {
                         viewModel.isLocationServicesChecked = true
                     }
                 }
+                .overlay(alignment: .bottomTrailing) {
+                    Toggle(viewModel.isGlobeShown ? "Hide Globe" : "Show Globe", isOn: $viewModelB.isGlobeShown)
+                        .toggleStyle(.button)
+                        .padding(18)
+                        .offset(x: viewModel.isGlobeShown ? -110 : 0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6, blendDuration: 1), value: viewModel.isGlobeShown)
+                }
+                .overlay(alignment: .bottom) {
+                    GlobeView(yaw: $viewModelB.yaw, pitch: $viewModelB.pitch)
+                        .opacity(viewModel.isGlobeShown ? 1 : 0)
+                        .offset(z: 148.0)
+                        .offset(x: 536)
+                        .environment(viewModel)
+                }
+                .overlay(alignment: .bottom) {
+                    if let record = viewModel.selectedItem {
+                        RecordCard(record: record)
+                            .opacity(viewModel.isRecordCardShown ? 1 : 0)
+                            .rotation3DEffect(.degrees(12), axis: (x: 1.0, y: 1.0, z: 0.0))
+                            .offset(x: -374.0)
+                            .offset(z: 270.0)
+                            .id(record.id)
+                            .animation(.easeInOut(duration: 0.1), value: viewModel.isRecordCardShown)
+                    }
+                }
                 .onChange(of: modelData.filterDict) {
                     let coord = CLLocationCoordinate2D(latitude: viewModel.locationManager.location?.coordinate.latitude ?? 0.0, longitude: viewModel.locationManager.location?.coordinate.longitude ?? 0.0)
-                    
-                    
-                    
-                    selectModel.updateRecordsSelection(coord: coord, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
+ 
+                    selectModel.updateRecordsSelection(coord: selectModel.savedCoord, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
                 }
                 .onMapCameraChange(frequency: .continuous) { context in
                     selectModel.updateRecordsSelection(coord: context.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict)
@@ -129,34 +122,33 @@ struct MapView: View {
 //                    let newYaw = context.camera.centerCoordinate.longitude * -.pi / 180.0
 //                    let newPitch = context.camera.centerCoordinate.latitude * -.pi / 180.0
                     
-                    let yawDiff = abs(newYaw - yaw)
-                    let pitchDiff = abs(newPitch - pitch)
+                    let yawDiff = abs(newYaw - viewModel.yaw)
+                    let pitchDiff = abs(newPitch - viewModel.pitch)
                     
                     let threshold = 0.0001
                     
                     // If the difference exceeds the threshold, update the model's yaw and/or pitch.
                     if yawDiff > threshold {
                         Task { @MainActor in
-                            yaw = newYaw
+                            viewModel.yaw = newYaw
                         }
                     }
                     
                     if pitchDiff > threshold {
                         Task { @MainActor in
-                            pitch = newPitch
+                            viewModel.pitch = newPitch
                         }
                     }
                 }
                 .onChange(of: viewModel.selectedItem, initial: false) {
                     withAnimation(.easeInOut) {
-                        if let record = viewModel.selectedItem {
+                        if let _ = viewModel.selectedItem {
                             Task { @MainActor in
-                                viewModel.salientRecord = record
-                                isRecordCardShown = true
+                                viewModel.isRecordCardShown = true
                             }
                         } else {
                             Task { @MainActor in
-                                isRecordCardShown = false
+                                viewModel.isRecordCardShown = false
                             }
                         }
                     }

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHandsTrackingUsageDescription</key>
+	<string>Track your hands.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow location access to center the map on your current position for a more convenient experience.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

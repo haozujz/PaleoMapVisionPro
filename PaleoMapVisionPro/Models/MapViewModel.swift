@@ -34,9 +34,13 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
         ))
     )
     
+    var yaw: Double = 151.2093 * .pi / 180.0
+    var pitch: Double = -33.8688 * .pi / 180.0
+    
     var isLocationServicesChecked: Bool = false
-    var selectedItem: Record?
-    var salientRecord: Record? = nil
+    var selectedItem: Record? = nil
+    var isRecordCardShown: Bool = false
+    var isGlobeShown: Bool = true
     var isShowAlert: Bool = false
     var alertMessage: String = ""
 

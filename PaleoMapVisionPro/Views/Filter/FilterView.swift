@@ -10,7 +10,6 @@ import MapKit
 
 struct FilterView: View {
     @Environment(ModelData.self) private var modelData
-    @State var isOn: Bool = false
     
     let columns: [GridItem] = [
                GridItem(.flexible(), spacing: -60),
@@ -21,11 +20,11 @@ struct FilterView: View {
         @Bindable var modelData = modelData
         
         VStack {
-            Text("Filter")
-                .font(.largeTitle)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 40)
-                .padding(.vertical, 20)
+//            Text("Filter")
+//                .font(.largeTitle)
+//                .frame(maxWidth: .infinity, alignment: .leading)
+//                .padding(.leading, 40)
+//                .padding(.vertical, 20)
             
             ZStack {
                 LazyVGrid(columns: columns, spacing: 10) {

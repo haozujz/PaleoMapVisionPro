@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 
+// Openable card
 struct RecordCard2: View {
     let record: Record
     

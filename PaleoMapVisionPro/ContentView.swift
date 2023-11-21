@@ -12,6 +12,11 @@ import RealityKitContent
 import MapKit
 
 struct ContentView: View {
+    @Environment(ModelData.self) private var modelData
+    @Environment(MapViewModel.self) private var viewModel
+    @Environment(RecordSelectModel.self) private var selectModel
+    @Environment(SearchModel.self) private var searchModel
+    
     @State private var currentTab: TabBarItem = .map
     enum TabBarItem {
         case map, filter, search
@@ -24,16 +29,11 @@ struct ContentView: View {
             }
         }
     }
-    
-    @Environment(ModelData.self) private var modelData
-    @Environment(MapViewModel.self) private var viewModel
-    @Environment(RecordSelectModel.self) private var selectModel
-    @Environment(SearchModel.self) private var searchModel
-    
-//    @State private var showImmersiveSpace = false
-//    @State private var immersiveSpaceIsShown = false
-//    @Environment(\.openImmersiveSpace) var openImmersiveSpace
-//    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+
+    @State private var showImmersiveSpace = false
+    @State private var immersiveSpaceIsShown = false
+    @Environment(\.openImmersiveSpace) var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     
     var body: some View {
         NavigationStack {
@@ -96,6 +96,29 @@ struct ContentView: View {
                     .allowsHitTesting(false)
             }
         }
+//        .overlay(alignment: .bottom) {
+//            Toggle(showImmersiveSpace ? "WIP: Exit Immersive Space" : "WIP: Show Immersive Space", isOn: $showImmersiveSpace)
+//                .toggleStyle(.button)
+//                .padding()
+//        }
+        .onChange(of: showImmersiveSpace) { _, newValue in
+            Task {
+                if newValue {
+                    switch await openImmersiveSpace(id: "Globe") {
+                    case .opened:
+                        immersiveSpaceIsShown = true
+                    case .error, .userCancelled:
+                        fallthrough
+                    @unknown default:
+                        immersiveSpaceIsShown = false
+                        showImmersiveSpace = false
+                    }
+                } else if immersiveSpaceIsShown {
+                    await dismissImmersiveSpace()
+                    immersiveSpaceIsShown = false
+                }
+            }
+        }
 
 //        VStack {
 //            Text("Hello, world!")
@@ -105,24 +128,8 @@ struct ContentView: View {
 //                .padding(.top, 50)
 //        }
 //        .padding()
-//        .onChange(of: showImmersiveSpace) { _, newValue in
-//            Task {
-//                if newValue {
-//                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
-//                    case .opened:
-//                        immersiveSpaceIsShown = true
-//                    case .error, .userCancelled:
-//                        fallthrough
-//                    @unknown default:
-//                        immersiveSpaceIsShown = false
-//                        showImmersiveSpace = false
-//                    }
-//                } else if immersiveSpaceIsShown {
-//                    await dismissImmersiveSpace()
-//                    immersiveSpaceIsShown = false
-//                }
-//            }
-//        }
+        
+
 
         
     }
@@ -132,24 +139,3 @@ struct ContentView: View {
 //    ContentView()
 //}
 
-// Makes the underlying MapView unresponsive if opening/closing new window
-//            TabView(selection: $currentTab) {
-//                Text("0")
-//                    .frame(width: 0)
-//                    .tag(.map as TabBarItem)
-//                    .tabItem {
-//                        Image(systemName: TabBarItem.map.icon)
-//                        Text("Map")
-//                    }
-//
-//                Text("1")
-//                    .frame(width: 0)
-//                    .tag(.filter as TabBarItem)
-//                    .tabItem {
-//                        Image(systemName: TabBarItem.filter.icon)
-//                        Text("Filter")
-//                    }
-//
-//            }
-//            .frame(width: 0)
-//            .allowsHitTesting(false)
