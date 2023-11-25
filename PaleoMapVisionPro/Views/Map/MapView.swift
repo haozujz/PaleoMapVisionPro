@@ -7,12 +7,7 @@
 
 import SwiftUI
 import MapKit
-//import CoreLocationUI
-//import Combine
-
-//import RealityKit
 import RealityKitContent
-
 
 struct MapView: View {
     @Environment(ModelData.self) private var modelData
@@ -66,16 +61,6 @@ struct MapView: View {
                     .padding(.trailing, 8)
                 }
                 .mapScope(mapScope)
-//                .mapControls {
-//                    VStack {
-//                        MapUserLocationButton()
-//                        MapPitchToggle()
-//                        MapCompass()
-//                    }
-//                    .buttonBorderShape(.circle)
-//                }
-//                .ornament(visibility: .automatic, attachmentAnchor: .scene(.bottomLeading)) {
-//                }
                 .task {
                     if !viewModel.isLocationServicesChecked {
                         viewModel.checkIfLocationServicesIsEnabled()
@@ -109,8 +94,7 @@ struct MapView: View {
                     }
                 }
                 .onChange(of: modelData.filterDict) {
-                    let coord = CLLocationCoordinate2D(latitude: viewModel.locationManager.location?.coordinate.latitude ?? 0.0, longitude: viewModel.locationManager.location?.coordinate.longitude ?? 0.0)
- 
+
                     selectModel.updateRecordsSelection(coord: selectModel.savedCoord, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict, isIgnoreThreshold: true)
                 }
                 .onMapCameraChange(frequency: .continuous) { context in

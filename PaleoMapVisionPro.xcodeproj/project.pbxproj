@@ -7,17 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7C0697D82B00A730006FF1B2 /* RecordCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0697D72B00A730006FF1B2 /* RecordCard2.swift */; };
-		7C0697DA2B00BF77006FF1B2 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0697D92B00BF77006FF1B2 /* Scrap.swift */; };
 		7C0697DC2B00ED2B006FF1B2 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0697DB2B00ED2B006FF1B2 /* GlobeView.swift */; };
 		7C0961D12AE9250C00471918 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0961D02AE9250C00471918 /* RealityKitContent */; };
 		7C0961D32AE9250C00471918 /* PaleoMapVisionProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961D22AE9250C00471918 /* PaleoMapVisionProApp.swift */; };
 		7C0961D52AE9250C00471918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961D42AE9250C00471918 /* ContentView.swift */; };
-		7C0961D72AE9250C00471918 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961D62AE9250C00471918 /* ImmersiveView.swift */; };
 		7C0961D92AE9250C00471918 /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = 7C0961D82AE9250C00471918 /* ImageBasedLighting.skybox */; };
 		7C0961DB2AE9250D00471918 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0961DA2AE9250D00471918 /* Assets.xcassets */; };
 		7C0961DE2AE9250D00471918 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0961DD2AE9250D00471918 /* Preview Assets.xcassets */; };
-		7C0961E72AE9282C00471918 /* DragRotationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961E62AE9282C00471918 /* DragRotationModifier.swift */; };
 		7C0961EA2AE92ADA00471918 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961E92AE92ADA00471918 /* MapViewModel.swift */; };
 		7C0961EE2AE92AE500471918 /* Phylum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961ED2AE92AE500471918 /* Phylum.swift */; };
 		7C0961F02AE92AE900471918 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961EF2AE92AE900471918 /* Record.swift */; };
@@ -28,40 +24,27 @@
 		7C0961FE2AE92B5B00471918 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0961FD2AE92B5B00471918 /* ImageCell.swift */; };
 		7C0962032AE92B6B00471918 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962002AE92B6B00471918 /* FilterView.swift */; };
 		7C0962042AE92B6B00471918 /* PhylumToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962012AE92B6B00471918 /* PhylumToggle.swift */; };
-		7C0962052AE92B6B00471918 /* GridStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962022AE92B6B00471918 /* GridStack.swift */; };
 		7C0962072AE92BFC00471918 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0962062AE92BFC00471918 /* ModelData.swift */; };
 		7C09620B2AE92D0100471918 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7C0962092AE92D0100471918 /* db.sqlite */; };
 		7C09620C2AE92D0100471918 /* dbsqlitePlaceholder.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */; };
 		7C0B478F2B0B578B004462C2 /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B478E2B0B578B004462C2 /* Trie.swift */; };
 		7C0B47912B0B6977004462C2 /* trieData.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C0B47902B0B6977004462C2 /* trieData.json */; };
-		7C2916EC2B00F6A600E01238 /* MapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */; };
-		7CB2BE212B07124000CE398F /* GlobeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB2BE202B07124000CE398F /* GlobeView2.swift */; };
-		7CB482252B03602000AB2FB8 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB482242B03602000AB2FB8 /* Demo.swift */; };
-		7CB482272B036B4100AB2FB8 /* OldMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */; };
-		7CC850692B0995970092D703 /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC850682B0995970092D703 /* LocationProvider.swift */; };
 		7CC8506F2B09E4FD0092D703 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC8506E2B09E4FD0092D703 /* SearchView.swift */; };
 		7CC850722B09EAF90092D703 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC850712B09EAF90092D703 /* SearchBar.swift */; };
 		7CC850742B09F3350092D703 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC850732B09F3350092D703 /* SearchModel.swift */; };
 		7CC850782B0A13510092D703 /* LookAroundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC850772B0A13510092D703 /* LookAroundService.swift */; };
-		7CD038E52B08A1E000B18EB9 /* GlobeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */; };
-		7CE2EC682B0CBB2F0008ABCC /* ImmersiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE2EC672B0CBB2F0008ABCC /* ImmersiveModel.swift */; };
-		7CE2EC6A2B0CC1540008ABCC /* GlovesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE2EC692B0CC1540008ABCC /* GlovesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7C0697D72B00A730006FF1B2 /* RecordCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCard2.swift; sourceTree = "<group>"; };
-		7C0697D92B00BF77006FF1B2 /* Scrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrap.swift; sourceTree = "<group>"; };
 		7C0697DB2B00ED2B006FF1B2 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		7C0961CB2AE9250C00471918 /* PaleoMapVisionPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaleoMapVisionPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C0961CF2AE9250C00471918 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		7C0961D22AE9250C00471918 /* PaleoMapVisionProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaleoMapVisionProApp.swift; sourceTree = "<group>"; };
 		7C0961D42AE9250C00471918 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		7C0961D62AE9250C00471918 /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
 		7C0961D82AE9250C00471918 /* ImageBasedLighting.skybox */ = {isa = PBXFileReference; lastKnownFileType = file.skybox; path = ImageBasedLighting.skybox; sourceTree = "<group>"; };
 		7C0961DA2AE9250D00471918 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C0961DD2AE9250D00471918 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C0961DF2AE9250D00471918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C0961E62AE9282C00471918 /* DragRotationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragRotationModifier.swift; sourceTree = "<group>"; };
 		7C0961E92AE92ADA00471918 /* MapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		7C0961ED2AE92AE500471918 /* Phylum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Phylum.swift; sourceTree = "<group>"; };
 		7C0961EF2AE92AE900471918 /* Record.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
@@ -71,24 +54,15 @@
 		7C0961FD2AE92B5B00471918 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		7C0962002AE92B6B00471918 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		7C0962012AE92B6B00471918 /* PhylumToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhylumToggle.swift; sourceTree = "<group>"; };
-		7C0962022AE92B6B00471918 /* GridStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridStack.swift; sourceTree = "<group>"; };
 		7C0962062AE92BFC00471918 /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		7C0962092AE92D0100471918 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 		7C09620A2AE92D0100471918 /* dbsqlitePlaceholder.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dbsqlitePlaceholder.txt; sourceTree = "<group>"; };
 		7C0B478E2B0B578B004462C2 /* Trie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
 		7C0B47902B0B6977004462C2 /* trieData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trieData.json; sourceTree = "<group>"; };
-		7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationView.swift; sourceTree = "<group>"; };
-		7CB2BE202B07124000CE398F /* GlobeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView2.swift; sourceTree = "<group>"; };
-		7CB482242B03602000AB2FB8 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
-		7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldMapViewModel.swift; sourceTree = "<group>"; };
-		7CC850682B0995970092D703 /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		7CC8506E2B09E4FD0092D703 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		7CC850712B09EAF90092D703 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		7CC850732B09F3350092D703 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		7CC850772B0A13510092D703 /* LookAroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundService.swift; sourceTree = "<group>"; };
-		7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView3.swift; sourceTree = "<group>"; };
-		7CE2EC672B0CBB2F0008ABCC /* ImmersiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveModel.swift; sourceTree = "<group>"; };
-		7CE2EC692B0CC1540008ABCC /* GlovesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlovesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,16 +99,11 @@
 			isa = PBXGroup;
 			children = (
 				7C0961D22AE9250C00471918 /* PaleoMapVisionProApp.swift */,
-				7C0961D42AE9250C00471918 /* ContentView.swift */,
-				7C0961D62AE9250C00471918 /* ImmersiveView.swift */,
-				7CE2EC692B0CC1540008ABCC /* GlovesView.swift */,
 				7C0961F72AE92B3600471918 /* Views */,
 				7C30D5492B04D2450000FB97 /* Extensions */,
-				7C0961E52AE9280300471918 /* Modifiers */,
-				7C0B478D2B0B4A29004462C2 /* Helpers */,
+				7C0B478D2B0B4A29004462C2 /* Services */,
 				7C0961E82AE92A9F00471918 /* Models */,
 				7C0962082AE92CEE00471918 /* Resources */,
-				7C0961F32AE92AFA00471918 /* Archive */,
 				7C0961D82AE9250C00471918 /* ImageBasedLighting.skybox */,
 				7C0961DA2AE9250D00471918 /* Assets.xcassets */,
 				7C0961DF2AE9250D00471918 /* Info.plist */,
@@ -159,13 +128,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		7C0961E52AE9280300471918 /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modifiers;
-			sourceTree = "<group>";
-		};
 		7C0961E82AE92A9F00471918 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,31 +137,15 @@
 				7CC850732B09F3350092D703 /* SearchModel.swift */,
 				7C0961ED2AE92AE500471918 /* Phylum.swift */,
 				7C0961EF2AE92AE900471918 /* Record.swift */,
-				7CE2EC672B0CBB2F0008ABCC /* ImmersiveModel.swift */,
+				7C0B478E2B0B578B004462C2 /* Trie.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		7C0961F32AE92AFA00471918 /* Archive */ = {
-			isa = PBXGroup;
-			children = (
-				7C0961E62AE9282C00471918 /* DragRotationModifier.swift */,
-				7CB482242B03602000AB2FB8 /* Demo.swift */,
-				7C2916EB2B00F6A600E01238 /* MapAnnotationView.swift */,
-				7C0697D72B00A730006FF1B2 /* RecordCard2.swift */,
-				7C0962022AE92B6B00471918 /* GridStack.swift */,
-				7C0697D92B00BF77006FF1B2 /* Scrap.swift */,
-				7CB482262B036B4100AB2FB8 /* OldMapViewModel.swift */,
-				7CC850682B0995970092D703 /* LocationProvider.swift */,
-				7CB2BE202B07124000CE398F /* GlobeView2.swift */,
-				7CD038E42B08A1E000B18EB9 /* GlobeView3.swift */,
-			);
-			path = Archive;
 			sourceTree = "<group>";
 		};
 		7C0961F72AE92B3600471918 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C0961D42AE9250C00471918 /* ContentView.swift */,
 				7CC850702B09E6890092D703 /* Search */,
 				7C0961FF2AE92B6B00471918 /* Filter */,
 				7C0961F82AE92B3E00471918 /* Map */,
@@ -237,13 +183,12 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		7C0B478D2B0B4A29004462C2 /* Helpers */ = {
+		7C0B478D2B0B4A29004462C2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				7CC850772B0A13510092D703 /* LookAroundService.swift */,
-				7C0B478E2B0B578B004462C2 /* Trie.swift */,
 			);
-			path = Helpers;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		7C30D5492B04D2450000FB97 /* Extensions */ = {
@@ -344,32 +289,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C0962032AE92B6B00471918 /* FilterView.swift in Sources */,
-				7C0697D82B00A730006FF1B2 /* RecordCard2.swift in Sources */,
 				7C0961F22AE92AF000471918 /* RecordSelectModel.swift in Sources */,
 				7C0961D52AE9250C00471918 /* ContentView.swift in Sources */,
 				7C0961EA2AE92ADA00471918 /* MapViewModel.swift in Sources */,
 				7C0962072AE92BFC00471918 /* ModelData.swift in Sources */,
-				7C0962052AE92B6B00471918 /* GridStack.swift in Sources */,
 				7CC8506F2B09E4FD0092D703 /* SearchView.swift in Sources */,
 				7C0697DC2B00ED2B006FF1B2 /* GlobeView.swift in Sources */,
 				7C0961D32AE9250C00471918 /* PaleoMapVisionProApp.swift in Sources */,
 				7CC850742B09F3350092D703 /* SearchModel.swift in Sources */,
-				7C2916EC2B00F6A600E01238 /* MapAnnotationView.swift in Sources */,
 				7CC850782B0A13510092D703 /* LookAroundService.swift in Sources */,
-				7CE2EC682B0CBB2F0008ABCC /* ImmersiveModel.swift in Sources */,
-				7CB482252B03602000AB2FB8 /* Demo.swift in Sources */,
 				7C0962042AE92B6B00471918 /* PhylumToggle.swift in Sources */,
 				7CC850722B09EAF90092D703 /* SearchBar.swift in Sources */,
 				7C0961FE2AE92B5B00471918 /* ImageCell.swift in Sources */,
-				7C0961E72AE9282C00471918 /* DragRotationModifier.swift in Sources */,
-				7CB482272B036B4100AB2FB8 /* OldMapViewModel.swift in Sources */,
-				7CE2EC6A2B0CC1540008ABCC /* GlovesView.swift in Sources */,
-				7C0961D72AE9250C00471918 /* ImmersiveView.swift in Sources */,
-				7C0697DA2B00BF77006FF1B2 /* Scrap.swift in Sources */,
-				7CD038E52B08A1E000B18EB9 /* GlobeView3.swift in Sources */,
-				7CC850692B0995970092D703 /* LocationProvider.swift in Sources */,
 				7C0961FA2AE92B5400471918 /* MapView.swift in Sources */,
-				7CB2BE212B07124000CE398F /* GlobeView2.swift in Sources */,
 				7C0961FC2AE92B5700471918 /* RecordCard.swift in Sources */,
 				7C0961F02AE92AE900471918 /* Record.swift in Sources */,
 				7C0961EE2AE92AE500471918 /* Phylum.swift in Sources */,

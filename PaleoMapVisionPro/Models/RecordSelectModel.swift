@@ -85,7 +85,6 @@ final class RecordSelectModel: ObservableObject {
     
     func generateSquareModifiers(for level: Int) -> [Int] {
         guard level > 0 else { return [] }
-        
         var modifiers: [Int] = []
         
         // Top and Bottom Rows
@@ -185,41 +184,6 @@ final class RecordSelectModel: ObservableObject {
     
     func updateRecordsNearby() {
         recordsNearby = Array(records.shuffled().prefix(5))
-    }
-    
-    func updateSingleRecord(recordId: String, coord: CLLocationCoordinate2D, db: Connection, recordsTable: Table, isLikelyAnnotatedAlready: Bool) {
-        if isLikelyAnnotatedAlready {
-            if let record = records.first(where: {$0.id == recordId}) {
-                recordsNearby = [record]
-                return
-            }
-        }
-
-        let id = Expression<String>("id")
-        let sName = Expression<String?>("sName")
-        let cName = Expression<String?>("cName")
-        let phylum = Expression<String>("phylum")
-        let classT = Expression<String?>("classT")
-        let orderT = Expression<String?>("orderT")
-        let family = Expression<String?>("family")
-        let date = Expression<String?>("date")
-        let locality = Expression<String?>("locality")
-        let lat = Expression<Double>("lat")
-        let lon = Expression<Double>("lon")
-        let mediaS = Expression<String>("media")
-        
-        do {
-            let query = recordsTable.filter(id == recordId).limit(1)
-            
-            for record in try db.prepare(query) {
-//                let phy: Phylum = Phylum(rawValue: record[phylum]) ?? .chordata
-//                let geo: GeoPoint = GeoPoint(lat: record[lat], lon: record[lon])
-//                let med: [String] = record[mediaS].components(separatedBy: "|")
-//                recordsNearby = [Record(id: record[id], commonName: record[cName] ?? "", scientificName: record[sName] ?? "", phylum: phy, classT: record[classT] ?? "", order: record[orderT] ?? "", family: record[family] ?? "", locality: record[locality] ?? "", eventDate: record[date] ?? "", media: med, geoPoint: geo)]
-            }
-        } catch {
-            fatalError("Failed query:\n\(error)")
-        }
     }
     
     func queryDbPerBox(indexes: [Int], db: Connection, recordsTable: Table, boxesTable: Table) -> [Record] {

@@ -66,7 +66,9 @@ final class SearchModel {
         let submittedText: String = searchText.lowercased()
         let savedAbortKey: Int = abortKey
         
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: DispatchTime.now(), execute: {
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: DispatchTime.now(), execute: { [weak self] in
+            guard let self = self else { return }
+            
             let id = Expression<String>("id")
             let sName = Expression<String?>("sName")
             let cName = Expression<String?>("cName")

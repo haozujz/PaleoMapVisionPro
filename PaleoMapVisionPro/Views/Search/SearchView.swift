@@ -20,9 +20,21 @@ struct SearchView: View {
         @Bindable var searchModelB = searchModel
         
         VStack {
+            if searchModel.results.isEmpty && searchModel.suggestions.isEmpty  {
+                Text("Search")
+                    .font(.largeTitle)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 40)
+                    .padding(.top, 20)
+                    .padding(.bottom, -10)
+                    .transition(.opacity)
+            }
+            
             SearchBar(text: $searchModelB.searchText, isFocused: $searchModelB.isSearchBarFocused, placeholder: "Name, Phylum, Class, Order, Family.",  onSearchButtonClicked: {
                 print("Search submitted: \(searchModelB.searchText)")
-                searchModel.search(db: modelData.db, recordsTable: modelData.recordsTable)
+                if searchModel.searchText != "" {
+                    searchModel.search(db: modelData.db, recordsTable: modelData.recordsTable)
+                }
             })
             .disabled(searchModel.isSearching)
             .onChange(of: searchModel.searchText) {
@@ -109,6 +121,7 @@ struct SearchView: View {
                 }
             }
         }
+        .animation(.easeInOut(duration: 0.5), value: searchModel.results.isEmpty && searchModel.suggestions.isEmpty)
     }
         
 }
