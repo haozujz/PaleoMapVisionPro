@@ -25,7 +25,6 @@ final class ModelData: ObservableObject {
         }
     }
     
-    //var filterDict: [Phylum : Bool]
     var filterDict: [Phylum : Bool] = [:] {
         didSet {
             objectWillChange.send()
@@ -34,8 +33,6 @@ final class ModelData: ObservableObject {
             for (k, v) in filterDict {
                 x[k.rawValue] = v
             }
-            
-//            var dict = UserDefaults.standard.dictionary(forKey: "filterDict") as? [String : Bool] ?? [:]
             
             UserDefaults.standard.set(x, forKey: "filterDict")
         }
@@ -128,3 +125,9 @@ final class ModelData: ObservableObject {
 //        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
 //    }
 //}
+
+//        https://search.idigbio.org/v2/search/records/?rq=%7B%22kingdom%22%3A%22animalia%22%2C%22hasImage%22%3Atrue%2C%22geopoint%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22mediarecords%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22locality%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22datecollected%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22continent%22%3A%7B%22type%22%3A%22exists%22%7D%7D
+//      https://search.idigbio.org/v2/search/records/?rq=%7B%22scientificname%22%3A+%22puma+concolor%22%7D&limit=5
+//        https://search.idigbio.org/v2/view/records/1db58713-1c7f-4838-802d-be784e444c4a
+//        https://jsonplaceholder.typicode.com/users
+//        https://search.idigbio.org/v2/search/records/?rq=%7B%22kingdom%22%3A%22animalia%22%2C%22hasImage%22%3Atrue%2C%22geopoint%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22mediarecords%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22locality%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22datecollected%22%3A%7B%22type%22%3A%22exists%22%7D%2C%22continent%22%3A%7B%22type%22%3A%22exists%22%7D%7D
