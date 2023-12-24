@@ -19,7 +19,8 @@ struct GlobeView: View {
     @State private var baseYaw: Double
     @State private var basePitch: Double
     
-    let sensitivity: Double = 0.009
+    //let sensitivity: Double = 0.009
+    let sensitivity: Double = 0.006
     let buffer: Double =  12 * .pi / 180
     
     init(yaw: Binding<Double>, pitch: Binding<Double>) {
@@ -42,35 +43,38 @@ struct GlobeView: View {
                     .rotation3DEffect(.degrees(pitch * 180.0 / .pi), axis: (x: 1.0, y: 0.0, z: 0.0))
                     .gesture(
                         DragGesture()
-                            .targetedToAnyEntity()
                             .onChanged { value in
-                                // if isReadyToUpdateGlobeBase {=false}
-                                
-                                let delta = value.translation
-                                yaw = baseYaw + Double(delta.width) * sensitivity
-                                
-                                let interimPitch = basePitch + Double(delta.height) * sensitivity * -1
-                                let lowerLimit = -(.pi / 2) + buffer
-                                let upperLimit = .pi / 2 - buffer
-                                pitch = min(max(interimPitch, lowerLimit), upperLimit)
-                                
-                                let newLon = yawToLongitude(yaw: yaw)
-                                let newLat = pitchToLatitude(pitch: pitch)
-                                
-                                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon), isSpanLarge: true)
+                                onChange(delta: value.translation)
                             }
                             .onEnded { value in
+                                viewModel.isDraggingGlobe = false
                                 baseYaw = yaw
                                 basePitch = pitch
-                                
-                                // isReadyToUpdateGlobeBase {=true}
                             }
                     )
             @unknown default:
                 Text("Error default")
             }
         }
+    }
+    
+    private func onChange(delta: CGSize) {
+        if !viewModel.isDraggingGlobe {
+            viewModel.isDraggingGlobe = true
+        }
         
+        //let delta = value.translation
+        yaw = baseYaw + Double(delta.width) * sensitivity
+        
+        let interimPitch = basePitch + Double(delta.height) * sensitivity * -1
+        let lowerLimit = -(.pi / 2) + buffer
+        let upperLimit = .pi / 2 - buffer
+        pitch = min(max(interimPitch, lowerLimit), upperLimit)
+        
+        let newLon = yawToLongitude(yaw: yaw)
+        let newLat = pitchToLatitude(pitch: pitch)
+        
+        viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon), isSpanLarge: true)
     }
     
 }
@@ -96,3 +100,8 @@ func yawToLongitude(yaw: Double) -> Double {
     }
     return longitude
 }
+
+
+
+
+

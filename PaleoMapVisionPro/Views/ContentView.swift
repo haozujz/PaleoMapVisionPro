@@ -40,10 +40,6 @@ struct ContentView: View {
             ZStack {
                 MapView()
                     .frame(width: 1280, height: 720)
-                    .environment(viewModel)
-                    .environment(modelData)
-                    .environment(selectModel)
-                    .environment(searchModel)
                 
                 SearchView()
                     .frame(maxHeight: .infinity, alignment: .top)
@@ -52,9 +48,6 @@ struct ContentView: View {
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .opacity(currentTab == .search ? 1 : 0)
-                    .environment(viewModel)
-                    .environment(modelData)
-                    .environment(searchModel)
     
                 FilterView()
                     .frame(maxHeight: .infinity, alignment: .top) 
@@ -63,7 +56,6 @@ struct ContentView: View {
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .opacity(currentTab == .filter ? 1 : 0)
-                    .environment(modelData)
                 
                 TabView(selection: $currentTab) {
                         Text("0")

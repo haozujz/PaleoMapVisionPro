@@ -25,6 +25,13 @@ final class ModelData: ObservableObject {
         }
     }
     
+//    var favs: Set<String> {
+//        didSet {
+//            let favsArray = Array(favs)
+//            UserDefaults.standard.set(favsArray, forKey: "favs")
+//        }
+//    }
+    
     var filterDict: [Phylum : Bool] = [:] {
         didSet {
             objectWillChange.send()
@@ -101,6 +108,7 @@ final class ModelData: ObservableObject {
             fatalError("Failed intializing bookmarks:\n\(error)")
         }
         self.bookmarked = z
+        
     }
 }
 

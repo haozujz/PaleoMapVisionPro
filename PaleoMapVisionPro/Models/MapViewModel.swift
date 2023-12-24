@@ -36,16 +36,30 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
     
     var yaw: Double = 151.2093 * .pi / 180.0
     var pitch: Double = -33.8688 * .pi / 180.0
+    var isDraggingGlobe: Bool = false
     
     var isLocationServicesChecked: Bool = false
     var selectedItem: Record? = nil
     var isRecordCardShown: Bool = false
-    var isGlobeShown: Bool = true
+    //var isGlobeShown: Bool = true
     var isShowAlert: Bool = false
     var alertMessage: String = ""
 
+    var isGlobeShown: Bool {
+        didSet {
+            UserDefaults.standard.set(isGlobeShown, forKey: "isGlobeShown")
+        }
+    }
+    
     override init() {
         self.locationManager = CLLocationManager()
+        
+        if UserDefaults.standard.object(forKey: "isGlobeShown") != nil {
+            isGlobeShown = UserDefaults.standard.bool(forKey: "isGlobeShown")
+        } else {
+            isGlobeShown = true
+        }
+        
         super.init()
     }
     
@@ -57,7 +71,7 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
                 locationManager.delegate = self
                 
                 // Request the current authorization status
-                
+
                 locationManager.requestWhenInUseAuthorization()
                 
             } else {
@@ -69,55 +83,7 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
         }
     }
 
-//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//        switch manager.authorizationStatus {
-//        case .notDetermined:
-//            print("Location Authorization Not Determined")
-//            manager.requestWhenInUseAuthorization()
-//        case .restricted:
-//            print("Location Authorization Restricted")
-////            alertMessage = "Your location is restricted, possibly due to parental controls"
-////            Task { @MainActor in
-////                isShowAlert = true
-////            }
-//        case .denied:
-//            print("Location Authorization Denied")
-////            alertMessage = "You have denied this app location permission. Consider changing this in the settings."
-////            Task { @MainActor in
-////                isShowAlert = true
-////            }
-//        case .authorizedAlways, .authorizedWhenInUse:
-//            print("Location Authorization Confirmed")
-//        @unknown default:
-//            break
-//        }
-//    }
-
-//    func requestAllowOnceLocationPermission() {
-//        //locationManager?.requestLocation()    //slower & more accurate
-//        locationManager?.startUpdatingLocation()
-//    }
-//    
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let latestLocation = locations.first else {
-//            alertMessage = "Could not retrieve user location"
-//            Task { @MainActor in
-//                isShowAlert = true
-//            }
-//            return
-//        }
-//        locationManager.stopUpdatingLocation()
-//        
-//        let x = MKCoordinateRegion(
-//            center: latestLocation.coordinate,
-//            span: MapDetails.defaultSpan
-//        )
-//        
-//        Task { @MainActor in
-//            self.cameraPosition = MapCameraPosition.region(x)
-//        }
-//    }
-//    
+ 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
@@ -129,4 +95,27 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
             )
         }
     }
+    
+    func changeLocation(lon: Double, isSpanLarge: Bool = false) {
+        let coord = CLLocationCoordinate2D(latitude: cameraPosition.camera?.centerCoordinate.latitude ?? 0.0, longitude: lon)
+        
+        Task { @MainActor in
+            self.cameraPosition = MapCameraPosition.camera(
+                MapCamera(centerCoordinate: coord, distance: isSpanLarge ? MapDetails.largeDistance : MapDetails.defaultDistance)
+            )
+        }
+    }
+    
+    func changeLocation(lat: Double, isSpanLarge: Bool = false) {
+        let coord = CLLocationCoordinate2D(latitude: lat, longitude: cameraPosition.camera?.centerCoordinate.latitude ?? 0.0)
+        
+        Task { @MainActor in
+            self.cameraPosition = MapCameraPosition.camera(
+                MapCamera(centerCoordinate: coord, distance: isSpanLarge ? MapDetails.largeDistance : MapDetails.defaultDistance)
+            )
+        }
+    }
 }
+
+
+

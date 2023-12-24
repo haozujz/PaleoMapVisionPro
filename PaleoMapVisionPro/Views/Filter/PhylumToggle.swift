@@ -77,10 +77,12 @@ struct PhylumToggle: View {
                 .offset(x: 0, y: -20)
                 .allowsHitTesting(false)
         }
-        .animation(.spring(response: 0.3, dampingFraction: 0.6, blendDuration: 0.3), value: isActive)
+        //.animation(.spring(response: 0.3, dampingFraction: 0.6, blendDuration: 0.3), value: isActive)
         .frame(width: 160, height: 80)
         .onTapGesture {
-            isActive = !isActive
+            withAnimation(.snappy(duration: 0.12, extraBounce: 0)) {
+                isActive = !isActive
+            }
         }
     }
 }

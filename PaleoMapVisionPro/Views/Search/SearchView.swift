@@ -16,13 +16,20 @@ struct SearchView: View {
         searchModel.results.filter { modelData.filterDict[$0.phylum] ?? true }
     }
     
+    @State var isSearchMode: Bool = false
+    
+//    var isSearchMode: Bool {
+//        return (searchModel.results.isEmpty && searchModel.suggestions.isEmpty) ?
+//        false : true
+//    }
+
     var body: some View {
         @Bindable var searchModelB = searchModel
         
         VStack {
-            if searchModel.results.isEmpty && searchModel.suggestions.isEmpty  {
+            if !isSearchMode { //(searchModel.results.isEmpty && searchModel.suggestions.isEmpty)
                 Text("Search")
-                    .font(.largeTitle)
+                    .font(.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 40)
                     .padding(.top, 20)
@@ -30,98 +37,110 @@ struct SearchView: View {
                     .transition(.opacity)
             }
             
-            SearchBar(text: $searchModelB.searchText, isFocused: $searchModelB.isSearchBarFocused, placeholder: "Name, Phylum, Class, Order, Family.",  onSearchButtonClicked: {
-                print("Search submitted: \(searchModelB.searchText)")
-                if searchModel.searchText != "" {
-                    searchModel.search(db: modelData.db, recordsTable: modelData.recordsTable)
+            HStack(spacing: 0) {
+                SearchBar(text: $searchModelB.searchText, isFocused: $searchModelB.isSearchBarFocused, placeholder: "Name, Phylum, Class, Order, Family.",  onSearchButtonClicked: {
+                    
+                    print("Search submitted: \(searchModelB.searchText)")
+                    withAnimation {
+                        if searchModel.searchText != "" {
+                            searchModel.search(db: modelData.db, recordsTable: modelData.recordsTable)
+                        }
+                    }
+                    
+                })
+                .disabled(searchModel.isSearching)
+                .onChange(of: searchModel.searchText) {
+                    searchModel.updateSuggestions()
                 }
-            })
-            .disabled(searchModel.isSearching)
-            .onChange(of: searchModel.searchText) {
-                searchModel.updateSuggestions()
+                .onChange(of: searchModel.isSearchBarFocused) {
+                    if searchModel.isSearchBarFocused && !isSearchMode {
+                        withAnimation {
+                            isSearchMode = true
+                        }
+                    }
+                }
+                
+                if isSearchMode {
+                    Button("Cancel") {
+                        withAnimation {
+                            searchModel.isSearchBarFocused = false
+                            searchModel.searchText = ""
+                            isSearchMode = false
+                            searchModel.results = []
+                            searchModel.suggestions = []
+                            // Add any additional actions you need, like hiding the keyboard, etc.
+                            
+                            print("dismissing keyboard")
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        }
+                    }
+                    .frame(width: 100, height: 24)
+                    .buttonStyle(.borderless)
+                    .opacity(isSearchMode ? 1 : 0)
+                    .offset(x: isSearchMode ? 0 : 100)
+                    .padding(.horizontal, -8)
+                    .padding(.leading, -28)
+                }
             }
             
-            if searchModel.isSearching {
-                ProgressView()
-                    .scaleEffect(1.2)
-            } else if searchModel.isSearchBarFocused && searchModel.searchText != "" {
-                if searchModel.suggestions.isEmpty && searchModel.searchText.count > 2 {
-                    Text("No suggestions found.")
+            if !isSearchMode {
+                VStack {
+                    Text("Bookmarks")
+                        .font(.title3)
+                    
+                    if modelData.bookmarked.isEmpty {
+                        Text("No bookmarks.")
+                            .padding(.top)
+                    } else {
+                        List {
+                            ForEach(modelData.bookmarked.sorted(by: { $0.family < $1.family }), id: \.self) { record in
+                                RecordRow(record: record)
+                                    .listRowInsets(EdgeInsets())
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            
+            if isSearchMode {
+                if searchModel.isSearching {
+                    ProgressView()
+                        .scaleEffect(1.2)
+                } else if searchModel.isSearchBarFocused && searchModel.searchText != "" {
+                    if searchModel.suggestions.isEmpty && searchModel.searchText.count > 1 {
+                        Text("No suggestions found.")
+                    } else {
+                        List {
+                            ForEach(searchModel.suggestions, id: \.self) { suggestion in
+                                Button(action: {
+                                    print("Search submitted: \(suggestion)")
+                                    searchModel.search(db: modelData.db, recordsTable: modelData.recordsTable, suggestion: suggestion)
+                                    // Dismiss keyboard, else induces Attributecycle error
+                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                    searchModel.isSearchBarFocused = false
+                                }) {
+                                    Text("\(suggestion.capitalized) ...")
+                                }
+                            }
+                        }
+                    }
                 } else {
-                    List {
-                        ForEach(searchModel.suggestions, id: \.self) { suggestion in
-                            Button(action: {
-                                print("Search submitted: \(suggestion)")
-                                searchModel.search(db: modelData.db, recordsTable: modelData.recordsTable, suggestion: suggestion)
-                                // Dismiss keyboard, else induces Attributecycle error
-                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                searchModel.isSearchBarFocused = false
-                            }) {
-                                Text("\(suggestion.capitalized) ...")
+                    if filteredResults.isEmpty && searchModel.lastCompletedSearch != "" {
+                        Text("No matching records found.")
+                    } else {
+                        List {
+                            ForEach(filteredResults.sorted(by: { $0.family < $1.family })) { record in
+                                    RecordRow(record: record)
+                                        .listRowInsets(EdgeInsets())
                             }
                         }
                     }
                 }
-            } else {
-                if filteredResults.isEmpty && searchModel.lastCompletedSearch != "" {
-                    Text("No matching records found.")
-                } else {
-                    List {
-                        ForEach(filteredResults) { record in
-                                HStack {
-                                    Button(action: {
-                                        Task { @MainActor in
-                                            viewModel.selectedItem = record
-                                        }
-                                    }) {
-                                        HStack {
-                                            ImageCell(url: record.media.first!, cornerRadius: 12.0)
-                                                .frame(width: 60, height: 60)
-                                                .padding(8)
-                                            
-                                            VStack(alignment: .leading) {
-                                                Text(
-                                                    (record.commonName.isEmpty
-                                                        ? (record.family.isEmpty ? record.scientificName : record.family)
-                                                        : record.commonName
-                                                    ).capitalized
-                                                )
-                                                .foregroundStyle(.primary)
-                                                
-                                                Text(record.eventDate)
-                                                    .font(.caption)
-                                                    .foregroundStyle(.secondary)
-                                            }
-                                            
-                                            Spacer()
-                                        }
-                                        .lineLimit(1)
-                                        .frame(maxWidth: .infinity)
-                                        .frame(maxHeight: .infinity)
-                                    }
-                                    .buttonStyle(PlainButtonStyle())
-                                    
-                                    Spacer()
-
-                                    Button(action: {
-                                        Task { @MainActor in
-                                            viewModel.changeLocation(coord: record.locationCoordinate, isSpanLarge: false)
-                                        }
-                                    }) {
-                                        Image(systemName: "arrow.forward.circle.fill")
-                                            .frame(width: 56)
-                                            .frame(maxHeight: .infinity)
-                                    }
-                                    .buttonStyle(PlainButtonStyle())
-                                    //.help("\(record.locality)".capitalized)
-                                }
-                                    .listRowInsets(EdgeInsets())
-                        }
-                    }
-                }
             }
+            
         }
-        .animation(.easeInOut(duration: 0.5), value: searchModel.results.isEmpty && searchModel.suggestions.isEmpty)
+        .animation(.easeInOut(duration: 0.3), value: searchModel.results.isEmpty && searchModel.suggestions.isEmpty)
     }
         
 }

@@ -12,16 +12,16 @@ struct FilterView: View {
     @Environment(ModelData.self) private var modelData
     
     let columns: [GridItem] = [
-               GridItem(.flexible(), spacing: -60),
-               GridItem(.flexible(), spacing: -60)
-           ]
+        GridItem(.flexible(), spacing: -60),
+        GridItem(.flexible(), spacing: -60)
+    ]
     
     var body: some View {
         @Bindable var modelData = modelData
         
         VStack {
             Text("Filter")
-                .font(.largeTitle)
+                .font(.title)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 40)
                 .padding(.vertical, 20)

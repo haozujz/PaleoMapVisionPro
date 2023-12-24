@@ -16,7 +16,7 @@ final class SearchModel {
     var lastSubmittedText: String = ""
     var lastCompletedSearch: String = ""
     var isSearchBarFocused: Bool = false
-    
+
     enum AbortEvent: Equatable { case cancel, search }
     private var abortKey: Int = 0
     var results: [Record] = []
@@ -35,11 +35,11 @@ final class SearchModel {
         guard !isSearching else { return }
         
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.12, repeats: false) { [weak self] _ in
             guard let self = self else { return }
             
             Task { @MainActor in
-                if self.searchText.count > 2 {
+                if self.searchText.count > 1 {
                     guard let trie = self.trie else { return }
                     var x = trie.collectWords(startingWith: self.searchText)
                     x.sort { $0 < $1 }
