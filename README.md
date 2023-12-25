@@ -3,7 +3,7 @@
 Explore over 170,000 paleobiology records and specimens around the world.  
 Based on the iDigBio collection. 
 
-## Requirement
+## Required file
 
 'PaleoMapVisionPro/Resources/db.sqlite' is a required file and can be downloaded separately here: https://drive.google.com/file/d/1Z-YU9kUB1rHOJXL3FKosyvg0tvAd5_F3/view?usp=sharing
 
