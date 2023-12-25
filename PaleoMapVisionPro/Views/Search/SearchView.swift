@@ -18,16 +18,11 @@ struct SearchView: View {
     
     @State var isSearchMode: Bool = false
     
-//    var isSearchMode: Bool {
-//        return (searchModel.results.isEmpty && searchModel.suggestions.isEmpty) ?
-//        false : true
-//    }
-
     var body: some View {
         @Bindable var searchModelB = searchModel
         
         VStack {
-            if !isSearchMode { //(searchModel.results.isEmpty && searchModel.suggestions.isEmpty)
+            if !isSearchMode {
                 Text("Search")
                     .font(.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,9 +63,7 @@ struct SearchView: View {
                             isSearchMode = false
                             searchModel.results = []
                             searchModel.suggestions = []
-                            // Add any additional actions you need, like hiding the keyboard, etc.
                             
-                            print("dismissing keyboard")
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         }
                     }
@@ -93,7 +86,7 @@ struct SearchView: View {
                             .padding(.top)
                     } else {
                         List {
-                            ForEach(modelData.bookmarked.sorted(by: { $0.family < $1.family }), id: \.self) { record in
+                            ForEach(modelData.bookmarked.sorted(by: { getDisplayName(record: $0) < getDisplayName(record: $1) }), id: \.self) { record in
                                 RecordRow(record: record)
                                     .listRowInsets(EdgeInsets())
                             }
@@ -130,7 +123,7 @@ struct SearchView: View {
                         Text("No matching records found.")
                     } else {
                         List {
-                            ForEach(filteredResults.sorted(by: { $0.family < $1.family })) { record in
+                            ForEach(filteredResults.sorted(by: { getDisplayName(record: $0) < getDisplayName(record: $1) })) { record in
                                     RecordRow(record: record)
                                         .listRowInsets(EdgeInsets())
                             }
@@ -149,3 +142,4 @@ struct SearchView: View {
 //#Preview {
 //    SearchView()
 //}
+

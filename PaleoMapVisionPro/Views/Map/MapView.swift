@@ -18,69 +18,13 @@ struct MapView: View {
     @Namespace var mapScope
     @AppStorage("isShowGlobe") var isShowGlobe: Bool = true
     
-//    func convertMapCameraPositionToYaw() -> Double {
-//        print("yaw1")
-//        guard let cam = viewModel.cameraPosition.camera else { return 0.0}
-//        print("yaw2")
-//        
-//        let x = cam.centerCoordinate.longitude * -.pi / 180.0
-//        return x
-//    }
-//    func convertMapCameraPositionToPitch() -> Double {
-//        guard let cam = viewModel.cameraPosition.camera else { return 0.0}
-//        let x = cam.centerCoordinate.latitude * -.pi / 180.0
-//        return x
-//    }
-//    func updateMapCameraPositionForYaw(_ newYaw: Double) {
-////        print("lon1")
-////        //guard let cam = viewModel.cameraPosition.camera else { return }
-////        print("lon2")
-////        
-////        guard let r = viewModel.cameraPosition.region else { return }
-//        
-//        //let newLongitude = newYaw * 180.0 / .pi
-//        let newLon = yawToLongitude(yaw: newYaw)
-////        
-////        viewModel.cameraPosition = MapCameraPosition.camera(
-////            MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: r.center.latitude, longitude: newLongitude), distance: MapDetails.largeDistance)
-////        )
-//        viewModel.changeLocation(lon: newLon, isSpanLarge: true)
-//    }
-//    func updateMapCameraPositionForPitch(_ newPitch: Double) {
-//        //guard let cam = viewModel.cameraPosition.camera else { return }
-//        
-////        guard let r = viewModel.cameraPosition.region else { return }
-//        
-//        //let newLatitude = newPitch * 180.0 / .pi
-//        let newLat = pitchToLatitude(pitch: newPitch)
-//        
-////        viewModel.cameraPosition = MapCameraPosition.camera(
-////            MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: newLatitude, longitude: r.center.longitude), distance: MapDetails.largeDistance)
-////        )
-//        
-//        viewModel.changeLocation(lat: newLat, isSpanLarge: true)
-//    }
-//
-//
-//    //viewModel.cameraPosition = MapCameraPosition.camera(
-//    //    MapCamera(centerCoordinate: record.locationCoordinate, distance: MapDetails.defaultDistance)
-//    //)
-//    //context.region.center.longitude * -.pi / 180.0
-    
-    
-    
-    
-    
-    
-    
-    
     var body: some View {
         @Bindable var viewModelB = viewModel
         
         ZStack {
                 Map(
                     position: $viewModelB.cameraPosition,
-                    //interactionModes: [.pan, .zoom, .pitch, .rotate],
+//                    interactionModes: [.pan, .zoom, .pitch, .rotate],
                     selection: $viewModelB.selectedItem,
                     scope: mapScope
                 ) {
@@ -134,28 +78,6 @@ struct MapView: View {
                 }
                 .overlay(alignment: .bottom) {
                     GlobeView(yaw: $viewModelB.yaw, pitch: $viewModelB.pitch)
-//                    GlobeView(
-//                        yaw: Binding<Double>(
-//                            get: { convertMapCameraPositionToYaw() },
-//                            set: { newYaw in
-//                                updateMapCameraPositionForYaw(newYaw)
-//                            }
-//                        ),
-//                        pitch: Binding<Double>(
-//                            get: { convertMapCameraPositionToPitch() },
-//                            set: { newPitch in
-//                                updateMapCameraPositionForPitch(newPitch)
-//                            }
-//                        )
-//                    )
-//                    GlobeView2(pos:
-//                        Binding<MapCameraPosition>(
-//                        get: { viewModel.cameraPosition },
-//                        set: { newValue in
-//                            viewModel.cameraPosition = newValue
-//                            // Additional actions or updates can be triggered here
-//                        }
-//                    ))
                         .opacity(viewModel.isGlobeShown ? 1 : 0)
                         .offset(z: 148.0)
                         .offset(x: 536)
@@ -182,18 +104,16 @@ struct MapView: View {
                     selectModel.updateRecordsSelection(coord: context.region.center, db: modelData.db, recordsTable: modelData.recordsTable, boxesTable: modelData.boxesTable, filter: modelData.filterDict)
                     
                     if !viewModel.isDraggingGlobe {
-                        // Convert map's center latitude and longitude to pitch and yaw.
                         let newYaw = context.region.center.longitude * -.pi / 180.0
                         let newPitch = (context.region.center.latitude) * -.pi / 180.0
-    //                    let newYaw = context.camera.centerCoordinate.longitude * -.pi / 180.0
-    //                    let newPitch = context.camera.centerCoordinate.latitude * -.pi / 180.0
+//                        let newYaw = context.camera.centerCoordinate.longitude * -.pi / 180.0
+//                        let newPitch = context.camera.centerCoordinate.latitude * -.pi / 180.0
                         
                         let yawDiff = abs(newYaw - viewModel.yaw)
                         let pitchDiff = abs(newPitch - viewModel.pitch)
                         
                         let threshold = 0.0001
                         
-                        // If the difference exceeds the threshold, update the model's yaw and/or pitch.
                         if yawDiff > threshold {
                             Task { @MainActor in
                                 viewModel.yaw = newYaw
@@ -233,13 +153,4 @@ struct MapView: View {
     
 }
 
-
-
-//struct MapView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MapView()
-//            .environmentObject(MapViewModel())
-//            .environmentObject(RecordSelectModel())
-//    }
-//}
 

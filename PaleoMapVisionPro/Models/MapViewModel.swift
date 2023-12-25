@@ -9,12 +9,6 @@ import MapKit
 import SwiftUI
 import Observation
 
-//extension CLLocationCoordinate2D: Equatable {
-//    public static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-//        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
-//    }
-//}
-
 enum MapDetails {
     static let defaultLocation = CLLocationCoordinate2D(latitude:  -33.8688, longitude: 151.2093)
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
@@ -41,7 +35,6 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
     var isLocationServicesChecked: Bool = false
     var selectedItem: Record? = nil
     var isRecordCardShown: Bool = false
-    //var isGlobeShown: Bool = true
     var isShowAlert: Bool = false
     var alertMessage: String = ""
 
@@ -71,9 +64,7 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
                 locationManager.delegate = self
                 
                 // Request the current authorization status
-
                 locationManager.requestWhenInUseAuthorization()
-                
             } else {
                 alertMessage = "Allow Location Access"
                 Task { @MainActor in
@@ -96,26 +87,11 @@ final class MapViewModel: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func changeLocation(lon: Double, isSpanLarge: Bool = false) {
-        let coord = CLLocationCoordinate2D(latitude: cameraPosition.camera?.centerCoordinate.latitude ?? 0.0, longitude: lon)
-        
-        Task { @MainActor in
-            self.cameraPosition = MapCameraPosition.camera(
-                MapCamera(centerCoordinate: coord, distance: isSpanLarge ? MapDetails.largeDistance : MapDetails.defaultDistance)
-            )
-        }
-    }
-    
-    func changeLocation(lat: Double, isSpanLarge: Bool = false) {
-        let coord = CLLocationCoordinate2D(latitude: lat, longitude: cameraPosition.camera?.centerCoordinate.latitude ?? 0.0)
-        
-        Task { @MainActor in
-            self.cameraPosition = MapCameraPosition.camera(
-                MapCamera(centerCoordinate: coord, distance: isSpanLarge ? MapDetails.largeDistance : MapDetails.defaultDistance)
-            )
-        }
-    }
 }
 
 
-
+//extension CLLocationCoordinate2D: Equatable {
+//    public static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+//        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+//    }
+//}

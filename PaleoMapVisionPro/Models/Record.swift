@@ -96,6 +96,13 @@ struct GeoPoint: Hashable, Codable {
     let lon: Double
 }
 
+func getDisplayName(record: Record) -> String {
+    return (record.commonName.isEmpty
+        ? (record.family.isEmpty ? record.scientificName : record.family)
+        : record.commonName
+    )
+}
+
 //extension Record: Equatable {}
 //
 //func ==(lhs: Record, rhs: Record) -> Bool {

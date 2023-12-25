@@ -48,10 +48,7 @@ struct RecordCard: View {
             
             VStack(spacing: 15.0) {
                 Text(
-                    (record.commonName.isEmpty
-                        ? (record.family.isEmpty ? record.scientificName : record.family)
-                        : record.commonName
-                    ).capitalized
+                    getDisplayName(record: record).capitalized
                 )
                 .lineLimit(1)
                 .foregroundStyle(.primary)
@@ -154,7 +151,7 @@ struct RecordCard: View {
 
 #Preview(windowStyle: .automatic) {
     RecordCard(record:
-                    Record(id: "c605530d-c733-4b90-b092-a1a6bc342e34", commonName: "", scientificName: "cephrenes augiades sperthias (c. felder, 1862)", phylum: .arthropoda, classT: "insecta", order: "lepidoptera", family: "Pieridae Pieridae Pieridae Pieridae Pieridae", locality: "sydney, lugarno, sdfsdfsdfsdfsdfsdfsdfsdfsdfsdf, sdfsd", eventDate: "1981-10-22", media: ["https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2009_07_31/IMG_012764.JPG", "https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2009_07_31/IMG_012720.JPG"], geoPoint: GeoPoint(lat: -33.985112, lon: 151.043726))
+                    Record(id: "c605530d-c733-4b90-b092-a1a6bc342e34", commonName: "", scientificName: "cephrenes augiades sperthias (c. felder, 1862)", phylum: .arthropoda, classT: "insecta", order: "lepidoptera insecta insecta insecta", family: "Pieridae Pieridae Pieridae Pieridae Pieridae", locality: "sydney, lugarno, sdfsdfsdfsdfsdfsdfsdfsdfsdfsdf, sdfsd", eventDate: "1981-10-22", media: ["https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2009_07_31/IMG_012764.JPG", "https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2009_07_31/IMG_012720.JPG"], geoPoint: GeoPoint(lat: -33.985112, lon: 151.043726))
     )
 }
 

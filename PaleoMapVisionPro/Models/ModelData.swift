@@ -24,14 +24,7 @@ final class ModelData: ObservableObject {
             UserDefaults.standard.set(x, forKey: "bookmarkedIDs")
         }
     }
-    
-//    var favs: Set<String> {
-//        didSet {
-//            let favsArray = Array(favs)
-//            UserDefaults.standard.set(favsArray, forKey: "favs")
-//        }
-//    }
-    
+
     var filterDict: [Phylum : Bool] = [:] {
         didSet {
             objectWillChange.send()

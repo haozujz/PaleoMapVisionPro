@@ -26,12 +26,10 @@ struct SearchBar: UIViewRepresentable {
         }
 
         func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-            print("started editing")
             isFocused = true
         }
 
         func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-            print("ended editing")
             isFocused = false
         }
         
@@ -40,7 +38,6 @@ struct SearchBar: UIViewRepresentable {
         }
 
         func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            print("dismissing keyboard")
             searchBar.resignFirstResponder() // Dismiss the keyboard
             onSearchButtonClicked()
         }
@@ -53,8 +50,7 @@ struct SearchBar: UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
         let searchBar = UISearchBar(frame: .zero)
         searchBar.delegate = context.coordinator
-        searchBar.placeholder = placeholder // Set the placeholder text
-        
+        searchBar.placeholder = placeholder
         return searchBar
     }
 

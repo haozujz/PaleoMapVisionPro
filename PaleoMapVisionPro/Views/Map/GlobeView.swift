@@ -15,12 +15,14 @@ struct GlobeView: View {
     @Environment(MapViewModel.self) private var viewModel
     @Binding var yaw: Double
     @Binding var pitch: Double
-
+    
+    @GestureState var gestureState: CGSize = .zero
+    
     @State private var baseYaw: Double
     @State private var basePitch: Double
     
-    //let sensitivity: Double = 0.009
-    let sensitivity: Double = 0.006
+    let sensitivity: Double = 0.008
+    // Buffer for the top and bottom of the globe
     let buffer: Double =  12 * .pi / 180
     
     init(yaw: Binding<Double>, pitch: Binding<Double>) {
@@ -39,19 +41,40 @@ struct GlobeView: View {
                     Text("Error \(error.localizedDescription)")
                 case .success(let model):
                     model
-                    .rotation3DEffect(.degrees((yaw * 180.0 / .pi) + 67.5), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    .rotation3DEffect(.degrees(pitch * 180.0 / .pi), axis: (x: 1.0, y: 0.0, z: 0.0))
+                    .rotation3DEffect(.degrees(((gestureState != .zero ? getYawDegFrom(width: gestureState.width) : yaw) * 180.0 / .pi) + 67.5 ), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    .rotation3DEffect(.degrees((gestureState != .zero ? getPitchDegFrom(height: gestureState.height) : pitch) * 180.0 / .pi ), axis: (x: 1.0, y: 0.0, z: 0.0))
                     .gesture(
                         DragGesture()
-                            .onChanged { value in
-                                onChange(delta: value.translation)
+                            .updating($gestureState) { value, state, transaction in
+                                if !viewModel.isDraggingGlobe {
+                                    viewModel.isDraggingGlobe = true
+                                }
+                                
+                                state = value.translation
+                                
+                                let newYaw = getYawDegFrom(width: value.translation.width)
+                                let newPitch = getPitchDegFrom(height: value.translation.height)
+                                
+                                let newLon = yawToLongitude(yaw: newYaw)
+                                let newLat = pitchToLatitude(pitch: newPitch)
+                                
+                                viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon), isSpanLarge: true)
                             }
                             .onEnded { value in
+                                onChange(delta: value.translation)
                                 viewModel.isDraggingGlobe = false
+                                
+                                // Redundant
                                 baseYaw = yaw
                                 basePitch = pitch
                             }
                     )
+                    .onChange(of: yaw) {
+                        baseYaw = yaw
+                    }
+                    .onChange(of: pitch) {
+                        basePitch = pitch
+                    }
             @unknown default:
                 Text("Error default")
             }
@@ -63,13 +86,8 @@ struct GlobeView: View {
             viewModel.isDraggingGlobe = true
         }
         
-        //let delta = value.translation
-        yaw = baseYaw + Double(delta.width) * sensitivity
-        
-        let interimPitch = basePitch + Double(delta.height) * sensitivity * -1
-        let lowerLimit = -(.pi / 2) + buffer
-        let upperLimit = .pi / 2 - buffer
-        pitch = min(max(interimPitch, lowerLimit), upperLimit)
+        yaw = getYawDegFrom(width: Double(delta.width))
+        pitch = getPitchDegFrom(height: Double(delta.height))
         
         let newLon = yawToLongitude(yaw: yaw)
         let newLat = pitchToLatitude(pitch: pitch)
@@ -77,6 +95,20 @@ struct GlobeView: View {
         viewModel.changeLocation(coord: CLLocationCoordinate2D(latitude: newLat, longitude: newLon), isSpanLarge: true)
     }
     
+    private func getYawDegFrom(width: Double) -> Double {
+        let x = baseYaw + width * sensitivity
+
+        return x
+    }
+    
+    private func getPitchDegFrom(height: Double) -> Double {
+        let interimPitch = basePitch + height * sensitivity * -1
+        let lowerLimit = -(.pi / 2) + buffer
+        let upperLimit = .pi / 2 - buffer
+        let x = min(max(interimPitch, lowerLimit), upperLimit)
+        
+        return x
+    }
 }
 
 #Preview {
