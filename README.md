@@ -6,6 +6,7 @@ Based on the iDigBio collection.
 <img src="https://raw.githubusercontent.com/haozujz/paleomap/master/ss0.png" width="180" /> <img src="https://raw.githubusercontent.com/haozujz/paleomap/master/ss1.png" width="180" /> <img src="https://raw.githubusercontent.com/haozujz/paleomap/master/ss2.png" width="180" /> <img src="https://raw.githubusercontent.com/haozujz/paleomap/master/ss3.png" width="180" />
 ![ss0](https://github.com/haozujz/PaleoMapVisionPro/assets/79493809/29376f47-46e3-45ab-8cd5-9dd1132ccb9b)
 
+<img src="https://raw.githubusercontent.com/haozujz/PaleoMapVisionPro/master/readMePreview/ss0.png" width="540" />
 
 ## Requirement
 
