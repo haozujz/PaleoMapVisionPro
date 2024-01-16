@@ -13,7 +13,8 @@ struct SearchView: View {
     @Environment(SearchModel.self) private var searchModel
 
     var filteredResults: [Record] {
-        searchModel.results.filter { modelData.filterDict[$0.phylum] ?? true }
+//        searchModel.results.filter { modelData.filterDict[$0.phylum] ?? true }
+        searchModel.results
     }
     
     @State var isSearchMode: Bool = false
@@ -62,6 +63,7 @@ struct SearchView: View {
                             searchModel.searchText = ""
                             isSearchMode = false
                             searchModel.results = []
+                            searchModel.lastCompletedSearch = ""//
                             searchModel.suggestions = []
                             
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -78,13 +80,14 @@ struct SearchView: View {
             
             if !isSearchMode {
                 VStack {
-                    Text("Bookmarks")
-                        .font(.title3)
-                    
                     if modelData.bookmarked.isEmpty {
-                        Text("No bookmarks.")
-                            .padding(.top)
+//                        Text("No bookmarks.")
+//                            .padding(.top)
+                        ContentUnavailableView("No Bookmarks", systemImage: "bookmark", description: Text("You don't have any bookmarked records yet!"))
                     } else {
+                        Text("Bookmarks")
+                            .font(.title3)
+                        
                         List {
                             ForEach(modelData.bookmarked.sorted(by: { getDisplayName(record: $0) < getDisplayName(record: $1) }), id: \.self) { record in
                                 RecordRow(record: record)
@@ -102,7 +105,8 @@ struct SearchView: View {
                         .scaleEffect(1.2)
                 } else if searchModel.isSearchBarFocused && searchModel.searchText != "" {
                     if searchModel.suggestions.isEmpty && searchModel.searchText.count > 1 {
-                        Text("No suggestions found.")
+//                        Text("No suggestions found.")
+                        ContentUnavailableView("No Suggestions", systemImage: "magnifyingglass", description: Text("There were no suggestions for \"\(searchModel.searchText)\""))
                     } else {
                         List {
                             ForEach(searchModel.suggestions, id: \.self) { suggestion in
@@ -120,7 +124,8 @@ struct SearchView: View {
                     }
                 } else {
                     if filteredResults.isEmpty && searchModel.lastCompletedSearch != "" {
-                        Text("No matching records found.")
+                        //Text("No matching records found.")
+                        ContentUnavailableView.search(text: searchModel.lastCompletedSearch)//
                     } else {
                         List {
                             ForEach(filteredResults.sorted(by: { getDisplayName(record: $0) < getDisplayName(record: $1) })) { record in
