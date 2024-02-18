@@ -5,7 +5,7 @@ Based on the iDigBio collection.
 
 ## Required file
 
-'PaleoMapVisionPro/Resources/db.sqlite' is a required file and can be downloaded separately here: https://drive.google.com/file/d/1Z-YU9kUB1rHOJXL3FKosyvg0tvAd5_F3/view?usp=sharing
+'PaleoMapVisionPro/Resources/db.sqlite' is a required file and can be downloaded separately here (permission required): https://drive.google.com/file/d/1Z-YU9kUB1rHOJXL3FKosyvg0tvAd5_F3/view?usp=sharing
 
 ## Video preview
 https://github.com/haozujz/PaleoMapVisionPro/assets/79493809/138b12b0-5ea8-4f98-8642-e9b205e41c7e
